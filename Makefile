@@ -39,11 +39,16 @@ LFTDIR	:=	./libft/
 TSTDIR	:=	./tests/
 
 HDRS	:=	$(NAME).h			\
-			complex.h
+			complex.h			\
+			polynomial.h
 SRCS	:=	main_$(NAME).c		\
 			fractals.c			\
 			image_utils.c		\
-			complex_op.c
+			complex_op.c		\
+			event.c				\
+			ft_atolf.c			\
+			complex_op.c		\
+			polynom_op.c
 			
 #event.c
 

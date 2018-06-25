@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atolf.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/06/25 03:42:54 by fulguritu         #+#    #+#             */
+/*   Updated: 2018/06/25 03:43:01 by fulguritu        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft_math.h"
 
 static t_f64	decim_str_to_lf(char const *str)
@@ -56,13 +68,15 @@ static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 	t_u64		mant;
 	char		*tmp;
 
-	result = (sign * -2.) + 1.;
+	result = sign ? -1. : 1.;
 	tmp = ft_strremove(".", tmp); //TODO verif
 	mant = ft_uatoi_base(tmp);
 	result *= mant;
 	exp = ft_atoi(s_exp);
-	//exp += *(t_u64*)(&result) + ft_u64bits_itoj(1, ;
-	
+	exp += ft_u64bits_itoj(*(t_u64*)(&result), 1, 13) >> 51;
+	*(t_u64*)(&result) &= 0x8007FFFFFFFFFFFF;
+	*(t_u64*)(&result) |= (t_u64)exp << 51;
+	return (result);
 }
 
 t_f64		ft_atolf(char const *float_str)
@@ -89,6 +103,6 @@ t_f64		ft_atolf(char const *float_str)
 		result = hexfp_str_to_lf(strls[0] + ft_strfind(strls[0], 'x'),
 					strls[1], strls[0] == '-');
 	ft_strlsdel(&strls);
-	ft_strdel(tmp);
+	ft_strdel(&tmp);
 	return (result);
 }

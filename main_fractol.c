@@ -61,10 +61,12 @@ int				main(int argc, char **argv)
 		exit_error("usage: \"./fractol [arg]\"\nValid arguments are \"julia\","
 			"\"mandelbrot\" and \"hofstadter\".\n", 0);
 	init_mlx(&ctrl);
+	if (ft_strequ(argv[1], "julia"))
+		handle_redraw(&ctrl);
 //	mlx_key_hook(ctrl.win_ptr, handle_key, &ctrl);
 //	mlx_mouse_hook(ctrl.win_ptr, handle_mouse, &ctrl);
 //	mlx_expose_hook(ctrl.win_ptr, handle_redraw, &ctrl);
 
-	mlx_loop(ctrl.mlx_ptr);
+//	mlx_loop(ctrl.mlx_ptr);
 	return (0);
 }

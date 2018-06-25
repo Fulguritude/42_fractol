@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fractol.h"
+
+/*
+** mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr,
+**							xoffset, yoffset);
+*/
 
 /*
 ** ctrl->img_data)[y * ctrl->img_bpl + x * ctrl->img_bpp] = color & 0xFF000000;
