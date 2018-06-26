@@ -47,7 +47,8 @@ SRCS	:=	fractals.c			\
 			event.c				\
 			ft_atolf.c			\
 			complex_op.c		\
-			polynom_op.c
+			polynom_op.c		\
+			cpolynom_op.c
 
 			
 OBJS	:=	$(SRCS:.c=.o)

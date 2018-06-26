@@ -43,11 +43,10 @@ typedef struct	s_fractol
 {
 	t_fractal	type;
 	t_u32		max_iter;
-	t_complex	anchor;
 	t_float		zoom;
 	t_float		radius; //convergence norm
 	t_float		radius_sqrd; //convergence quadratic norm
-	t_poly		iter_func;
+	t_cpoly		iter_func;
 }				t_fractol;
 
 typedef struct	s_control
@@ -61,6 +60,9 @@ typedef struct	s_control
 	int				endian;
 	char			*img_data;
 	t_fractol		fractol;
+	t_complex		anchor;
+	t_complex		span;
+	int				(*frac_func)(t_fractol f, t_complex z);
 	int				debug;
 }				t_control;
 

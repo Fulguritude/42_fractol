@@ -30,12 +30,21 @@ t_complex		c_scl(t_float const s, t_complex const z)
 	return (res);
 }
 
+/*
+** Karatsuba
+*/
 t_complex		c_mul(t_complex const z1, t_complex const z2)
 {
 	t_complex	res;
+	t_float		k1;
+	t_float		k2;
+	t_float		k3;
 
-	res.re = z1.re * z2.re - z1.im * z2.im;
-	res.im = z1.re * z2.im + z1.im * z2.re;
+	k1 = z2.re * (z1.re + z1.im);
+	k2 = z1.re * (z2.im - z2.re);
+	k3 = z1.im * (z2.re + z2.im);
+	res.re = k1 - k3;
+	res.im = k1 + k2;
 	return (res);
 }
 

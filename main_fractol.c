@@ -63,11 +63,12 @@ int				main(int argc, char **argv)
 	init_mlx(&ctrl);
 	if (ft_strequ(argv[1], "julia"))
 		init_fractol(&ctrl, julia);
-	render(&ctrl);
-//	mlx_key_hook(ctrl.win_ptr, handle_key, &ctrl);
-//	mlx_mouse_hook(ctrl.win_ptr, handle_mouse, &ctrl);
-//	mlx_expose_hook(ctrl.win_ptr, handle_redraw, &ctrl);
-
-//	mlx_loop(ctrl.mlx_ptr);
+	else if (ft_strequ(argv[1], "mandelbrot"))
+		init_fractol(&ctrl, mandelbrot);
+	else
+		exit_error("Valid arguments are \"julia\","
+			"\"mandelbrot\" and \"hofstadter\".\n", 0);
+	init_events(&ctrl);
+	mlx_loop(ctrl.mlx_ptr);
 	return (0);
 }

@@ -38,3 +38,8 @@ inline int		point_in_bounds(int x, int y)
 {
 	return (0 <= x && x < REN_W && 0 <= y && y < REN_H);
 }
+/*
+t_complex		get_complex_from_pixel(t_control ctrl, )
+{
+
+}*/
