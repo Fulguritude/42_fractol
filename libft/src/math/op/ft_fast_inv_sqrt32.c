@@ -13,7 +13,7 @@
 #include "libft_math.h"
 
 /*
-**	y  = y * (threehalfs - ( x2 * y * y ));
+**	y  = y * (threehalfs - (x2 * y * y));
 **		can be repeated for more precision
 */
 
@@ -25,10 +25,10 @@ t_f32		ft_fast_inv_sqrt32(t_f32 f)
 	const t_f32	threehalfs = 1.5F;
 
 	x2 = f * 0.5F;
-	y  = f;
-	i  = *(long *)(&y);
-	i  = 0x5f3759df - (i >> 1);
-	y  = *(t_f32 *)(&i);
-	y  = y * (threehalfs - ( x2 * y * y ));
+	y = f;
+	i = *(long *)(&y);
+	i = 0x5f3759df - (i >> 1);
+	y = *(t_f32 *)(&i);
+	y = y * (threehalfs - (x2 * y * y));
 	return (y);
 }

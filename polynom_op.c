@@ -12,13 +12,17 @@
 
 # include "polynomial.h"
 
+
+# include "fractol.h"
+
+
 t_poly		str_to_poly(char const *str)
 {
 	t_poly	result;
 	char	**strls;
 	int		i;
 
-	strls = ft_split(str);
+	strls = ft_split(str, "\t ");
 	i = -1;
 	while (strls[++i])
 		result.coefs[i] = ft_atolf(strls[i]);

@@ -16,15 +16,12 @@
 # include "libft.h"
 # include "libft_mem.h"
 
-# ifndef	LST_STRUCT
-#  define	LST_STRUCT
 typedef struct			s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
 }						t_list;
-# endif
 
 /*
 ** ============= List Functions =============
@@ -123,7 +120,43 @@ void					ft_lstfold(t_list *lst, void *acc,
 ** Useful conversion function. Must be sure to take a valid list of strings.
 ** Should log inoherence in size/null-term.
 */
-
 char					**ft_lststr_to_strls(t_list	*lst);
+
+/*
+** === List IO ===
+*/
+/*
+** Writes the data contained in elem to standard output as a stream of t_u8.
+*/
+void					ft_putlstelem(t_list *elem);
+
+/*
+** Writes the data contained in each elem of lst to standard output.
+*/
+void					ft_putlst(t_list *lst);
+
+/*
+** Writes the data contained in elem to file descriptor as a stream of t_u8.
+*/
+void					ft_putlstelem_fd(t_list *elem, int fd);
+
+/*
+** Writes the data contained in each elem of lst to file descriptor as
+** streams of t_u8 separated by newlines.
+*/
+void					ft_putlst_fd(t_list *lst, int fd);
+
+/*
+** Writes an element of a linked list containing signed numbers of any size_t
+** (1, 2, 4 or 8) to file descriptor fd. If content_size is not appropriate,
+** nothing is done and the function fails silently.
+*/
+void					ft_putnbr_lstelem_fd(t_list *elem, int fd);
+
+/*
+** Writes a linked list containing signed numbers of any size_t (1, 2, 4 or 8)
+** to file descriptor fd.
+*/
+void					ft_putnbr_lst_fd(t_list *lst, int fd);
 
 #endif

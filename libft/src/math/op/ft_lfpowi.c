@@ -17,7 +17,7 @@ double		ft_lfpowi(double lf, int power)
 	double		tmp;
 
 	if (power == 0)
-	   return (1.);
+		return (1.);
 	tmp = ft_lfpowi(lf, power / 2);
 	if (power % 2 == 0)
 		return (tmp * tmp);

@@ -13,7 +13,7 @@
 #include "libft_algebra.h"
 
 void			mat44_set(t_mat_4b4 result, t_mat_3b3 const tl33_bloc,
-							 t_vec_3d const bl13, t_vec_4d const tr41)
+							t_vec_3d const bl13, t_vec_4d const tr41)
 {
 	result[0] = tl33_bloc[0];
 	result[1] = tl33_bloc[1];
@@ -131,6 +131,6 @@ void			mat44_inv(t_mat_4b4 result, t_mat_4b4 const m)
 	else
 	{
 		write(2, "mat44_inv: null determinant\n", 28);
-		ft_bzero(result, T_MAT44_SIZE);	
+		ft_bzero(result, T_MAT44_SIZE);
 	}
 }

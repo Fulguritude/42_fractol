@@ -26,7 +26,8 @@ void			mat33_add(t_mat_3b3 result,
 	result[8] = ma[8] + mb[8];
 }
 
-void			mat33_scale(t_mat_3b3 result, t_float const s, t_mat_3b3 const m)
+void			mat33_scale(t_mat_3b3 result,
+							t_float const s, t_mat_3b3 const m)
 {
 	result[0] = s * m[0];
 	result[1] = s * m[1];
@@ -62,4 +63,3 @@ void			mat33_mul(t_mat_3b3 result,
 	mat33_app_vec((t_float *)tmp + 6, ma, (t_float *)mb + 6);
 	ft_memcpy(result, tmp, sizeof(tmp));
 }
-

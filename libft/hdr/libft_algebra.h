@@ -58,7 +58,6 @@ typedef t_float		t_mat_3b3[9];
 */
 typedef t_float		t_mat_4b4[16];
 
-
 /*
 ** Let H be a 4-dimensional algebra over R, with basis {1, i, j, k} such that
 **		i * i == j * j == k * k == ijk == -1
@@ -79,6 +78,9 @@ typedef struct	s_quat
 
 typedef t_quat	t_unit_quat;
 
+/*
+** 3*1
+*/
 void			vec3_set(t_vec_3d result, t_float x, t_float y, t_float z);
 void			vec3_cpy(t_vec_3d dest, t_vec_3d const src);
 void			vec3_swap(t_vec_3d v1, t_vec_3d v2);
@@ -88,10 +90,10 @@ void			vec3_scale(t_vec_3d result, t_float const s, t_vec_3d const v);
 void			vec3_normalize(t_vec_3d result, t_vec_3d const v);
 void			vec3_cross(t_vec_3d result,
 							t_vec_3d const v1, t_vec_3d const v2);
-void			vec3_polar_to_cartesian(t_vec_3d result, t_vec_3d const src);
-void			vec3_cartesian_to_polar(t_vec_3d result, t_vec_3d const src);
 
-
+/*
+** 3*3
+*/
 void			mat33_set(t_mat_3b3 result, t_vec_3d const v0,
 							t_vec_3d const v1, t_vec_3d const v2);
 void			mat33_add(t_mat_3b3 result,
@@ -106,7 +108,9 @@ t_float			mat33_det(t_mat_3b3 const m);
 void			mat33_inv(t_mat_3b3 result, t_mat_3b3 const m);
 void			mat33_transpose(t_mat_3b3 result, t_mat_3b3 const src);
 
-
+/*
+** 4*4
+*/
 void			mat44_add(t_mat_4b4 result,
 							t_mat_4b4 const ma, t_mat_4b4 const mb);
 void			mat44_scale(t_mat_4b4 result,
@@ -141,7 +145,5 @@ void			mat44_inv(t_mat_4b4 result, t_mat_4b4 const m);
 **
 ** t_quat			rotor_from_angle(t_f32 rad, t_quat axis);
 */
-
-t_f32			fast_inv_sqrt(t_f32 f);
 
 #endif

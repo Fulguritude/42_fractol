@@ -26,6 +26,7 @@ typedef int				t_s32;
 typedef	long			t_s64;
 typedef float			t_f32;
 typedef double			t_f64;
+typedef t_f64			t_float;
 
 /*
 ** Unions used for difficult casting conditions.

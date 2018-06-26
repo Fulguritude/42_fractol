@@ -12,7 +12,8 @@
 
 #include "libft_algebra.h"
 
-void			mat44_add(t_mat_4b4 result, t_mat_4b4 const ma, t_mat_4b4 const mb)
+void			mat44_add(t_mat_4b4 result,
+							t_mat_4b4 const ma, t_mat_4b4 const mb)
 {
 	result[0] = ma[0] + mb[0];
 	result[1] = ma[1] + mb[1];
@@ -32,7 +33,8 @@ void			mat44_add(t_mat_4b4 result, t_mat_4b4 const ma, t_mat_4b4 const mb)
 	result[15] = ma[15] + mb[15];
 }
 
-void			mat44_scale(t_mat_4b4 result, t_float const s, t_mat_4b4 const m)
+void			mat44_scale(t_mat_4b4 result,
+							t_float const s, t_mat_4b4 const m)
 {
 	result[0] = s * m[0];
 	result[1] = s * m[1];
@@ -52,7 +54,8 @@ void			mat44_scale(t_mat_4b4 result, t_float const s, t_mat_4b4 const m)
 	result[15] = s * m[15];
 }
 
-void			mat44_app_vec(t_vec_4d result, t_mat_4b4 const m, t_vec_4d const v)
+void			mat44_app_vec(t_vec_4d result,
+								t_mat_4b4 const m, t_vec_4d const v)
 {
 	t_vec_4d	tmp;
 
@@ -63,7 +66,8 @@ void			mat44_app_vec(t_vec_4d result, t_mat_4b4 const m, t_vec_4d const v)
 	ft_memcpy(result, tmp, sizeof(tmp));
 }
 
-void			mat44_mul(t_mat_4b4 result, t_mat_4b4 const ma, t_mat_4b4 const mb)
+void			mat44_mul(t_mat_4b4 result,
+							t_mat_4b4 const ma, t_mat_4b4 const mb)
 {
 	t_mat_4b4	tmp;
 

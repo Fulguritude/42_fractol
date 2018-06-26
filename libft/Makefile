@@ -37,6 +37,8 @@ SRCDIR_STR_SIP := str_ip/
 SRCDIR_STR_SLS := strls/
 
 SRCDIR_LST	:= lst/
+SRCDIR_LST_UTL	:= utils/
+SRCDIR_LST_IO	:= io/
 
 SRCDIR_MATH	:= math/
 SRCDIR_MATH_CNV := conv/
@@ -55,6 +57,8 @@ OBJDIRS	:=	$(OBJDIR) \
 			$(OBJDIR)$(SRCDIR_IO)$(SRCDIR_IO_PRNT) \
 			$(OBJDIR)$(SRCDIR_MEM) \
 			$(OBJDIR)$(SRCDIR_LST) \
+			$(OBJDIR)$(SRCDIR_LST)$(SRCDIR_LST_UTL) \
+			$(OBJDIR)$(SRCDIR_LST)$(SRCDIR_LST_IO) \
 			$(OBJDIR)$(SRCDIR_STR) \
 			$(OBJDIR)$(SRCDIR_STR)$(SRCDIR_STR_CHR) \
 			$(OBJDIR)$(SRCDIR_STR)$(SRCDIR_STR_STR) \
@@ -188,7 +192,7 @@ SRC_STR :=	$(addprefix $(SRCDIR_STR), \
 				$(addprefix $(SRCDIR_STR_SLS),$(SRC_STR_SLS))	\
 			)
 
-SRC_LST_LST	:=	ft_lstnew.c					\
+SRC_LST_UTL	:=	ft_lstnew.c					\
 				ft_lstnew_no_copy.c			\
 				ft_lstdelone.c				\
 				ft_lstdel.c					\
@@ -204,7 +208,17 @@ SRC_LST_LST	:=	ft_lstnew.c					\
 				ft_lstfold.c				\
 				ft_lststr_to_strls.c
 
-SRC_LST	:=	$(addprefix $(SRCDIR_LST), $(SRC_LST_LST))
+SRC_LST_IO	:=	ft_putlstelem_fd.c			\
+				ft_putlst_fd.c				\
+				ft_putlstelem.c				\
+				ft_putlst.c					\
+				ft_putnbr_lstelem_fd.c		\
+				ft_putnbr_lst_fd.c
+
+SRC_LST	:=	$(addprefix $(SRCDIR_LST), \
+				$(addprefix $(SRCDIR_LST_UTL),$(SRC_LST_UTL))	\
+				$(addprefix $(SRCDIR_LST_IO), $(SRC_LST_IO))	\
+			)
 
 SRC_IO_IO	:=	get_next_line.c
 
@@ -219,13 +233,7 @@ SRC_IO_PUT	:=	ft_putchar_fd.c				\
 				ft_putnbr.c					\
 				ft_putmem.c					\
 				ft_putmem_fd.c				\
-				ft_putstrls.c				\
-				ft_putlstelem_fd.c			\
-				ft_putlst_fd.c				\
-				ft_putlstelem.c				\
-				ft_putlst.c					\
-				ft_putnbr_lstelem_fd.c		\
-				ft_putnbr_lst_fd.c			
+				ft_putstrls.c
 
 SRC_IO_PRNT	:=	ft_printf.c					\
 				converters.c				\

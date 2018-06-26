@@ -47,9 +47,9 @@ inline t_float	c_quadnorm(t_complex const z)
 t_complex		c_inv(t_complex const z)
 {
 	t_complex	res;
-	t_f32		inv_sqrt;
+	t_f32		inv_norm;
 
-	inv_norm = 1. / sqrt(c_quadnorm(z);//ft_fast_inv_sqrt32(c_quadnorm(z));
+	inv_norm = ft_fast_inv_sqrt32(c_quadnorm(z));
 	res.re = inv_norm * z.re;
 	res.im = -inv_norm * z.im;
 	return (res);

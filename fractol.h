@@ -18,7 +18,7 @@
 # include "polynomial.h"
 # include <stdio.h>
 # include <mlx.h>
-
+# include "mlx_events.h"
 
 # define WIN_W	640
 # define WIN_H	480
@@ -42,7 +42,7 @@ typedef enum	e_fractal
 typedef struct	s_fractol
 {
 	t_fractal	type;
-	int			max_iter;
+	t_u32		max_iter;
 	t_complex	anchor;
 	t_float		zoom;
 	t_float		radius; //convergence norm
@@ -77,7 +77,34 @@ typedef struct	s_control
 ** }
 */
 
-int		handle_redraw(void *param);
+/*
+** main_fractol.c
+*/
+void			toggle_debug(t_control *ctrl);
+void			exit_error(char *e_msg, int e_no);
 
+/*
+** image_utils.c
+*/
+void			mlximg_setpixel(t_control *ctrl, int color, int x, int y);
+void			mlximg_clear(t_control *ctrl);
+int				point_in_bounds(int x, int y);
+
+/*
+** fractals.c
+*/
+void			init_fractol(t_control *ctrl, t_fractal fractal);
+int				get_julia_point_color(t_fractol frac, t_complex pt);
+int				render(void *param);
+
+
+/*
+** events.c
+*/
+int				handle_key(int key, void *param);
+void			init_events(t_control *ctrl);
+
+
+t_f64			ft_atolf(char const *float_str);
 
 #endif

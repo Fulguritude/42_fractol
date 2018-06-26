@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MLX_EVENTS_H
+# define MLX_EVENTS_H
+
 # ifdef __APPLE__
 
 #  define MOUSE_L_CLICK		1

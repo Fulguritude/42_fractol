@@ -15,8 +15,6 @@
 
 # include "libft/hdr/libft_math.h"
 
-typedef t_f64	t_float;
-
 typedef struct	s_complex
 {
 	t_float		re;

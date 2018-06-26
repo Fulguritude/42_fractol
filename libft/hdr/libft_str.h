@@ -305,6 +305,11 @@ char					*ft_strreplace(char const *str, char const *sub,
 t_u32					ft_str_countchar(char const *str, char const c);
 
 /*
+** Returns True iff the chars that compose 'str' are all in the set 'chars'
+*/
+int						ft_str_containsonly(char const *str, char const *chars);
+
+/*
 **  ============ String by Address Functions ===========
 */
 

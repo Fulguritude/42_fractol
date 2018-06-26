@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_math.h"
+#include "libft/hdr/libft_math.h"
 
 static t_f64	decim_str_to_lf(char const *str)
 {
@@ -42,7 +42,7 @@ static t_f64	expon_str_to_lf(char const *s_mant, char const *s_exp)
 {
 	t_f64	result;
 	int		exp;
-	t_f64	mant;
+//	t_f64	mant;
 	t_u8	frac_digits;
 
 	result = (t_f64)ft_atoi(s_mant);
@@ -69,8 +69,8 @@ static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 	char		*tmp;
 
 	result = sign ? -1. : 1.;
-	tmp = ft_strremove(".", tmp); //TODO verif
-	mant = ft_uatoi_base(tmp);
+	tmp = ft_strremove(s_mant, "."); //TODO verif
+	mant = ft_atoui_base(tmp, HXUPP);
 	result *= mant;
 	exp = ft_atoi(s_exp);
 	exp += ft_u64bits_itoj(*(t_u64*)(&result), 1, 13) >> 51;
@@ -87,13 +87,14 @@ t_f64		ft_atolf(char const *float_str)
 	int		mode;
 	int		is_hexfp;
 
-	str = ft_str_tolower(float_str);
-	if (!str || !*str || !ft_str_containsonly(str, "0123456789.+-epx")
-		|| ft_str_countchar('e', str) + ft_str_countchar('p', str) > 1)
+	str = ft_strdup(float_str);
+	ft_str_toupper(str);
+	if (!str || !*str || !ft_str_containsonly(str, "0123456789.+-EPX")
+		|| ft_str_countchar(str, 'e') + ft_str_countchar(str, 'p') > 1)
 		return (0. / 0.);
-	is_hexfp = ft_strfind('x', str) > 0;
-	strls = ft_split(str, is_hexfp ? 'p' : 'e');
-	if (!(mode = ft_ptrarrlen(strls) + is_pcnt_a))
+	is_hexfp = ft_strfind(str, 'x') > 0;
+	strls = ft_split(str, is_hexfp ? "P" : "E");
+	if (!(mode = ft_ptrarrlen(strls) + is_hexfp))
 		return (0. / 0.);
 	else if (mode == 1)
 		result = decim_str_to_lf(strls[0]);
@@ -101,8 +102,7 @@ t_f64		ft_atolf(char const *float_str)
 		result = expon_str_to_lf(strls[0], strls[1]);
 	else
 		result = hexfp_str_to_lf(strls[0] + ft_strfind(strls[0], 'x'),
-					strls[1], strls[0] == '-');
+					strls[1], strls[0][0] == '-');
 	ft_strlsdel(&strls);
-	ft_strdel(&tmp);
 	return (result);
 }
