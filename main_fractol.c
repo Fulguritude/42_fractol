@@ -29,6 +29,8 @@ void			exit_error(char *e_msg, int e_no)
 /*
 ** Bits per pixel (32, each color is an int) are immediately converted to
 ** bytes per pixel.
+**
+** Anchor is which point of the complex plane is the center of the window.
 */
 
 static void		init_mlx(t_control *ctrl)
@@ -46,6 +48,7 @@ static void		init_mlx(t_control *ctrl)
 		exit_error("could not retrieve img data ptr and other info", 0);
 	ctrl->img_bpp = ctrl->img_bpp / 8;
 	ctrl->img_bytelen = ctrl->img_bpp * REN_H * REN_W;
+	ctrl->render_mode = 0;
 }
 
 /*

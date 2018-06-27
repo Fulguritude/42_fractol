@@ -1,12 +1,14 @@
 #include "fractol.h"
 
+//int			
+
 int			handle_key(int key, void *param)
 {
 	t_control			*ctrl;
-	static double		zoom_trans_ratio = 1. / 25.;
+	static double		zoom_trans_ratio = 0.04;
 
 	ctrl = (t_control *)param;
-	printf("key: %d\n", key);
+	printf("key: %#x\n", key);
 	if (key == KEY_ESC)
 		exit_error("Software closing.", 0);
 	else if (key == KEY_RIGHT)
@@ -21,6 +23,10 @@ int			handle_key(int key, void *param)
 		ctrl->fractol.zoom *= 1.25;
 	else if (key == KEY_PAGE_DN)
 		ctrl->fractol.zoom *= 0.8;
+	else if (key == KEY_LCTRL)
+		toggle_debug(ctrl);
+	else if (key == KEY_RCTRL)
+		ctrl->render_mode = !ctrl->render_mode;
 	else
 		return (1);
 	render(ctrl);
