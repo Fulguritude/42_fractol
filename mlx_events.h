@@ -144,7 +144,8 @@
 */
 
 /*
-** NoEventMask				No events wanted
+** NoEventMask				"No events" wanted (activate when no other
+**								events happened) 
 ** KeyPressMask				Keyboard down events wanted
 ** KeyReleaseMask			Keyboard up events wanted
 ** ButtonPressMask			Pointer button down events wanted
@@ -173,31 +174,31 @@
 **								owner_events set to True
 */
 
-# define MASK_NOEVENT				0L
-# define MASK_KEYPRESS				(1L<<0)
-# define MASK_KEYRELEASE			(1L<<1)
-# define MASK_BUTTONPRESS			(1L<<2)
-# define MASK_BUTTONRELEASE			(1L<<3)
-# define MASK_ENTERWINDOW			(1L<<4)
-# define MASK_LEAVEWINDOW			(1L<<5)
-# define MASK_POINTERMOTION			(1L<<6)
-# define MASK_POINTERMOTIONHINT		(1L<<7)
-# define MASK_BUTTON1MOTION			(1L<<8)
-# define MASK_BUTTON2MOTION			(1L<<9)
-# define MASK_BUTTON3MOTION			(1L<<10)
-# define MASK_BUTTON4MOTION			(1L<<11)
-# define MASK_BUTTON5MOTION			(1L<<12)
-# define MASK_BUTTONMOTION			(1L<<13)
-# define MASK_KEYMAPSTATE			(1L<<14)
-# define MASK_EXPOSURE				(1L<<15)
-# define MASK_VISIBILITYCHANGE		(1L<<16)
-# define MASK_STRUCTURENOTIFY		(1L<<17)
-# define MASK_RESIZEREDIRECT		(1L<<18)
-# define MASK_SUBSTRUCTURENOTIFY	(1L<<19)
-# define MASK_SUBSTRUCTUREREDIRECT	(1L<<20)
-# define MASK_FOCUSCHANGE			(1L<<21)
-# define MASK_PROPERTYCHANGE		(1L<<22)
-# define MASK_COLORMAPCHANGE		(1L<<23)
-# define MASK_OWNERGRABBUTTON		(1L<<24)
+# define MASK_NOEVENT				0x0
+# define MASK_KEYPRESS				0x1
+# define MASK_KEYRELEASE			0x2
+# define MASK_BUTTONPRESS			0x4
+# define MASK_BUTTONRELEASE			0x8
+# define MASK_ENTERWINDOW			0x10
+# define MASK_LEAVEWINDOW			0x20
+# define MASK_POINTERMOTION			0x40
+# define MASK_POINTERMOTIONHINT		0x80
+# define MASK_BUTTON1MOTION			0x100
+# define MASK_BUTTON2MOTION			0x200
+# define MASK_BUTTON3MOTION			0x400
+# define MASK_BUTTON4MOTION			0x800
+# define MASK_BUTTON5MOTION			0x1000
+# define MASK_BUTTONMOTION			0x2000
+# define MASK_KEYMAPSTATE			0x4000
+# define MASK_EXPOSURE				0x8000
+# define MASK_VISIBILITYCHANGE		0x10000
+# define MASK_STRUCTURENOTIFY		0x20000
+# define MASK_RESIZEREDIRECT		0x40000
+# define MASK_SUBSTRUCTURENOTIFY	0x80000
+# define MASK_SUBSTRUCTUREREDIRECT	0x100000
+# define MASK_FOCUSCHANGE			0x200000
+# define MASK_PROPERTYCHANGE		0x400000
+# define MASK_COLORMAPCHANGE		0x800000
+# define MASK_OWNERGRABBUTTON		0x1000000
 
 #endif

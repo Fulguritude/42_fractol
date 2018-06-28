@@ -72,6 +72,7 @@ int				main(int argc, char **argv)
 		exit_error("Valid arguments are \"julia\","
 			"\"mandelbrot\" and \"hofstadter\".\n", 0);
 	init_events(&ctrl);
+	render(&ctrl);
 	mlx_loop(ctrl.mlx_ptr);
 	return (0);
 }

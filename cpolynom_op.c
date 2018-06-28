@@ -53,6 +53,24 @@ t_complex		eval_cpoly(t_cpoly const cpoly, t_complex const z)
 	return (result);
 }
 
+t_complex		eval_cpoly_fast(t_cpoly *a_cpoly, t_complex const z)
+{
+	t_complex	result;
+	t_complex	*coefs;
+	int			i;
+
+	result.re = 0.;
+	result.im = 0.;
+	coefs = a_cpoly->coefs;
+	i = a_cpoly->deg;
+	while (i >= 0)
+	{
+		result = c_add(c_mul(result, z), coefs[i]);
+		--i;
+	}	
+	return (result);
+}
+
 t_complex		eval_cpolyfrac(t_cpolyfrac const pf, t_complex const z)
 {
 	t_complex		num;

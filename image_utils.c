@@ -37,7 +37,7 @@ inline void		mlximg_clear(t_control *ctrl)
 void			mlximg_valset(t_control *ctrl, t_u32 val)
 {
 	t_u32			i;
-	static t_u32	pixels = REN_W * REN_W;
+	static t_u32	pixels = REN_W * REN_H;
 
 	i = 0;
 	while (i < pixels)

@@ -46,6 +46,23 @@ t_float		eval_poly(t_poly const poly, t_float const x)
 	return (result);
 }
 
+t_float		eval_poly_fast(t_poly *a_poly, t_float const x)
+{
+	t_float		result;
+	int			i;
+	t_float		*coefs;
+
+	result = 0.;
+	coefs = a_poly->coefs;
+	i = a_poly->deg;
+	while (i >= 0)
+	{
+		result = result * x + coefs[i];
+		--i;
+	}	
+	return (result);
+}
+
 t_float		eval_polyfrac(t_polyfrac const pf, t_float const x)
 {
 	t_float		num;

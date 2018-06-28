@@ -26,19 +26,24 @@ int		get_julia_dwell(t_fractol frac, t_complex pt)
 
 t_u8		julia_dwell(t_fractol *frac, t_complex pt)
 {
-	t_float		lim;
-	t_u8		i;
+	t_cpoly			*a_cpoly;
+	t_float			lim;
+	uint_fast8_t	i;
+	uint_fast8_t	max_iter;
 
 	lim = frac->radius_sqrd;
+	max_iter = frac->max_dwell;
+	a_cpoly = &(frac->iter_func);
+	lim = frac->radius_sqrd;
 	i = 0;
-	while (i < frac->max_dwell)
+	while (i < max_iter)
 	{
-		pt = eval_cpoly(frac->iter_func, pt);
+		pt = eval_cpoly_fast(a_cpoly, pt);
 		if (c_quadnorm(pt) > lim)
 			return (i);
 		++i;
 	}
-	return (0);
+	return (i);
 }
 
 /*
@@ -46,23 +51,25 @@ t_u8		julia_dwell(t_fractol *frac, t_complex pt)
 */
 t_u8		mandel_dwell(t_fractol *frac, t_complex pt)
 {
-	t_float		lim;
-	t_complex	start;
-	t_u8		i;
+	t_float			lim;
+	t_complex		start;
+	t_cpoly			*a_cpoly;
+	uint_fast8_t	i;
+	uint_fast8_t	max_iter;
 
 	lim = frac->radius_sqrd;
-	start.re = 0.;
-	start.im = 0.;
+	max_iter = frac->max_dwell;
+	a_cpoly = &(frac->iter_func);
 	frac->iter_func.coefs[0] = pt;
 	i = 0;
-	while (i < frac->max_dwell)
+	while (i < max_iter)
 	{
-		start = eval_cpoly(frac->iter_func, start);
+		start = eval_cpoly_fast(a_cpoly, start);
 		if (c_quadnorm(start) > lim)
 			return (i);
 		++i;
 	}
-	return (0);
+	return (i);
 }
 
 /*
@@ -80,12 +87,13 @@ void		init_fractol(t_control *ctrl, t_fractal fractal)
 	t_cpoly		cpoly;
 
 	res.type = fractal;
-	res.max_dwell = 20; //60. ? //should not be strictly above 255: one needs to keep max_iter under the possibility of returning -1 (white)
+	res.max_dwell = INIT_MAX_DWELL;
 	res.zoom = 5.;
 	res.radius = 2.;
 	res.radius_sqrd = 4.;
 	res.anchor.re = 0.;
 	res.anchor.im = 0.;
+	res.is_static = fractal == julia ? 0 : 1;
 	cpoly.deg = 2;
 	ft_bzero(cpoly.coefs, 256 * sizeof(t_complex));
 	cpoly.coefs[2].re = 1.;
@@ -122,15 +130,11 @@ int			render_seq(t_control *ctrl)
 		x = -1;
 		while (++x < REN_W)
 		{
-//printf("deb1\n");
 			tmp = get_complex_from_point(&(ctrl->fractol), x, y);
-//printf("deb3 %f %f %p %p\n", tmp.re, tmp.im, ctrl->frac_func, &mandel_dwell);
-//printf("%#x\n", ctrl->frac_func(ctrl->fractol, tmp));
 			dwell = ctrl->frac_func(&(ctrl->fractol), tmp);
-			color = (dwell << 26 | dwell << 18 | dwell << 10);
+			color = (dwell << 25 | dwell << 17 | dwell << 9);
 			mlximg_setpixel(ctrl, dwell == ctrl->fractol.max_dwell ?
 										BLACK : color, x, y);
-//printf("i = %3d; j = %3d, tmp.re = %6.2f, tmp.im = %6.2f, color = %#8x\n", i, j, tmp.re, tmp.im, get_julia_dwell(ctrl->fractol, tmp));
 		}
 	}
 	mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr, 0, 0);

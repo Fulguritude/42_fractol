@@ -1,7 +1,5 @@
 #include "fractol.h"
 
-//int			
-
 int			handle_key(int key, void *param)
 {
 	t_control			*ctrl;
@@ -26,7 +24,7 @@ int			handle_key(int key, void *param)
 	else if (key == KEY_LCTRL)
 		toggle_debug(ctrl);
 	else if (key == KEY_RCTRL)
-		ctrl->render_mode = !ctrl->render_mode;
+		ctrl->render_mode = !(ctrl->render_mode);
 	else
 		return (1);
 	render(ctrl);
@@ -34,15 +32,25 @@ int			handle_key(int key, void *param)
 }
 
 /*
-** Scroll zoom for all fractals, 
+** Scroll zoom for all fractals.
+**
+** MASK_POINTERMOTION returns true when the mouse moves, when no button is
+**		clicked;
 */
 void		init_events(t_control *ctrl)
 {
-//	int		event;
-//	int		mask;
+	int		event;
+	int		mask;
 
 	mlx_key_hook(ctrl->win_ptr, &handle_key, ctrl);
-//	mask = ;
-//	mlx_mouse_hook(ctrl.win_ptr, &handle_mouse, ctrl);
-//	mlx_expose_hook(ctrl.win_ptr, &handle_redraw, ctrl);
+	mask = MASK_POINTERMOTION | MASK_BUTTON1MOTION |
+				MASK_BUTTON2MOTION | MASK_BUTTON3MOTION;
+	event = EVENT_MOTIONNOTIFY;
+	mlx_hook(mlx->win_ptr, event, mask, event_mouse_move, mlx);
+	mask = MASK_BUTTONPRESS;
+	event = EVENT_BUTTONPRESS;
+	mlx_hook(mlx->win_ptr, event, mask, event_mouse_press, mlx);
+	mask = MASK_BUTTONRELEASE;
+	event = EVENT_BUTTONRELEASE;
+	mlx_hook(mlx->win_ptr, event, mask, event_mouse_release, mlx);
 }
