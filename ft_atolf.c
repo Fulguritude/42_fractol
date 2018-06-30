@@ -12,54 +12,68 @@
 
 #include "libft/hdr/libft_math.h"
 
-static t_f64	decim_str_to_lf(char const *str)
-{
-	t_u32		max_pow_ten;
-	t_f64		prev_result;
-	t_f64		result;
-	int			i;
 
-	prev_result = 0.;
-	result = 1.;
-	i = -1;
-	max_pow_ten = ft_strfind(str, '.') - 1;
-	while (str[++i] && result != prev_result)
-	{
-		if (str[i] == '.')
-			continue ;
-		prev_result = result;
-		result += ft_lfpowi(10., --max_pow_ten) * (str[i] - '0');
-	}
-	return (result);
-}
+#include "fractol.h"
 
 /*
-** (exp % 2) condition solves ft_lfpowi return cases that shouldn't be -inf
-** but are because of exp -= frac_digits
+** Has some negligible error (beyond the seventh decimal digit; imprecision
+** linked to input)
 */
 
 static t_f64	expon_str_to_lf(char const *s_mant, char const *s_exp)
 {
-	t_f64	result;
-	int		exp;
-//	t_f64	mant;
-	t_u8	frac_digits;
+	t_f64		result;
+	int			exp;
+	t_u8		frac_digits;
+	char const	*ro_tmp;
+	char		*tmp;
 
-	result = (t_f64)ft_atoi(s_mant);
+//printf("expon | s_mant : %s, s_exp %s\n", s_mant, s_exp);
+	tmp = ft_strremove(s_mant, ".");
+	result = (t_f64)ft_atoi(tmp);
 	exp = ft_atoi(s_exp);
-	if ((frac_digits = ft_strlen(s_mant + ft_strfind(s_mant, '.'))) > 0)
-	{
-		result *= ft_lfpowi(10., frac_digits);
-		result += ft_atoi(s_mant + ft_strfind(s_mant, '.'));
+	ro_tmp = s_mant + ft_strfind(s_mant, '.') + 1;
+	if ((frac_digits = ft_strlen(ro_tmp)) > 0)
 		exp -= frac_digits;
-	}
-	if (exp % 2)
-		result *= ft_lfpowi(10., (exp + 1) / 2) * ft_lfpowi(10., (exp - 1) / 2);
-	else
-		result *= ft_lfpowi(10., exp / 2) * ft_lfpowi(10., exp / 2);
+	result *= ft_lfpowi(10., exp);
+	free(tmp);
 	return (result);
 }
 
+/*
+** max_pow_ten is the power of ten to which the leftmost digit in the number
+** corresponds.
+*/
+
+static t_f64	decim_str_to_lf(char const *str)
+{
+	t_s32		max_pow_ten;
+	t_f64		result;
+	char		*s_exp;
+	char		*s_mant;
+	int			i;
+
+//printf("decim | %s\n", str);
+	result = 0.;
+	s_mant = ft_strdup(str + (str[0] == '-' || str[0] == '+'));
+	i = 0;
+	if (s_mant[0] != '0')
+		max_pow_ten = ft_strfind(s_mant, '.') - 1;
+	else
+	{
+		i = 1;
+		while (s_mant[i] == '0' || s_mant[i] == '.')
+			++i;
+		max_pow_ten = -(i - 2);
+	}
+	if (ft_strlen(s_mant > 12)
+		s_mant[12] = '\0';
+	s_exp = ft_itoa(max_pow_ten);
+	result = expon_str_to_lf(s_mant + i, s_exp);
+	free(s_mant);
+	free(s_exp);
+	return (result);
+}
 
 static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 {
@@ -68,14 +82,15 @@ static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 	t_u64		mant;
 	char		*tmp;
 
+//printf("hexfp | s_mant : %s, s_exp %s\n", s_mant, s_exp);
 	result = sign ? -1. : 1.;
-	tmp = ft_strremove(s_mant, "."); //TODO verif
+	tmp = ft_strremove(s_mant, ".");
 	mant = ft_atoui_base(tmp, HXUPP);
 	result *= mant;
+	result *= 0x1.p-52 * ft_lfpowi(2., (ft_strlen(tmp) - 1) * 4);
 	exp = ft_atoi(s_exp);
-	exp += ft_u64bits_itoj(*(t_u64*)(&result), 1, 13) >> 51;
-	*(t_u64*)(&result) &= 0x8007FFFFFFFFFFFF;
-	*(t_u64*)(&result) |= (t_u64)exp << 51;
+	*(t_u64*)(&result) &= 0x800FFFFFFFFFFFFF;
+	*(t_u64*)(&result) |= (t_u64)(exp + 1023) << 52;
 	return (result);
 }
 
@@ -85,24 +100,26 @@ t_f64		ft_atolf(char const *float_str)
 	t_f64	result;
 	char	**strls;
 	int		mode;
-	int		is_hexfp;
 
+	if (!float_str || !(*float_str))
+		return (0. / 0.);
 	str = ft_strdup(float_str);
 	ft_str_toupper(str);
-	if (!str || !*str || !ft_str_containsonly(str, "0123456789.+-EPX")
-		|| ft_str_countchar(str, 'e') + ft_str_countchar(str, 'p') > 1)
+	if (!str || !*str || !ft_str_containsonly(str, "0123456789.+-ABCDEFPX")
+		|| ft_str_countchar(str, 'P') > 1
+		|| (ft_str_countchar(str, 'P') == 0 && ft_str_countchar(str, 'E') > 1))
 		return (0. / 0.);
-	is_hexfp = ft_strfind(str, 'x') > 0;
-	strls = ft_split(str, is_hexfp ? "P" : "E");
-	if (!(mode = ft_ptrarrlen(strls) + is_hexfp))
+	strls = ft_split(str, ft_strfind(str, 'X') >= 0 ? "P" : "E");
+	if (!(mode = ft_ptrarrlen(strls) + (ft_strfind(str, 'X') >= 0)))
 		return (0. / 0.);
 	else if (mode == 1)
 		result = decim_str_to_lf(strls[0]);
 	else if (mode == 2)
 		result = expon_str_to_lf(strls[0], strls[1]);
 	else
-		result = hexfp_str_to_lf(strls[0] + ft_strfind(strls[0], 'x'),
+		result = hexfp_str_to_lf((strls[0]) + ft_strfind(strls[0], 'X') + 1,
 					strls[1], strls[0][0] == '-');
 	ft_strlsdel(&strls);
+ft_printf("\tatolf res: %f  %e  %a \tmode = %d\n", result, result, result, mode);
 	return (result);
 }

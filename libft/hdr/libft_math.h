@@ -23,6 +23,7 @@
 # include "libft.h"
 # include "libft_str.h"
 
+# define DIV1_BY10		0x1.999999999999Ap-4
 # define LN2_DIV_LN10	0x1.34413509F79FFp-2
 # define LN_3DIV2		0x1.9F323ECBF984Cp-2
 # define DIV2_BY3		0x1.5555555555556p-1

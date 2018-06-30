@@ -16,27 +16,6 @@
 # include "fractol.h"
 
 
-t_cpoly		str_to_cpoly(char const *str)
-{
-	t_cpoly		result;
-	char		**strls;
-	int			i;
-	t_complex	tmp;
-
-	strls = ft_split(str, "\t ");
-	i = 0;
-	while (strls[i])
-	{
-		tmp.re = ft_atolf(strls[i]);
-		tmp.im = ft_atolf(strls[i + 1]);
-		result.coefs[i / 2] = tmp;
-		i += 2;
-	}
-	result.deg = i;
-	ft_strlsdel(&strls);
-	return (result);
-}
-
 t_complex		eval_cpoly(t_cpoly const cpoly, t_complex const z)
 {
 	t_complex	result;
@@ -53,7 +32,7 @@ t_complex		eval_cpoly(t_cpoly const cpoly, t_complex const z)
 	return (result);
 }
 
-t_complex		eval_cpoly_fast(t_cpoly *a_cpoly, t_complex const z)
+t_complex		eval_cpoly_fast(t_cpoly *ro_cpoly, t_complex const z)
 {
 	t_complex	result;
 	t_complex	*coefs;
@@ -61,8 +40,8 @@ t_complex		eval_cpoly_fast(t_cpoly *a_cpoly, t_complex const z)
 
 	result.re = 0.;
 	result.im = 0.;
-	coefs = a_cpoly->coefs;
-	i = a_cpoly->deg;
+	coefs = ro_cpoly->coefs;
+	i = ro_cpoly->deg;
 	while (i >= 0)
 	{
 		result = c_add(c_mul(result, z), coefs[i]);

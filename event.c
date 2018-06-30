@@ -39,18 +39,18 @@ int			handle_key(int key, void *param)
 */
 void		init_events(t_control *ctrl)
 {
-	int		event;
-	int		mask;
+//	int		event;
+//	int		mask;
 
 	mlx_key_hook(ctrl->win_ptr, &handle_key, ctrl);
-	mask = MASK_POINTERMOTION | MASK_BUTTON1MOTION |
-				MASK_BUTTON2MOTION | MASK_BUTTON3MOTION;
-	event = EVENT_MOTIONNOTIFY;
-	mlx_hook(mlx->win_ptr, event, mask, event_mouse_move, mlx);
+//	mask = MASK_POINTERMOTION | MASK_BUTTON1MOTION |
+//				MASK_BUTTON2MOTION | MASK_BUTTON3MOTION;
+/*	event = EVENT_MOTIONNOTIFY;
+	mlx_hook(ctrl->win_ptr, event, mask, event_mouse_move, ctrl);
 	mask = MASK_BUTTONPRESS;
 	event = EVENT_BUTTONPRESS;
-	mlx_hook(mlx->win_ptr, event, mask, event_mouse_press, mlx);
+	mlx_hook(ctrl->win_ptr, event, mask, event_mouse_press, ctrl);
 	mask = MASK_BUTTONRELEASE;
 	event = EVENT_BUTTONRELEASE;
-	mlx_hook(mlx->win_ptr, event, mask, event_mouse_release, mlx);
+	mlx_hook(ctrl->win_ptr, event, mask, event_mouse_release, ctrl);*/
 }

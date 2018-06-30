@@ -48,7 +48,8 @@ SRCS	:=	fractals.c			\
 			ft_atolf.c			\
 			complex_op.c		\
 			polynom_op.c		\
-			cpolynom_op.c
+			cpolynom_op.c		\
+			polynom_str.c
 
 			
 OBJS	:=	$(SRCS:.c=.o)
@@ -89,7 +90,7 @@ fclean:clean
 re:fclean all
 
 test:$(LFTDIR)$(LFT) $(OBJS)
-	@$(CC) $(CFLAGS) $(DBFLAGS) $(OBJS) $(TST_MAIN) $(LIBASAN) -lm -lmlx$(LIB_SUFF) -L$(LFTDIR) -lft -L. -lX11 -L$(LOC_LX) -lXext -L$(LOC_LX) -o $(TST_EXEC)
+	@$(CC) $(CFLAGS) $(DBFLAGS) $(OBJS) $(TST_MAIN) $(LIBS) -o $(TST_EXEC)
 	./$(TST_EXEC)
 	@rm -f $(TST_MAIN:.c=.o) $(TST_EXEC)
 

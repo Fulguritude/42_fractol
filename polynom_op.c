@@ -16,21 +16,6 @@
 # include "fractol.h"
 
 
-t_poly		str_to_poly(char const *str)
-{
-	t_poly	result;
-	char	**strls;
-	int		i;
-
-	strls = ft_split(str, "\t ");
-	i = -1;
-	while (strls[++i])
-		result.coefs[i] = ft_atolf(strls[i]);
-	result.deg = i;
-	ft_strlsdel(&strls);
-	return (result);
-}
-
 t_float		eval_poly(t_poly const poly, t_float const x)
 {
 	t_float	result;
@@ -46,15 +31,15 @@ t_float		eval_poly(t_poly const poly, t_float const x)
 	return (result);
 }
 
-t_float		eval_poly_fast(t_poly *a_poly, t_float const x)
+t_float		eval_poly_fast(t_poly *ro_poly, t_float const x)
 {
 	t_float		result;
 	int			i;
 	t_float		*coefs;
 
 	result = 0.;
-	coefs = a_poly->coefs;
-	i = a_poly->deg;
+	coefs = ro_poly->coefs;
+	i = ro_poly->deg;
 	while (i >= 0)
 	{
 		result = result * x + coefs[i];

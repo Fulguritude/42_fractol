@@ -14,6 +14,7 @@
 # define FRACTOL_H
 
 # include "libft/hdr/libft.h"
+# include "libft/hdr/ft_printf.h"
 # include "complex.h"
 # include "polynomial.h"
 # include <stdio.h>
