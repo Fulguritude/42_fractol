@@ -1,5 +1,18 @@
 #include "fractol.h"
 
+/*
+** It is with the mlx_hook function that one creates custom hooks. funct can
+** take any number/types of arguments.
+**
+** int	mlx_hook(t_win_list *win, int x_event, int x_mask, 
+**		 int (*funct)(),void *param)
+** {
+**  win->hooks[x_event].hook = funct;
+**  win->hooks[x_event].param = param;
+**  win->hooks[x_event].mask = x_mask;
+** }
+*/
+
 int			handle_key(int key, void *param)
 {
 	t_control			*ctrl;
@@ -43,14 +56,15 @@ void		init_events(t_control *ctrl)
 //	int		mask;
 
 	mlx_key_hook(ctrl->win_ptr, &handle_key, ctrl);
-//	mask = MASK_POINTERMOTION | MASK_BUTTON1MOTION |
-//				MASK_BUTTON2MOTION | MASK_BUTTON3MOTION;
-/*	event = EVENT_MOTIONNOTIFY;
+/*	mask = MASK_POINTERMOTION | MASK_BUTTON1MOTION |
+				MASK_BUTTON2MOTION | MASK_BUTTON3MOTION;
+	event = EVENT_MOTIONNOTIFY;
 	mlx_hook(ctrl->win_ptr, event, mask, event_mouse_move, ctrl);
 	mask = MASK_BUTTONPRESS;
 	event = EVENT_BUTTONPRESS;
 	mlx_hook(ctrl->win_ptr, event, mask, event_mouse_press, ctrl);
 	mask = MASK_BUTTONRELEASE;
 	event = EVENT_BUTTONRELEASE;
-	mlx_hook(ctrl->win_ptr, event, mask, event_mouse_release, ctrl);*/
+	mlx_hook(ctrl->win_ptr, event, mask, event_mouse_release, ctrl);
+*/
 }

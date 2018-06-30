@@ -20,7 +20,7 @@ int main()
 {
 	char	*str1;
 	char	*str2;
-	double 	test = -0.00001234;
+	double 	test = -6.234e+250;//-0x1.234ABCDp-13;//-0.;//-0x1.234ABCDp-13;//-6.234e+250;
 
 	printf("%f  %e  %a\n", test, test, test);
 	ft_asprintf(&str1, "%f  %e  %a", test, test, test);

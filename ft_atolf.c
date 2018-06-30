@@ -37,7 +37,7 @@ static t_f64	expon_str_to_lf(char const *s_mant, char const *s_exp)
 		exp -= frac_digits;
 	result *= ft_lfpowi(10., exp);
 	free(tmp);
-	return (result);
+	return (result * (s_mant[0] == '-' && result == 0. ? -1. : 1.));
 }
 
 /*
@@ -66,10 +66,12 @@ static t_f64	decim_str_to_lf(char const *str)
 			++i;
 		max_pow_ten = -(i - 2);
 	}
-	if (ft_strlen(s_mant) > 12)
-		s_mant[12] = '\0';
-	s_exp = ft_itoa(max_pow_ten);
-	result = expon_str_to_lf(s_mant + i, s_exp);
+	ft_strreplace_inplace(&s_mant, ".", "");
+	ft_strinsert(&s_mant, ".", i + 1 - (s_mant[0] == '0'));
+	if (ft_strlen(s_mant + i) > 9)
+		s_mant[i + 9] = '\0';
+	s_exp = ft_itoa(max_pow_ten - (s_mant[0] == '0'));
+	result = expon_str_to_lf(s_mant + i - (s_mant[0] == '0'), s_exp);
 	free(s_mant);
 	free(s_exp);
 	return (str[0] == '-' ? -result : result);
@@ -85,6 +87,11 @@ static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 //printf("hexfp | s_mant : %s, s_exp %s\n", s_mant, s_exp);
 	result = sign ? -1. : 1.;
 	tmp = ft_strremove(s_mant, ".");
+	if (ft_strequ(tmp, "0") || ft_strequ(tmp, "00"))
+	{
+		free(tmp);
+		return (0. * result);
+	}
 	mant = ft_atoui_base(tmp, HXUPP);
 	result *= mant;
 	result *= 0x1.p-52 * ft_lfpowi(2., (ft_strlen(tmp) - 1) * 4);
@@ -120,6 +127,6 @@ t_f64		ft_atolf(char const *float_str)
 		result = hexfp_str_to_lf((strls[0]) + ft_strfind(strls[0], 'X') + 1,
 					strls[1], strls[0][0] == '-');
 	ft_strlsdel(&strls);
-ft_printf("\tatolf res: %f  %e  %a \tmode = %d\n", result, result, result, mode);
+//ft_printf("\tatolf res: %f  %e  %a \tmode = %d\n", result, result, result, mode);
 	return (result);
 }

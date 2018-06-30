@@ -286,19 +286,6 @@ typedef struct	s_control
 }				t_control;
 
 /*
-** It is with this function that one creates custom hooks. funct can take
-** any number/types of arguments.
-**
-** int	mlx_hook(t_win_list *win, int x_event, int x_mask, 
-**		 int (*funct)(),void *param)
-** {
-**  win->hooks[x_event].hook = funct;
-**  win->hooks[x_event].param = param;
-**  win->hooks[x_event].mask = x_mask;
-** }
-*/
-
-/*
 ** main_fractol.c
 */
 void			toggle_debug(t_control *ctrl);
