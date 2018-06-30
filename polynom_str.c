@@ -26,7 +26,7 @@ t_poly		str_to_poly(char const *str)
 	i = -1;
 	while (strls[++i])
 		result.coefs[i] = ft_atolf(strls[i]);
-	result.deg = i;
+	result.deg = i - 1;
 	ft_strlsdel(&strls);
 	return (result);
 }
@@ -77,7 +77,7 @@ t_cpoly		str_to_cpoly(char const *str)
 		result.coefs[i / 2] = tmp;
 		i += 2;
 	}
-	result.deg = i;
+	result.deg = (i % 2) ? i / 2 : i / 2 - 1;
 	ft_strlsdel(&strls);
 	return (result);
 }

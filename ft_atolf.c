@@ -66,13 +66,13 @@ static t_f64	decim_str_to_lf(char const *str)
 			++i;
 		max_pow_ten = -(i - 2);
 	}
-	if (ft_strlen(s_mant > 12)
+	if (ft_strlen(s_mant) > 12)
 		s_mant[12] = '\0';
 	s_exp = ft_itoa(max_pow_ten);
 	result = expon_str_to_lf(s_mant + i, s_exp);
 	free(s_mant);
 	free(s_exp);
-	return (result);
+	return (str[0] == '-' ? -result : result);
 }
 
 static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)

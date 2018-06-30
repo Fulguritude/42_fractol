@@ -20,11 +20,11 @@ int main()
 {
 	char	*str1;
 	char	*str2;
-	double 	test = 0.00001234;
+	double 	test = -0.00001234;
 
 	printf("%f  %e  %a\n", test, test, test);
 	ft_asprintf(&str1, "%f  %e  %a", test, test, test);
-	ft_asprintf(&str2, "%f  %e  %a", test, test, test);
+	ft_asprintf(&str2, "%f  %e  %a %a", test, test, test, test);
 	printf("%s\n", str1);
 	printf("%s\n", str2);
 
@@ -36,8 +36,8 @@ int main()
 	str1 = poly_to_str(&real);
 	str2 = cpoly_to_str(&comp);
 	printf("real and comp as strings:\n");
-	printf("%s\n", str1);
-	printf("%s\n", str2);
+	printf("polynomial 1 contains : %s\n", str1);
+	printf("polynomial 2 contains : %s\n", str2);
 	free(str1);
 	free(str2);
 
