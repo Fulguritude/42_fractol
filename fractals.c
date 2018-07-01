@@ -33,7 +33,7 @@ t_u8		julia_dwell(t_fractol *frac, t_complex pt)
 
 	lim = frac->radius_sqrd;
 	max_iter = frac->max_dwell;
-	a_cpoly = &(frac->iter_func);
+	a_cpoly = &(frac->iter_cpoly);
 	lim = frac->radius_sqrd;
 	i = 0;
 	while (i < max_iter)
@@ -59,8 +59,10 @@ t_u8		mandel_dwell(t_fractol *frac, t_complex pt)
 
 	lim = frac->radius_sqrd;
 	max_iter = frac->max_dwell;
-	a_cpoly = &(frac->iter_func);
-	frac->iter_func.coefs[0] = pt;
+	a_cpoly = &(frac->iter_cpoly);
+	start.re = 0.;
+	start.im = 0.;
+	a_cpoly->coefs[0] = pt;
 	i = 0;
 	while (i < max_iter)
 	{
@@ -97,11 +99,11 @@ void		init_fractol(t_control *ctrl, t_fractal fractal)
 	cpoly.deg = 2;
 	ft_bzero(cpoly.coefs, 256 * sizeof(t_complex));
 	cpoly.coefs[2].re = 1.;
-	cpoly.coefs[0].re = 0.5;
-	cpoly.coefs[0].im = 0.5;
-	res.iter_func = cpoly;
+	cpoly.coefs[0].re = fractal == julia ? 0.5 : 0.;
+	cpoly.coefs[0].im = fractal == julia ? 0.5 : 0.;
+	res.iter_cpoly = cpoly;
 	ctrl->fractol = res;
-	ctrl->frac_func = fractal == julia ? &julia_dwell : &mandel_dwell;
+	ctrl->dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
 }
 
 int			render(void *param)
@@ -109,6 +111,9 @@ int			render(void *param)
 	t_control	*ctrl;
 
 	ctrl = (t_control *)param;
+char *str = cpoly_to_str(&(ctrl->fractol.iter_cpoly));
+printf("cpoly: %s\n", str);
+free(str);
 	if (ctrl->render_mode == 0)
 		return (render_seq(ctrl));
 	else
@@ -131,8 +136,8 @@ int			render_seq(t_control *ctrl)
 		while (++x < REN_W)
 		{
 			tmp = get_complex_from_point(&(ctrl->fractol), x, y);
-			dwell = ctrl->frac_func(&(ctrl->fractol), tmp);
-			color = (dwell << 25 | dwell << 17 | dwell << 9);
+			dwell = ctrl->dwell_func(&(ctrl->fractol), tmp);
+			color = (dwell << 26 | dwell << 18 | dwell << 10);
 			mlximg_setpixel(ctrl, dwell == ctrl->fractol.max_dwell ?
 										BLACK : color, x, y);
 		}

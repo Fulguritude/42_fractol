@@ -48,6 +48,16 @@ t_complex		c_mul(t_complex const z1, t_complex const z2)
 	return (res);
 }
 
+/*
+t_complex		c_mul(t_complex const z1, t_complex const z2)
+{
+	t_complex	res;
+
+	res.re = z1.re * z2.re - z1.im * z2.im;
+	res.im = z1.re * z2.im + z2.re * z1.im;
+	return (res);
+}*/
+
 inline t_float	c_quadnorm(t_complex const z)
 {
 	return (z.re * z.re + z.im * z.im);
