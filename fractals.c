@@ -1,45 +1,33 @@
 #include "fractol.h"
-/*
-int		get_julia_dwell(t_fractol frac, t_complex pt)
+
+inline t_u8		get_dwell_from_point(t_control *ctrl, t_point pt)
 {
-	t_u32		i;
-
-	t_complex 	c;
-	c.re = 0.5;
-	c.im = 0.5;
-
-	i = 0;
-	while (i < frac.max_iter)
-	{
-		pt = c_add(c_mul(pt, pt), c);
-		if (c_quadnorm(pt) > frac.radius_sqrd)
-			return (i << 26 | i << 18 | i << 10);
-		++i;
-	}
-	return (BLACK);
+	return (ctrl->dwell_func(
+					&(ctrl->fractol),
+					get_complex_from_point(&(ctrl->fractol), pt.x, pt.y)));
 }
-*/
+
+//TODO : add a previous quadnorm argument to check for descendingness ?
 
 /*
 ** julia_dwell
 */
 
-t_u8		julia_dwell(t_fractol *frac, t_complex pt)
+t_u8			julia_dwell(t_fractol *frac, t_complex c_pt)
 {
 	t_cpoly			*a_cpoly;
 	t_float			lim;
 	uint_fast8_t	i;
 	uint_fast8_t	max_iter;
 
-	lim = frac->radius_sqrd;
 	max_iter = frac->max_dwell;
 	a_cpoly = &(frac->iter_cpoly);
 	lim = frac->radius_sqrd;
 	i = 0;
 	while (i < max_iter)
 	{
-		pt = eval_cpoly_fast(a_cpoly, pt);
-		if (c_quadnorm(pt) > lim)
+		c_pt = eval_cpoly_fast(a_cpoly, c_pt);
+		if (c_quadnorm(c_pt) > lim)
 			return (i);
 		++i;
 	}
@@ -49,7 +37,7 @@ t_u8		julia_dwell(t_fractol *frac, t_complex pt)
 /*
 ** mandel_dwell
 */
-t_u8		mandel_dwell(t_fractol *frac, t_complex pt)
+t_u8			mandel_dwell(t_fractol *frac, t_complex c_pt)
 {
 	t_float			lim;
 	t_complex		start;
@@ -62,7 +50,7 @@ t_u8		mandel_dwell(t_fractol *frac, t_complex pt)
 	a_cpoly = &(frac->iter_cpoly);
 	start.re = 0.;
 	start.im = 0.;
-	a_cpoly->coefs[0] = pt;
+	a_cpoly->coefs[0] = c_pt;
 	i = 0;
 	while (i < max_iter)
 	{
@@ -74,98 +62,25 @@ t_u8		mandel_dwell(t_fractol *frac, t_complex pt)
 	return (i);
 }
 
-/*
-	t_fractal	type;
-	int			max_iter;
-	t_complex	anchor;
-	t_float		zoom;
-	t_float		radius; //convergence norm
-	t_float		radius_sqrd; //convergence quadratic norm
-	t_cpoly		iter_func;
-*/
-void		init_fractol(t_control *ctrl, t_fractal fractal)
+t_u8			newton_dwell(t_fractol *frac, t_complex c_pt)
 {
-	t_fractol	res;
-	t_cpoly		cpoly;
+	t_cpolyfrac		*a_cpf;
+	t_float			lim;
+	uint_fast8_t	i;
+	uint_fast8_t	max_iter;
+	t_complex		prm;
 
-	res.type = fractal;
-	res.max_dwell = INIT_MAX_DWELL;
-	res.zoom = 5.;
-	res.radius = 2.;
-	res.radius_sqrd = 4.;
-	res.anchor.re = 0.;
-	res.anchor.im = 0.;
-	res.is_static = fractal == julia ? 0 : 1;
-	cpoly.deg = 2;
-	ft_bzero(cpoly.coefs, 256 * sizeof(t_complex));
-	cpoly.coefs[2].re = 1.;
-	cpoly.coefs[0].re = fractal == julia ? 0.5 : 0.;
-	cpoly.coefs[0].im = fractal == julia ? 0.5 : 0.;
-	res.iter_cpoly = cpoly;
-	ctrl->fractol = res;
-	ctrl->dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
-}
-
-int			render(void *param)
-{
-	t_control	*ctrl;
-
-	ctrl = (t_control *)param;
-char *str = cpoly_to_str(&(ctrl->fractol.iter_cpoly));
-printf("cpoly: %s\n", str);
-free(str);
-	if (ctrl->render_mode == 0)
-		return (render_seq(ctrl));
-	else
-		return (render_m_s(ctrl));
-}
-
-int			render_seq(t_control *ctrl)
-{
-	t_complex	tmp;
-	t_u32		dwell;
-	int			color;
-	t_s32		x;
-	t_s32		y;
-
-//printf("REN_H = %d, REN_W = %d\n", REN_H, REN_W);
-	y = -1;
-	while (++y < REN_H)
+	prm = ctrl->param;
+	max_iter = frac->max_dwell;
+	a_cpf = &(frac->iter_cpolyfrac);
+	lim = frac->radius_sqrd;
+	i = 0;
+	while (i < max_iter)
 	{
-		x = -1;
-		while (++x < REN_W)
-		{
-			tmp = get_complex_from_point(&(ctrl->fractol), x, y);
-			dwell = ctrl->dwell_func(&(ctrl->fractol), tmp);
-			color = (dwell << 26 | dwell << 18 | dwell << 10);
-			mlximg_setpixel(ctrl, dwell == ctrl->fractol.max_dwell ?
-										BLACK : color, x, y);
-		}
+//		c_pt = c_pt, c_scl(eval_cpolyfrac_fast(a_cpoly, c_pt), -1.);
+		if (c_quadnorm(c_pt) > lim)
+			return (i);
+		++i;
 	}
-	mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr, 0, 0);
-	return (0);
-}
-
-/*
-** returns the next point to be studied in Mariani-Silver
-*/
-#if 0
-int			m_s_iter(, t_s32 x, t_s32 y)
-{
-	return (0);
-}
-#endif
-
-/*
-** An attempt to reproduce the Mariani-Silver algorithm
-*/
-
-int			render_m_s(t_control *ctrl)
-{
-//	int		
-
-	mlximg_valset(ctrl, -1);
-
-	mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr, 0, 0);
-	return (0);
+	return (i);
 }

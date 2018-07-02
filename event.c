@@ -107,6 +107,10 @@ static int		handle_mouse_move(int x, int y, void *param)
 			ctrl->fractol.iter_cpoly.coefs[1] =
 				get_complex_from_point(&(ctrl->fractol), x, y);
 		}
+		else if (ctrl->fractol.type == newton)
+		{
+			ctrl->fractol.param = get_complex_from_point(&(ctrl->fractol), x, y);
+		}
 		mouse_speed = (ctrl->mouse_x - x) * (ctrl->mouse_x - x) + 
 					(ctrl->mouse_y - y) * (ctrl->mouse_y - y); 
 //printf("mouse_speed %d\n", mouse_speed);

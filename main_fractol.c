@@ -51,6 +51,30 @@ static void		init_mlx(t_control *ctrl)
 	ctrl->render_mode = 0;
 }
 
+
+static void		init_fractol(t_control *ctrl, t_fractal fractal)
+{
+	t_fractol	res;
+	t_cpoly		cpoly;
+
+	res.type = fractal;
+	res.max_dwell = INIT_MAX_DWELL;
+	res.zoom = 5.;
+	res.radius = 2.;
+	res.radius_sqrd = 4.;
+	res.anchor.re = 0.;
+	res.anchor.im = 0.;
+	res.is_static = fractal == julia ? 0 : 1;
+	cpoly.deg = 2;
+	ft_bzero(cpoly.coefs, 256 * sizeof(t_complex));
+	cpoly.coefs[2].re = 1.;
+	cpoly.coefs[0].re = fractal == julia ? 0.5 : 0.;
+	cpoly.coefs[0].im = fractal == julia ? 0.5 : 0.;
+	res.iter_cpoly = cpoly;
+	ctrl->fractol = res;
+	ctrl->dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
+}
+
 /*
 ** || !ft_strequ(argv[1], "julia") ||
 **		!ft_strequ(argv[1], "hofstadter") || !ft_strequ(argv[1], "mandelbrot"

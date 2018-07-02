@@ -49,9 +49,11 @@ SRCS	:=	fractals.c			\
 			complex_op.c		\
 			polynom_op.c		\
 			cpolynom_op.c		\
-			polynom_str.c
+			polynom_str.c		\
+			render.c			\
+			m_s_rect.c			\
+			color.c
 
-			
 OBJS	:=	$(SRCS:.c=.o)
 
 MAIN	:=	main_$(NAME).c

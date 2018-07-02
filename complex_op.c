@@ -25,14 +25,28 @@ t_complex		c_scl(t_float const s, t_complex const z)
 {
 	t_complex	res;
 
-	res.re = s * z.re;
-	res.im = s * z.im;
+	if (s == -1.)
+	{
+		res.re = -z.re;
+		res.im = -z.im;
+	}
+	else if (s == 0.)
+	{
+		res.re = 0.;
+		res.im = 0.,
+	}
+	else
+	{
+		res.re = s * z.re;
+		res.im = s * z.im;
+	}
 	return (res);
 }
 
 /*
 ** Karatsuba
 */
+
 t_complex		c_mul(t_complex const z1, t_complex const z2)
 {
 	t_complex	res;
@@ -47,16 +61,6 @@ t_complex		c_mul(t_complex const z1, t_complex const z2)
 	res.im = k1 + k2;
 	return (res);
 }
-
-/*
-t_complex		c_mul(t_complex const z1, t_complex const z2)
-{
-	t_complex	res;
-
-	res.re = z1.re * z2.re - z1.im * z2.im;
-	res.im = z1.re * z2.im + z2.re * z1.im;
-	return (res);
-}*/
 
 inline t_float	c_quadnorm(t_complex const z)
 {

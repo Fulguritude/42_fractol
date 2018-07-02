@@ -62,7 +62,19 @@ t_complex		eval_cpolyfrac(t_cpolyfrac const pf, t_complex const z)
 	return (c_mul(num, tmp));
 }
 
-t_cpolyfrac	set_cpolyfrac(t_cpoly const num, t_cpoly const den)
+t_complex		eval_cpolyfrac_fast(t_cpolyfrac *ro_cpf, t_complex const z)
+{
+	t_complex		num;
+	t_complex		den;
+	t_complex		tmp;
+
+	num = eval_cpoly_fast(&(ro_cpf->num), z);
+	den = eval_cpoly_fast(&(ro_cpf->den), z);
+	tmp = c_inv(den);
+	return (c_mul(num, tmp));
+}
+
+t_cpolyfrac		set_cpolyfrac(t_cpoly const num, t_cpoly const den)
 {
 	t_cpolyfrac	res;
 
