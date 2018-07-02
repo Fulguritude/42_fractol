@@ -104,3 +104,20 @@ char		*cpoly_to_str(t_cpoly *ro_cpoly)
 	res[ft_strlen(res) - 7] = '\0';
 	return (res);
 }
+
+char		*cpolyfrac_to_str(t_cpolyfrac *ro_cpf)
+{
+	char	*str;
+	char	*den;
+	char	*num;
+
+	str = NULL;
+//	num = NULL;
+//	den = NULL;
+	num = cpoly_to_str(&(ro_cpf->num));
+	den = cpoly_to_str(&(ro_cpf->den));
+	ft_asprintf(&str, "num: %s /\nden: %s", num, den);
+	free(num);
+	free(den);
+	return (str);
+}

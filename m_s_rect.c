@@ -19,36 +19,50 @@
 ** already accounted for
 */
 
-static t_figure		get_rect_points(t_point anchor, t_point rect_w_h)
+static void			get_rect_points(t_figure *res,
+									t_point anchor, t_point rect_w_h)
 {
-	t_figure	res;
 	int			i;
+	int			extra;
 
-	if ((i = anchor.x + rect_w_h.x - REN_W) >= 0)
+//printf("rect_points: anchor [%d, %d], rect_w_h [%d, %d]\n", anchor.x, anchor.y, rect_w_h.x, rect_w_h.y);
+	if ((i = anchor.x + rect_w_h.x - REN_W) > 0)
 		rect_w_h.x -= i;
-	if ((i = anchor.y + rect_w_h.y - REN_H) >= 0)
+	if ((i = anchor.y + rect_w_h.y - REN_H) > 0)
 		rect_w_h.y -= i;
-	res.pt_lst_len = 2 * rect_w_h.y + 2 * (rect_w_h.x) - 4;
-	if (!(res.pt_lst = (t_point *)ft_memalloc(sizeof(t_point) * res.pt_lst_len)))
-		exit_error("memalloc failure in get_rect_points", 0);
+//printf("rect_points: anchor [%d, %d], rect_w_h [%d, %d]\n", anchor.x, anchor.y, rect_w_h.x, rect_w_h.y);
+	res->pt_lst_len = 2 * rect_w_h.y + 2 * rect_w_h.x - 4;
+	if (!(res->pt_lst = (t_point *)malloc(sizeof(t_point) * res->pt_lst_len)))
+		exit_error("malloc failure in get_rect_points", 0);
+//printf("mid1 rect_points, res->pt_lst = %p\n", res->pt_lst);
 	i = -1;
 	while (++i < rect_w_h.x)
 	{
-		res.pt_lst[i].x = anchor.x + i;
-		res.pt_lst[i].y = anchor.y;
-		res.pt_lst[i + rect_w_h.x].x = anchor.x + i;
-		res.pt_lst[i + rect_w_h.x].y = anchor.y + rect_w_h.y - 1;
+		res->pt_lst[i].x = anchor.x + i;
+		res->pt_lst[i].y = anchor.y;
+		res->pt_lst[i + rect_w_h.x].x = anchor.x + i;
+		res->pt_lst[i + rect_w_h.x].y = anchor.y + rect_w_h.y - 1;
 	}
-	while (i < res.pt_lst_len) //fix this loop to imitate the previous for a line ?
+//printf("mid2 rect_points\n");
+	extra = 2 * rect_w_h.x;
+	i = 0;
+	while (i + extra < res->pt_lst_len) //fix this loop to imitate the previous for a line ?
 	{
-		res.pt_lst[i].x = anchor.x;
-		res.pt_lst[i].y = anchor.y + 1 + i;
-		++i;
-		res.pt_lst[i].x = anchor.x + rect_w_h.x - 1; //++i for a line here
-		res.pt_lst[i].y = anchor.y + i;
-		++i;
+		res->pt_lst[extra + i].x = anchor.x;
+		res->pt_lst[extra + i].y = anchor.y + 1 + (i / 2);
+		res->pt_lst[extra + i + 1].x = anchor.x + rect_w_h.x - 1;
+		res->pt_lst[extra + i + 1].y = anchor.y + 1 + (i / 2);
+		i += 2;
 	}
-	return (res);
+/*
+printf("pt_lst_len: %d\n", res->pt_lst_len);
+for (int i = 0; i < res->pt_lst_len + 10; ++i)
+{
+printf("res->pt_lst : [%3d, %3d] ; i = %d\n", res->pt_lst[i].x, res->pt_lst[i].y, i);
+}
+printf("endloop\n");
+*/
+//	return (res);
 }
 
 /*
@@ -66,6 +80,7 @@ static int 			trace_dwell_rect(t_control *ctrl,
 	t_u8		unique_color;
 	t_point		tmp;
 
+//printf("rect_trace\n");
 	if ((first_dwell = dwell_arr[anchor.y][anchor.x]) == 0)
 	{
 		first_dwell = get_dwell_from_point(ctrl, anchor);
@@ -74,7 +89,10 @@ static int 			trace_dwell_rect(t_control *ctrl,
 	unique_color = first_dwell;
 	if (rect_w_h.x <= 1 && rect_w_h.y <= 1)
 		return (unique_color);
-	fig = get_rect_points(anchor, rect_w_h);
+	fig.pt_lst_len = -1;
+	fig.pt_lst = NULL;
+	get_rect_points(&fig, anchor, rect_w_h);
+//printf("fig.len = %d| fig.lst = %p\n", fig.pt_lst_len, fig.pt_lst);
 	i = -1;
 	while (++i < fig.pt_lst_len)
 	{
@@ -84,6 +102,7 @@ static int 			trace_dwell_rect(t_control *ctrl,
 		if (unique_color && dwell_arr[tmp.y][tmp.x] != first_dwell)
 			unique_color = 0;
 	}
+//printf("end rect_trace\n");
 	free(fig.pt_lst);
 	return (unique_color);
 }
@@ -94,6 +113,7 @@ static void			fill_dwell_rect(t_u8 dwell_arr[REN_H][REN_W], t_u8 dwell,
 	int		tmp;
 	t_point	end;
 
+//printf("rect_fill\n");
 	if ((tmp = anchor.x + rect_w_h.x - REN_W) >= 0)
 		rect_w_h.x -= tmp;
 	if ((tmp = anchor.y + rect_w_h.y - REN_H) >= 0)
@@ -129,6 +149,7 @@ void				rect_subdivider(t_control *ctrl,
 	t_point		sub_anc;
 	t_point		sub_w_h;
 
+//printf("rect_sub\n");
 	if (rect_w_h.x == 0 || rect_w_h.y == 0)
 		return ;
 	sub_w_h.x = rect_w_h.x / 2;

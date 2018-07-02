@@ -70,14 +70,14 @@ t_u8			newton_dwell(t_fractol *frac, t_complex c_pt)
 	uint_fast8_t	max_iter;
 	t_complex		prm;
 
-	prm = ctrl->param;
+	prm = c_scl(-1., frac->param);
 	max_iter = frac->max_dwell;
 	a_cpf = &(frac->iter_cpolyfrac);
 	lim = frac->radius_sqrd;
 	i = 0;
 	while (i < max_iter)
 	{
-//		c_pt = c_pt, c_scl(eval_cpolyfrac_fast(a_cpoly, c_pt), -1.);
+		c_pt = c_add(c_pt, c_mul(eval_cpolyfrac_fast(a_cpf, c_pt), prm));
 		if (c_quadnorm(c_pt) > lim)
 			return (i);
 		++i;

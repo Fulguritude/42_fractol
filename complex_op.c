@@ -33,7 +33,7 @@ t_complex		c_scl(t_float const s, t_complex const z)
 	else if (s == 0.)
 	{
 		res.re = 0.;
-		res.im = 0.,
+		res.im = 0.;
 	}
 	else
 	{

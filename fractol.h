@@ -38,7 +38,8 @@ typedef enum	e_fractal
 {
 	julia,
 	mandelbrot,
-	hofstadter,
+	newton,
+//	hofstadter,
 	none
 }				t_fractal;
 
@@ -110,7 +111,7 @@ t_complex		get_complex_from_point(t_fractol *frac, t_s32 x, t_s32 y);
 t_u8			get_dwell_from_point(t_control *ctrl, t_point pt);
 t_u8			julia_dwell(t_fractol *frac, t_complex pt);
 t_u8			mandel_dwell(t_fractol *frac, t_complex pt);
-//t_u8			newton_dwell(t_fractol *frac, t_complex pt);
+t_u8			newton_dwell(t_fractol *frac, t_complex pt);
 
 /*
 ** events.c

@@ -19,8 +19,8 @@ CC		:=	gcc
 CFLAGS	:=	-Wall -Werror -Wextra #-O3
 
 ifeq ($(PLATFORM),LINUX)
-DBFLAGS =	#-fsanitize=address
-LIBASAN =	#-lasan
+DBFLAGS =	-fsanitize=address
+LIBASAN =	-lasan
 LOC_LX	=	/usr/lib/x86_64-linux-gnu/
 LIB_SUFF=	_Linux
 LOC_LMLX=	../
@@ -50,6 +50,7 @@ SRCS	:=	fractals.c			\
 			polynom_op.c		\
 			cpolynom_op.c		\
 			polynom_str.c		\
+			polynom_calc.c		\
 			render.c			\
 			m_s_rect.c			\
 			color.c

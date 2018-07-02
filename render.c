@@ -68,13 +68,14 @@ static void		dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 		++i;
 	}
 	i = 0;
-	pix_len = ctrl->img_bytelen / ctrl->img_bpp;
+	pix_len = REN_W * REN_H;
+	y = 0;
+	x = 0;
 	while (i < pix_len)
 	{
 		((t_u32 *)ctrl->img_data)[i] = palette[dwell_arr[y][x]];
 		++i;
-		++x;
-		if (x == REN_W)
+		if (++x == REN_W)
 		{
 			++y;
 			x = 0;
@@ -100,9 +101,17 @@ int				render(void *param)
 	t_control	*ctrl;
 
 	ctrl = (t_control *)param;
+/*
+if (ctrl->fractol.type == newton) {
+char *str = cpolyfrac_to_str(&(ctrl->fractol.iter_cpolyfrac));
+printf("cpolyfrac: \n%s\n", str);
+printf("param: (%f, %f)\n", ctrl->fractol.param.re, ctrl->fractol.param.im);
+free(str);
+} else {
 char *str = cpoly_to_str(&(ctrl->fractol.iter_cpoly));
 printf("cpoly: %s\n", str);
 free(str);
+}*/
 	if (ctrl->render_mode == 0)
 		return (render_seq(ctrl));
 	else

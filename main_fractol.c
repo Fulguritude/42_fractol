@@ -73,6 +73,16 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal)
 	res.iter_cpoly = cpoly;
 	ctrl->fractol = res;
 	ctrl->dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
+	if (fractal == newton)
+	{
+		cpoly.deg = 3;
+		cpoly.coefs[3].re = 1.;
+		cpoly.coefs[0].re = -1.;
+		cpoly.coefs[2].re = 0.;
+		ctrl->fractol.iter_cpolyfrac = set_cpolyfrac(cpoly, derive_cpoly(cpoly));
+		ctrl->fractol.param = (t_complex){0.5, 0.5};
+		ctrl->dwell_func = &newton_dwell;
+	}
 }
 
 /*
@@ -86,15 +96,17 @@ int				main(int argc, char **argv)
 
 	if (argc != 2)
 		exit_error("usage: \"./fractol [arg]\"\nValid arguments are \"julia\","
-			"\"mandelbrot\" and \"hofstadter\".\n", 0);
+			"\"mandelbrot\" and \"newton\".\n", 0);
 	init_mlx(&ctrl);
 	if (ft_strequ(argv[1], "julia"))
 		init_fractol(&ctrl, julia);
 	else if (ft_strequ(argv[1], "mandelbrot"))
 		init_fractol(&ctrl, mandelbrot);
+	else if (ft_strequ(argv[1], "newton"))
+		init_fractol(&ctrl, newton);
 	else
 		exit_error("Valid arguments are \"julia\","
-			"\"mandelbrot\" and \"hofstadter\".\n", 0);
+			"\"mandelbrot\" and \"newton\".\n", 0);
 	init_events(&ctrl);
 	render(&ctrl);
 	mlx_loop(ctrl.mlx_ptr);
