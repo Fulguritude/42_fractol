@@ -127,6 +127,7 @@ t_f64		ft_atolf(char const *float_str)
 		result = hexfp_str_to_lf((strls[0]) + ft_strfind(strls[0], 'X') + 1,
 					strls[1], strls[0][0] == '-');
 	ft_strlsdel(&strls);
+	free(str);
 //ft_printf("\tatolf res: %f  %e  %a \tmode = %d\n", result, result, result, mode);
 	return (result);
 }

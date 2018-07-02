@@ -101,7 +101,7 @@ int				render(void *param)
 	t_control	*ctrl;
 
 	ctrl = (t_control *)param;
-/*
+
 if (ctrl->fractol.type == newton) {
 char *str = cpolyfrac_to_str(&(ctrl->fractol.iter_cpolyfrac));
 printf("cpolyfrac: \n%s\n", str);
@@ -111,7 +111,7 @@ free(str);
 char *str = cpoly_to_str(&(ctrl->fractol.iter_cpoly));
 printf("cpoly: %s\n", str);
 free(str);
-}*/
+}
 	if (ctrl->render_mode == 0)
 		return (render_seq(ctrl));
 	else

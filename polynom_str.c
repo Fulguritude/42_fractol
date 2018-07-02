@@ -112,8 +112,6 @@ char		*cpolyfrac_to_str(t_cpolyfrac *ro_cpf)
 	char	*num;
 
 	str = NULL;
-//	num = NULL;
-//	den = NULL;
 	num = cpoly_to_str(&(ro_cpf->num));
 	den = cpoly_to_str(&(ro_cpf->den));
 	ft_asprintf(&str, "num: %s /\nden: %s", num, den);

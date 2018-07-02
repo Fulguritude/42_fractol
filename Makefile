@@ -51,6 +51,7 @@ SRCS	:=	fractals.c			\
 			cpolynom_op.c		\
 			polynom_str.c		\
 			polynom_calc.c		\
+			polynom_rdr.c		\
 			render.c			\
 			m_s_rect.c			\
 			color.c
