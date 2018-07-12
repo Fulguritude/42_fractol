@@ -30,7 +30,7 @@ static int		render_seq(t_control *ctrl)
 			tmp.x = x;
 			tmp.y = y;
 			dwell = get_dwell_from_point(ctrl, tmp);
-			color = get_color_from_dwell(dwell);
+			color = get_color_from_dwell(ctrl, dwell);
 			mlximg_setpixel(ctrl, dwell == ctrl->fractol.max_dwell ?
 										BLACK : color, x, y);
 		}
@@ -64,7 +64,7 @@ static void		dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 	i = 0;
 	while (i < ctrl->fractol.max_dwell)
 	{
-		palette[i] = get_color_from_dwell(i);
+		palette[i] = get_color_from_dwell(ctrl, i);
 		++i;
 	}
 	i = 0;
@@ -113,7 +113,13 @@ printf("cpoly: %s\n", str);
 free(str);
 }
 	if (ctrl->render_mode == 0)
+	{
+printf("pixel by pixel render\n");
 		return (render_seq(ctrl));
+	}
 	else
+	{
+printf("mariani_silver render\n");
 		return (render_m_s(ctrl));
+	}
 }

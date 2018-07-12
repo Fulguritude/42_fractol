@@ -17,9 +17,11 @@ static int		handle_key(int key, void *param)
 {
 	t_control			*ctrl;
 	static t_float		zoom_trans_ratio = 0.04;
+	int					clr_change;
 
 	ctrl = (t_control *)param;
 	printf("key: %#x\n", key);
+	clr_change = handle_key_palette(key, ctrl);
 	if (key == KEY_ESC)
 		exit_error("Software closing.", 0);
 	else if (key == KEY_RIGHT)
@@ -40,7 +42,7 @@ static int		handle_key(int key, void *param)
 		ctrl->render_mode = !(ctrl->render_mode);
 	else if (key == KEY_SPACE)
 		ctrl->fractol.is_static = !(ctrl->fractol.is_static);
-	else
+	else if (!clr_change)
 		return (1);
 	render(ctrl);
 	return (0);

@@ -16,7 +16,13 @@
 # include "libft/hdr/libft_math.h"
 # include "complex.h"
 
-# define MAX_DEGREE		256
+/*
+** Note that some functions use coefs to denote the roots of a polynomial.
+** In this context, the usual "poly" variable name is replaced by "polymul"
+** in reference to the multiplicative form of the FToA
+*/
+
+# define MAX_DEGREE		255
 
 typedef struct	s_poly
 {
@@ -42,6 +48,13 @@ typedef struct	s_cpolyfrac
 	t_cpoly			den;
 }				t_cpolyfrac;
 
+/*
+typedef struct	s_cmulpoly
+{
+	t_u8			deg;
+	t_complex		roots[MAX_DEGREE];
+}				t_cmulpoly;
+*/
 
 t_float			eval_poly(t_poly const poly, t_float const x);
 t_float			eval_poly_fast(t_poly *a_poly, t_float const x);
@@ -63,5 +76,6 @@ char			*cpolyfrac_to_str(t_cpolyfrac *ro_cpf);
 
 
 t_cpoly		derive_cpoly(t_cpoly poly);
+t_cpoly		roots_to_coefs(t_cpoly *a_cpolymul);
 
 #endif

@@ -96,8 +96,10 @@ static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 	result *= mant;
 	result *= 0x1.p-52 * ft_lfpowi(2., (ft_strlen(tmp) - 1) * 4);
 	exp = ft_atoi(s_exp);
-	*(t_u64*)(&result) &= 0x800FFFFFFFFFFFFF;
-	*(t_u64*)(&result) |= (t_u64)(exp + 1023) << 52;
+	ft_memcpy(&mant, &result, sizeof(result));
+	mant &= 0x800FFFFFFFFFFFFF;
+	mant |= (t_u64)(exp + 1023) << 52;
+	ft_memcpy(&result, &mant, sizeof(result));
 	return (result);
 }
 

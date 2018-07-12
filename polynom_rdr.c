@@ -33,6 +33,8 @@ t_cpoly		get_cpoly_from_filepath(char const *fpath)
 		exit_error("str in file is invalid float format", 0);
 	res = str_to_cpoly(str);
 	free(str);
+	if (!(get_next_line(fd, &str) == EOF_RD))
+		exit_error("cpoly file format invalid", 0);
 	if (close(fd) == -1)
 		exit_error("close: file closed improperly", errno);
 	return (res);

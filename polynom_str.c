@@ -69,7 +69,6 @@ t_cpoly		str_to_cpoly(char const *str)
 			tmp.im = ft_atolf(strls[i + 1]);
 		else
 		{
-			write(2, "str_to_cpoly: odd number of coefs in str\n", 41);
 			tmp.im = 0.;
 			result.coefs[i / 2] = tmp;
 			break;

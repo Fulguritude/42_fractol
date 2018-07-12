@@ -19,10 +19,13 @@ void			toggle_debug(t_control *ctrl)
 
 void			exit_error(char *e_msg, int e_no)
 {
+	int		i;
+
 	if (e_no == 0)
 	{
-		write(1, e_msg, ft_strlen(e_msg));
-		write(1, "\n", 1);
+		i = write(1, e_msg, ft_strlen(e_msg));
+		i += write(1, "\n", 1);
+		exit(i);
 	}
 	else
 		perror(e_msg);
@@ -63,8 +66,8 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 	res.type = fractal;
 	res.max_dwell = INIT_MAX_DWELL;
 	res.zoom = 5.;
-	res.radius = 2.;
-	res.radius_sqrd = 4.;
+	res.radius = fractal == newton ? 1. : 2.; //TODO verif
+	res.radius_sqrd = fractal == newton ? 1. : 4.;
 	res.anchor.re = 0.;
 	res.anchor.im = 0.;
 	res.is_static = fractal == julia ? 0 : 1;
@@ -77,6 +80,10 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 		ctrl->fractol.param = (t_complex){1.0, 0.};
 		ctrl->dwell_func = &newton_dwell;
 	}
+/*	else if (fractal == newton_root)
+	{
+		ctrl->fractol.iter_cpoly = 
+	}*/
 }
 
 /*
@@ -98,6 +105,8 @@ int				main(int argc, char **argv)
 		init_fractol(&ctrl, mandelbrot, argc > 2 ? argv[2] : CPOLY_DIR"mandelbrot");
 	else if (ft_strequ(argv[1], "newton"))
 		init_fractol(&ctrl, newton, argc > 2 ? argv[2] : CPOLY_DIR"newton");
+	else if (ft_strequ(argv[1], "newton_root"))
+		init_fractol(&ctrl, newton_root, argc > 2 ? argv[2] : CPOLY_DIR"newton_root");
 	else
 		exit_error("Valid arguments are \"julia\","
 			"\"mandelbrot\" and \"newton\".\n", 0);

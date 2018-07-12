@@ -16,7 +16,7 @@ LFT		:=	libft.a
 
 PLATFORM:=	LINUX
 CC		:=	gcc
-CFLAGS	:=	-Wall -Werror -Wextra #-O3
+CFLAGS	:=	-Wall -Werror -Wextra -O3
 
 ifeq ($(PLATFORM),LINUX)
 DBFLAGS =	-fsanitize=address

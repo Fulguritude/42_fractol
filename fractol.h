@@ -46,6 +46,7 @@ typedef enum	e_fractal
 	julia,
 	mandelbrot,
 	newton,
+	newton_root,
 //	hofstadter,
 	none
 }				t_fractal;
@@ -71,6 +72,7 @@ typedef struct	s_fractol
 	t_float		radius; //convergence norm
 	t_float		radius_sqrd; //convergence quadratic norm
 	int			is_static;
+	int			palette;
 	t_complex	param;
 	t_cpoly		iter_cpoly;
 	t_cpolyfrac	iter_cpolyfrac;
@@ -133,7 +135,8 @@ void			init_events(t_control *ctrl);
 /*
 ** color.c
 */
-t_u32			get_color_from_dwell(t_u8 dwell);
+t_u32			get_color_from_dwell(t_control *ctrl, t_u8 dwell);
+int				handle_key_palette(int key, t_control *ctrl);
 
 /*
 ** render.c

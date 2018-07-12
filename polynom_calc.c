@@ -27,6 +27,23 @@ t_cpoly		derive_cpoly(t_cpoly poly)
 	return (deriv);
 }
 
+/*
+
+t_cpoly		roots_to_coefs(t_cpoly *a_cpolymul)
+{
+	t_cpoly		tmp;
+	int			i;
+
+	tmp.deg = a_cpolymul->deg;
+	
+	i = tmp.deg;
+	while (--i >= 0)
+	{
+		
+	}
+	*a_cpolymul = tmp;
+}*/
+
 //derive_poly
 //integrate_poly
 //integrate_cpoly
