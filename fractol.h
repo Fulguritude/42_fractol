@@ -46,7 +46,8 @@ typedef enum	e_fractal
 	julia,
 	mandelbrot,
 	newton,
-	newton_root,
+	burningship,
+//	newton_root,
 //	hofstadter,
 	none
 }				t_fractal;
@@ -121,6 +122,7 @@ t_u8			get_dwell_from_point(t_control *ctrl, t_point pt);
 t_u8			julia_dwell(t_fractol *frac, t_complex pt);
 t_u8			mandel_dwell(t_fractol *frac, t_complex pt);
 t_u8			newton_dwell(t_fractol *frac, t_complex pt);
+t_u8			burningship_dwell(t_fractol *frac, t_complex c_pt);
 
 /*
 ** events.c

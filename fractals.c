@@ -84,3 +84,30 @@ t_u8			newton_dwell(t_fractol *frac, t_complex c_pt)
 	}
 	return (i);
 }
+
+t_u8			burningship_dwell(t_fractol *frac, t_complex c_pt)
+{
+	t_float			lim;
+	t_complex		start;
+	t_cpoly			*a_cpoly;
+	uint_fast8_t	i;
+	uint_fast8_t	max_iter;
+
+	lim = frac->radius_sqrd;
+	max_iter = frac->max_dwell;
+	a_cpoly = &(frac->iter_cpoly);
+	start.re = 0.;
+	start.im = 0.;
+	a_cpoly->coefs[0] = c_pt;
+	i = 0;
+	while (i < max_iter)
+	{
+		start.re = start.re < 0. ? -start.re : start.re;
+		start.im = start.im < 0. ? -start.im : start.im;
+		start = eval_cpoly_fast(a_cpoly, start);
+		if (c_quadnorm(start) > lim)
+			return (i);
+		++i;
+	}
+	return (i);
+}

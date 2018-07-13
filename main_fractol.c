@@ -74,6 +74,7 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 	res.iter_cpoly = get_cpoly_from_filepath(fpath);
 	ctrl->fractol = res;
 	ctrl->dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
+	ctrl->dwell_func = fractal == burningship ? &burningship_dwell : ctrl->dwell_func;
 	if (fractal == newton)
 	{
 		ctrl->fractol.iter_cpolyfrac = set_cpolyfrac(res.iter_cpoly, derive_cpoly(res.iter_cpoly));
@@ -105,11 +106,13 @@ int				main(int argc, char **argv)
 		init_fractol(&ctrl, mandelbrot, argc > 2 ? argv[2] : CPOLY_DIR"mandelbrot");
 	else if (ft_strequ(argv[1], "newton"))
 		init_fractol(&ctrl, newton, argc > 2 ? argv[2] : CPOLY_DIR"newton");
-	else if (ft_strequ(argv[1], "newton_root"))
-		init_fractol(&ctrl, newton_root, argc > 2 ? argv[2] : CPOLY_DIR"newton_root");
+	else if (ft_strequ(argv[1], "burningship"))
+		init_fractol(&ctrl, burningship, argc > 2 ? argv[2] : CPOLY_DIR"mandelbrot");
+//	else if (ft_strequ(argv[1], "newton_root"))
+//		init_fractol(&ctrl, newton_root, argc > 2 ? argv[2] : CPOLY_DIR"newton_root");
 	else
 		exit_error("Valid arguments are \"julia\","
-			"\"mandelbrot\" and \"newton\".\n", 0);
+			"\"mandelbrot\", \"burningship\" and \"newton\".\n", 0);
 	init_events(&ctrl);
 	render(&ctrl);
 	mlx_loop(ctrl.mlx_ptr);
