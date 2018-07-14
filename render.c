@@ -31,7 +31,7 @@ static int		render_seq(t_control *ctrl)
 			tmp.y = y;
 			dwell = get_dwell_from_point(ctrl, tmp);
 			color = get_color_from_dwell(ctrl, dwell);
-			mlximg_setpixel(ctrl, dwell == ctrl->fractol.max_dwell ?
+			mlximg_setpixel(ctrl, dwell == MAX_DWELL ?
 										BLACK : color, x, y);
 		}
 	}
@@ -55,18 +55,19 @@ static int		render_seq(t_control *ctrl)
 
 static void		dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 {
-	int		palette[ctrl->fractol.max_dwell];
+	int		palette[MAX_DWELL + 1];
 	t_u32	i;
 	t_u32	pix_len;
 	int		x;
 	int		y;
 
 	i = 0;
-	while (i < ctrl->fractol.max_dwell)
+	while (i < MAX_DWELL)
 	{
 		palette[i] = get_color_from_dwell(ctrl, i);
 		++i;
 	}
+	palette[MAX_DWELL] = BLACK;
 	i = 0;
 	pix_len = REN_W * REN_H;
 	y = 0;

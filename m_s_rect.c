@@ -131,7 +131,7 @@ static void			fill_dwell_rect(t_u8 dwell_arr[REN_H][REN_W], t_u8 dwell,
 			if (squares && !(rect_w_h.x <= 2 || rect_w_h.y <= 2) && 
 							(anchor.y == start.y || anchor.y == end.y - 1 || 
 							anchor.x == start.x || anchor.x == end.x - 1))
-				dwell_arr[anchor.y][anchor.x] = INIT_MAX_DWELL;
+				dwell_arr[anchor.y][anchor.x] = MAX_DWELL;
 			++(anchor.x);
 		}
 		++(anchor.y);

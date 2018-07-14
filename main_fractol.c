@@ -64,7 +64,6 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 	t_fractol	res;
 
 	res.type = fractal;
-	res.max_dwell = INIT_MAX_DWELL;
 	res.zoom = 5.;
 	res.radius = fractal == newton ? 1. : 2.; //TODO verif
 	res.radius_sqrd = fractal == newton ? 1. : 4.;
@@ -72,19 +71,23 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 	res.anchor.im = 0.;
 	res.is_static = fractal == julia ? 0 : 1;
 	res.iter_cpoly = get_cpoly_from_filepath(fpath);
-	ctrl->fractol = res;
 	ctrl->dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
 	ctrl->dwell_func = fractal == burningship ? &burningship_dwell : ctrl->dwell_func;
 	if (fractal == newton)
 	{
-		ctrl->fractol.iter_cpolyfrac = set_cpolyfrac(res.iter_cpoly, derive_cpoly(res.iter_cpoly));
-		ctrl->fractol.param = (t_complex){1.0, 0.};
+//printf("%s\n", cpoly_to_str(&(res.iter_cpoly)));
+//t_cpoly tmp = derive_cpoly(res.iter_cpoly);
+//printf("%s\n", cpoly_to_str(&tmp));
+		res.iter_cpolyfrac = set_cpolyfrac(res.iter_cpoly, derive_cpoly(res.iter_cpoly));
+//printf("%s\n", cpolyfrac_to_str(&(res.iter_cpolyfrac)));
+		res.param = (t_complex){1.0, 0.};
 		ctrl->dwell_func = &newton_dwell;
 	}
-/*	else if (fractal == newton_root)
+/*	else if (fractal == newtonroot)
 	{
 		ctrl->fractol.iter_cpoly = 
 	}*/
+	ctrl->fractol = res;
 }
 
 /*
@@ -108,8 +111,8 @@ int				main(int argc, char **argv)
 		init_fractol(&ctrl, newton, argc > 2 ? argv[2] : CPOLY_DIR"newton");
 	else if (ft_strequ(argv[1], "burningship"))
 		init_fractol(&ctrl, burningship, argc > 2 ? argv[2] : CPOLY_DIR"mandelbrot");
-//	else if (ft_strequ(argv[1], "newton_root"))
-//		init_fractol(&ctrl, newton_root, argc > 2 ? argv[2] : CPOLY_DIR"newton_root");
+//	else if (ft_strequ(argv[1], "newtonroot"))
+//		init_fractol(&ctrl, newtonroot, argc > 2 ? argv[2] : CPOLY_DIR"newtonroot");
 	else
 		exit_error("Valid arguments are \"julia\","
 			"\"mandelbrot\", \"burningship\" and \"newton\".\n", 0);

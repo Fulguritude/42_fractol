@@ -28,22 +28,57 @@ t_cpoly		derive_cpoly(t_cpoly poly)
 }
 
 /*
+** Naive, non-FFT implementation
+*/
 
-t_cpoly		roots_to_coefs(t_cpoly *a_cpolymul)
+t_cpoly		cpoly_mul(t_cpoly cp1, t_cpoly cp2)
 {
+	t_cpoly		convo;
+	int			k;
+	int			i;
+	int			j;
+
+	if (cp1.deg > MAX_DEGREE - cp2.deg)
+	{
+		convo.deg = write(2, "cpoly_mul: polynomial convolution exceeds max degree\n", 53);
+		return (convo);
+	}
+	convo.deg = cp1.deg + cp2.deg;
+	ft_bzero(convo.coefs, convo.deg * sizeof(t_complex));
+	k = -1;
+	while (++k <= convo.deg)
+	{
+		i = -1;
+		while (++i <= cp1.deg)
+		{
+			j = -1;
+			while (++j <= cp2.deg)
+				if (i + j == k)
+					convo.coefs[k] = c_add(convo.coefs[k], c_mul(cp1.coefs[i], cp2.coefs[j]));
+		}
+	}
+//printf("cur: %s\n", cpoly_to_str(&convo));
+	return (convo);
+}
+
+void		roots_to_coefs(t_cpoly *a_cpolymul)
+{
+	t_cpoly		res;
 	t_cpoly		tmp;
 	int			i;
 
-	tmp.deg = a_cpolymul->deg;
-	
-	i = tmp.deg;
+	res.deg = 0;
+	res.coefs[0].re = 1.;
+	res.coefs[0].im = 0.;
+	tmp.deg = 1;
+	tmp.coefs[1].re = 1.;
+	tmp.coefs[1].im = 0.;
+	i = a_cpolymul->deg + 1;
 	while (--i >= 0)
 	{
-		
+//printf("%d : %e + i*%e\n", i, a_cpolymul->coefs[i].re, a_cpolymul->coefs[i].im);
+		tmp.coefs[0] = c_scl(-1., a_cpolymul->coefs[i]);
+		res = cpoly_mul(res, tmp);
 	}
-	*a_cpolymul = tmp;
-}*/
-
-//derive_poly
-//integrate_poly
-//integrate_cpoly
+	*a_cpolymul = res;
+}

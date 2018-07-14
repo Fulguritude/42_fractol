@@ -100,6 +100,7 @@ static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 	mant &= 0x800FFFFFFFFFFFFF;
 	mant |= (t_u64)(exp + 1023) << 52;
 	ft_memcpy(&result, &mant, sizeof(result));
+	free(tmp);
 	return (result);
 }
 

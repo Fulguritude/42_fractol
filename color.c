@@ -41,14 +41,10 @@ int				handle_key_palette(int key, t_control *ctrl)
 	return (status != -1);
 }
 
-#define R_OFFSET	19
-#define G_OFFSET	11
-#define B_OFFSET	3
-
 t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwell)
 {
 	if (ctrl->fractol.palette == 0)
-		return (dwell == ctrl->fractol.max_dwell ? BLACK : WHITE);
+		return (dwell == MAX_DWELL ? BLACK : WHITE);
 	else if (ctrl->fractol.palette == 1)
 		return (dwell << R_OFFSET);
 	else if (ctrl->fractol.palette == 2)
@@ -56,17 +52,17 @@ t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwell)
 	else if (ctrl->fractol.palette == 3)
 		return (dwell << B_OFFSET);
 	else if (ctrl->fractol.palette == 4)
-		return (dwell << R_OFFSET | dwell << G_OFFSET | dwell << (B_OFFSET + 1));
-	else if (ctrl->fractol.palette == 5)
-		return (dwell << R_OFFSET | dwell << (G_OFFSET + 1) | dwell << B_OFFSET);
-	else if (ctrl->fractol.palette == 6)
-		return (dwell << (R_OFFSET + 1) | dwell << G_OFFSET | dwell << B_OFFSET);
-	else if (ctrl->fractol.palette == 7)
 		return (dwell << R_OFFSET | dwell << G_OFFSET | dwell << (B_OFFSET - 1));
-	else if (ctrl->fractol.palette == 8)
+	else if (ctrl->fractol.palette == 5)
 		return (dwell << R_OFFSET | dwell << (G_OFFSET - 1) | dwell << B_OFFSET);
-	else if (ctrl->fractol.palette == 9)
+	else if (ctrl->fractol.palette == 6)
 		return (dwell << (R_OFFSET - 1) | dwell << G_OFFSET | dwell << B_OFFSET);
+	else if (ctrl->fractol.palette == 7)
+		return (dwell << R_OFFSET | dwell << G_OFFSET | dwell << (B_OFFSET + 1));
+	else if (ctrl->fractol.palette == 8)
+		return (dwell << R_OFFSET | dwell << (G_OFFSET + 1) | dwell << B_OFFSET);
+	else if (ctrl->fractol.palette == 9)
+		return (dwell << (R_OFFSET + 1) | dwell << G_OFFSET | dwell << B_OFFSET);
 	return (RED);
 }
 //	return (dwell << R_OFFSET | dwell << G_OFFSET | dwell << B_OFFSET);

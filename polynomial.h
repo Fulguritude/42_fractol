@@ -75,7 +75,20 @@ char			*cpoly_to_str(t_cpoly *ro_cpoly);
 char			*cpolyfrac_to_str(t_cpolyfrac *ro_cpf);
 
 
-t_cpoly		derive_cpoly(t_cpoly poly);
-t_cpoly		roots_to_coefs(t_cpoly *a_cpolymul);
+/*
+** cpolynom_calc.c
+**
+** TODO
+** derive_poly
+** integrate_poly
+** integrate_cpoly
+*/
+t_cpoly			derive_cpoly(t_cpoly cpoly);
+t_cpoly			cpoly_mul(t_cpoly cp1, t_cpoly cp2);
+/*
+** Turns a polynomial interpreted as being in multiplicative form as one
+** being interpreted as being in additive form.
+*/
+void			roots_to_coefs(t_cpoly *a_cpolymul);
 
 #endif

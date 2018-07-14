@@ -39,7 +39,19 @@
 # define BLUE			0x0000FF
 # define WHITE			0xFFFFFF
 
-# define INIT_MAX_DWELL		32 //60. ? //should not be strictly above 255: one needs to keep max_iter under the possibility of returning -1 (white)
+/*
+** MAX_DWELL should not be strictly above 255: one needs to keep max_iter
+**		under the possibility of returning -1 (white)
+** B_OFFSET = 8 - lg2(MAX_DWELL);
+** G_OFFSET = B_OFFSET + 8;
+** R_OFFSET = B_OFFSET + 16;
+*/
+# define MAX_DWELL			32
+# define R_OFFSET			19
+# define G_OFFSET			11
+# define B_OFFSET			3
+
+//# define NEWTONROOT_LIM		0.00001 //0.000001
 
 typedef enum	e_fractal
 {
@@ -47,7 +59,7 @@ typedef enum	e_fractal
 	mandelbrot,
 	newton,
 	burningship,
-//	newton_root,
+//	newtonroot,
 //	hofstadter,
 	none
 }				t_fractal;
@@ -67,7 +79,6 @@ typedef struct	s_figure
 typedef struct	s_fractol
 {
 	t_fractal	type; //dwell mode
-	t_u32		max_dwell;
 	t_float		zoom;
 	t_complex	anchor;
 	t_float		radius; //convergence norm
@@ -77,6 +88,7 @@ typedef struct	s_fractol
 	t_complex	param;
 	t_cpoly		iter_cpoly;
 	t_cpolyfrac	iter_cpolyfrac;
+	t_cpoly		negroots_cpolymul;
 }				t_fractol;
 
 typedef struct	s_control
@@ -122,6 +134,7 @@ t_u8			get_dwell_from_point(t_control *ctrl, t_point pt);
 t_u8			julia_dwell(t_fractol *frac, t_complex pt);
 t_u8			mandel_dwell(t_fractol *frac, t_complex pt);
 t_u8			newton_dwell(t_fractol *frac, t_complex pt);
+t_u8			newtonroot_dwell(t_fractol *frac, t_complex pt);
 t_u8			burningship_dwell(t_fractol *frac, t_complex c_pt);
 
 /*
@@ -166,7 +179,7 @@ void			rect_subdivider(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W],
 /*
 ** Uses presence of p and of at least 1 e to ascertain the format of a given
 ** float between hexfp %a, scientific %e, and decimal %f and returns a double
-** accurate to the precision of the string given as input.
+** accurate up to "least_precise(input str prec, machine prec)".
 */
 t_f64			ft_atolf(char const *float_str);
 
