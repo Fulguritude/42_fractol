@@ -49,10 +49,8 @@ static t_f64	decim_str_to_lf(char const *str)
 	char		*s_mant;
 	int			i;
 
-	result = 0.;
 	s_mant = ft_strdup(str + (str[0] == '-' || str[0] == '+'));
-	i = 0;
-	if (s_mant[0] != '0')
+	if (s_mant[(i = 0)] != '0')
 		max_pow_ten = ft_strfind(s_mant, '.') - 1;
 	else
 	{
@@ -98,7 +96,26 @@ static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 	return (result);
 }
 
-//TODO fix function len and the fact that some returns cause leaks
+static int	check_if_valid(char const *float_str, char **a_str)
+{
+	char	*str;
+
+	if (!float_str || !(*float_str))
+		return (-1);
+	str = ft_strdup(float_str);
+	ft_str_toupper(str);
+	if (!str || !*str || !ft_str_containsonly(str, "0123456789.+-ABCDEFPX")
+		|| ft_str_countchar(str, 'P') > 1
+		|| (ft_str_countchar(str, 'P') == 0 && ft_str_countchar(str, 'E') > 1))
+	{
+		if (str)
+			free(str);
+		return (-1);
+	}
+	*a_str = str;
+	return (0);
+}
+
 t_f64		ft_atolf(char const *float_str)
 {
 	char	*str;
@@ -106,17 +123,16 @@ t_f64		ft_atolf(char const *float_str)
 	char	**strls;
 	int		mode;
 
-	if (!float_str || !(*float_str))
-		return (0. / 0.);
-	str = ft_strdup(float_str);
-	ft_str_toupper(str);
-	if (!str || !*str || !ft_str_containsonly(str, "0123456789.+-ABCDEFPX")
-		|| ft_str_countchar(str, 'P') > 1
-		|| (ft_str_countchar(str, 'P') == 0 && ft_str_countchar(str, 'E') > 1))
+	str = NULL;
+	if (check_if_valid(float_str, &str) == -1)
 		return (0. / 0.);
 	strls = ft_split(str, ft_strfind(str, 'X') >= 0 ? "P" : "E");
 	if (!(mode = ft_ptrarrlen(strls) + (ft_strfind(str, 'X') >= 0)))
+	{
+		ft_strlsdel(&strls);
+		free(str);
 		return (0. / 0.);
+	}
 	else if (mode == 1)
 		result = decim_str_to_lf(strls[0]);
 	else if (mode == 2)

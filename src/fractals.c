@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fractals.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/14 20:48:59 by fulguritu         #+#    #+#             */
+/*   Updated: 2018/07/14 20:49:01 by fulguritu        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 inline t_u8		get_dwell_from_point(t_control *ctrl, t_point pt)
@@ -7,10 +19,8 @@ inline t_u8		get_dwell_from_point(t_control *ctrl, t_point pt)
 					get_complex_from_point(&(ctrl->fractol), pt.x, pt.y)));
 }
 
-//TODO : add a previous quadnorm argument to check for descendingness ?
-
 /*
-** julia_dwell
+** TODO : add a previous quadnorm argument to check for descendingness ?
 */
 
 t_u8			julia_dwell(t_fractol *frac, t_complex c_pt)
@@ -32,9 +42,6 @@ t_u8			julia_dwell(t_fractol *frac, t_complex c_pt)
 	return (i);
 }
 
-/*
-** mandel_dwell
-*/
 t_u8			mandel_dwell(t_fractol *frac, t_complex c_pt)
 {
 	t_float			lim;

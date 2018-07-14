@@ -41,6 +41,11 @@ int				handle_key_palette(int key, t_control *ctrl)
 	return (status != -1);
 }
 
+/*
+**	return (dwell << R_OFFSET | dwell << G_OFFSET | dwell << B_OFFSET);
+**	return (dwell << R_OFFSET | dwell << G_OFFSET);
+*/
+
 t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwell)
 {
 	if (ctrl->fractol.palette == 0)
@@ -65,5 +70,3 @@ t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwell)
 		return (dwell << (R_OFFSET + 1) | dwell << G_OFFSET | dwell << B_OFFSET);
 	return (RED);
 }
-//	return (dwell << R_OFFSET | dwell << G_OFFSET | dwell << B_OFFSET);
-//	return (dwell << R_OFFSET | dwell << G_OFFSET);

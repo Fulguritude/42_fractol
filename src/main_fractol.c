@@ -23,8 +23,8 @@ void			exit_error(char *e_msg, int e_no)
 
 	if (e_no == 0)
 	{
-		i = write(1, e_msg, ft_strlen(e_msg));
-		i += write(1, "\n", 1);
+		i = write(2, e_msg, ft_strlen(e_msg));
+		i += write(2, "\n", 1);
 		exit(i);
 	}
 	else
@@ -87,8 +87,9 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 }
 
 /*
-** || !ft_strequ(argv[1], "julia") ||
-**		!ft_strequ(argv[1], "hofstadter") || !ft_strequ(argv[1], "mandelbrot"
+**	else if (ft_strequ(argv[1], "newtonroot"))
+**		init_fractol(&ctrl, newtonroot, argc > 2 ?
+**							argv[2] : CPOLY_DIR"newtonroot");
 */
 
 int				main(int argc, char **argv)
@@ -96,22 +97,24 @@ int				main(int argc, char **argv)
 	t_control	ctrl;
 
 	if (argc != 2 && argc != 3)
-		exit_error("usage: \"./fractol [arg]\"\nValid arguments are \"julia\","
-			"\"mandelbrot\" and \"newton\".\n", 0);
+		exit_error("usage: \"./fractol [arg] {cpoly_filepath}\"\nValid "
+"arguments are \"julia\", \"mandelbrot\", \"burningship\" and \"newton\".", 0);
 	init_mlx(&ctrl);
 	if (ft_strequ(argv[1], "julia"))
-		init_fractol(&ctrl, julia, argc > 2 ? argv[2] : CPOLY_DIR"julia");
+		init_fractol(&ctrl, julia, argc > 2 ?
+								argv[2] : CPOLY_DIR"julia");
 	else if (ft_strequ(argv[1], "mandelbrot"))
-		init_fractol(&ctrl, mandelbrot, argc > 2 ? argv[2] : CPOLY_DIR"mandelbrot");
+		init_fractol(&ctrl, mandelbrot, argc > 2 ?
+								argv[2] : CPOLY_DIR"mandelbrot");
 	else if (ft_strequ(argv[1], "newton"))
-		init_fractol(&ctrl, newton, argc > 2 ? argv[2] : CPOLY_DIR"newton");
+		init_fractol(&ctrl, newton, argc > 2 ?
+								argv[2] : CPOLY_DIR"newton");
 	else if (ft_strequ(argv[1], "burningship"))
-		init_fractol(&ctrl, burningship, argc > 2 ? argv[2] : CPOLY_DIR"mandelbrot");
-//	else if (ft_strequ(argv[1], "newtonroot"))
-//		init_fractol(&ctrl, newtonroot, argc > 2 ? argv[2] : CPOLY_DIR"newtonroot");
+		init_fractol(&ctrl, burningship, argc > 2 ?
+								argv[2] : CPOLY_DIR"mandelbrot");
 	else
 		exit_error("Valid arguments are \"julia\","
-			"\"mandelbrot\", \"burningship\" and \"newton\".\n", 0);
+			"\"mandelbrot\", \"burningship\" and \"newton\".", 0);
 	init_events(&ctrl);
 	render(&ctrl);
 	mlx_loop(ctrl.mlx_ptr);

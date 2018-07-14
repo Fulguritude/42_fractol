@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   event.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/14 20:49:10 by fulguritu         #+#    #+#             */
+/*   Updated: 2018/07/14 20:49:13 by fulguritu        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 /*
@@ -53,12 +65,18 @@ static int		handle_mouse_press(int button, int x, int y, void *param)
 {
 	t_control		*ctrl;
 	static int		no_render = 1;
+	static t_point	prev_press = {-1, -1};
 
 //printf("mouse pressed : x %d, y %d, button %d\n", x, y, button);
 	ctrl = (t_control *)param;
 	if (button == SCROLL_UP || button == SCROLL_DOWN)
 	{
-		ctrl->fractol.anchor = get_complex_from_point(&(ctrl->fractol), x, y);
+		if (prev_press.x != x || prev_press.y != y)
+		{
+			ctrl->fractol.anchor = get_complex_from_point(&(ctrl->fractol), x, y);
+			prev_press.x = x;
+			prev_press.y = y;
+		}
 		ctrl->fractol.zoom *= (button == SCROLL_UP) ? 0.9 : 1.1;
 		if (no_render >= 3)
 		{
