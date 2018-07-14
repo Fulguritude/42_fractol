@@ -184,6 +184,13 @@ char					*ft_uimaxtoa_base(uintmax_t nb, const char *base);
 char					*ft_lftoa(double lf, char style);
 
 /*
+** Uses presence of p and of at least 1 e to ascertain the format of a given
+** float between hexfp %a, scientific %e, and decimal %f and returns a double
+** accurate up to "least_precise(input str prec, machine prec)".
+*/
+t_f64					ft_atolf(char const *float_str);
+
+/*
 ** Takes a string as a number written in base "base_from" (digit val == index
 ** of digit symbol in string) and returns a newly allocated (itoa_base) string
 ** in base "base_to", passing the argument through a long int.

@@ -38,19 +38,12 @@ endif
 HDRDIR	:=	./
 LFTDIR	:=	./libft/
 TSTDIR	:=	./tests/
+SRCDIR	:=	./src/
 
-HDRS	:=	$(NAME).h			\
-			complex.h			\
-			polynomial.h
+HDRS	:=	$(NAME).h
 SRCS	:=	fractals.c			\
 			image_utils.c		\
 			event.c				\
-			ft_atolf.c			\
-			complex_op.c		\
-			polynom_op.c		\
-			cpolynom_op.c		\
-			polynom_str.c		\
-			polynom_calc.c		\
 			polynom_rdr.c		\
 			render.c			\
 			m_s_rect.c			\
@@ -71,11 +64,10 @@ GREEN	:=	"\033[0;32m"
 
 $(NAME): $(LFTDIR)$(LFT) $(OBJS) $(OBJ_MAIN)
 	@printf "Compiling fdf: "$@" -> "$(RED)
-	@$(CC) $(CFLAGS) -c $(MAIN) -I$(HDRDIR)
 	@$(CC) $(CFLAGS) $(DBFLAGS) $(OBJS) $(OBJ_MAIN) $(LIBS) -o $@
 	@printf $(GREEN)"OK!"$(RESET)"\n"
 
-%.o: %.c
+%.o: $(SRCDIR)%.c
 	@$(CC) $(CFLAGS) -c $< -I$(HDRDIR)
 
 #dependencies are taken care of in libft's makefile.

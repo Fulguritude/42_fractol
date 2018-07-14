@@ -45,6 +45,8 @@ SRCDIR_MATH_CNV := conv/
 SRCDIR_MATH_OP  := op/
 SRCDIR_MATH_APA := apa/
 SRCDIR_MATH_ALG := algebra/
+SRCDIR_MATH_CPX := cplex/
+SRCDIR_MATH_PLY := poly/
 
 
 OBJDIR	:=	./obj/
@@ -68,7 +70,9 @@ OBJDIRS	:=	$(OBJDIR) \
 			$(OBJDIR)$(SRCDIR_MATH)$(SRCDIR_MATH_CNV) \
 			$(OBJDIR)$(SRCDIR_MATH)$(SRCDIR_MATH_OP) \
 			$(OBJDIR)$(SRCDIR_MATH)$(SRCDIR_MATH_APA) \
-			$(OBJDIR)$(SRCDIR_MATH)$(SRCDIR_MATH_ALG)
+			$(OBJDIR)$(SRCDIR_MATH)$(SRCDIR_MATH_ALG) \
+			$(OBJDIR)$(SRCDIR_MATH)$(SRCDIR_MATH_CPX) \
+			$(OBJDIR)$(SRCDIR_MATH)$(SRCDIR_MATH_PLY)
 
 
 HDRS	:=	libft.h						\
@@ -78,6 +82,8 @@ HDRS	:=	libft.h						\
 			libft_str.h					\
 			libft_math.h				\
 			libft_algebra.h				\
+			libft_polynomial.h			\
+			libft_complex.h				\
 			libft_lst.h
 
 
@@ -267,7 +273,8 @@ SRC_MATH_CNV :=	ft_atoi.c					\
 				ft_digits.c					\
 				ft_digits_base.c			\
 				ft_udigits_base.c			\
-				ft_lftoa.c
+				ft_lftoa.c					\
+				ft_atolf.c
 
 SRC_MATH_OP :=	ft_abs.c					\
 				ft_max.c					\
@@ -323,11 +330,20 @@ SRC_MATH_ALG := vec3.c					\
 				mat33_op.c				\
 				mat44_op.c
 
+SRC_MATH_CPX :=	complex_op.c
+
+SRC_MATH_PLY :=	cpolynom_op.c	\
+				polynom_calc.c	\
+				polynom_op.c	\
+				polynom_str.c
+
 SRC_MATH:=	$(addprefix $(SRCDIR_MATH), \
 				$(addprefix $(SRCDIR_MATH_CNV),$(SRC_MATH_CNV))	\
 				$(addprefix $(SRCDIR_MATH_OP), $(SRC_MATH_OP))	\
 				$(addprefix $(SRCDIR_MATH_APA),$(SRC_MATH_APA))	\
 				$(addprefix $(SRCDIR_MATH_ALG),$(SRC_MATH_ALG))	\
+				$(addprefix $(SRCDIR_MATH_CPX),$(SRC_MATH_CPX))	\
+				$(addprefix $(SRCDIR_MATH_PLY),$(SRC_MATH_PLY))	\
 			)
 
 SRC_TMP	:=	ft_str_base_to_base_expn.c		\

@@ -16,8 +16,7 @@
 # include "libft/hdr/libft.h"
 # include "libft/hdr/libft_io.h"
 # include "libft/hdr/ft_printf.h"
-# include "complex.h"
-# include "polynomial.h"
+# include "libft/hdr/libft_polynomial.h"
 # include "mlx_event_lin.h"
 # include <fcntl.h>
 # include <sys/types.h>
@@ -29,7 +28,7 @@
 # define CPOLY_DIR		"./cpolys/"
 
 # define WIN_W			640
-# define WIN_H			480
+# define WIN_H			640
 # define REN_W			WIN_W
 # define REN_H			WIN_H
 
@@ -105,8 +104,7 @@ typedef struct	s_control
 	t_fractol		fractol;
 	int				render_mode;
 	int				debug;
-	int				mouse_x; //necessary ? if not remove
-	int				mouse_y; //idem
+	t_point			mouse;
 }				t_control;
 
 /*
@@ -175,13 +173,6 @@ int				render(void *param);
 */
 void			rect_subdivider(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W],
 									t_point anchor, t_point rect_w_h);
-
-/*
-** Uses presence of p and of at least 1 e to ascertain the format of a given
-** float between hexfp %a, scientific %e, and decimal %f and returns a double
-** accurate up to "least_precise(input str prec, machine prec)".
-*/
-t_f64			ft_atolf(char const *float_str);
 
 /*
 ** polynom_rdr.c
