@@ -54,7 +54,7 @@ static void		init_mlx(t_control *ctrl)
 		exit_error("could not retrieve img data ptr and other info", 0);
 	ctrl->img_bpp = ctrl->img_bpp / 8;
 	ctrl->img_bytelen = ctrl->img_bpp * REN_H * REN_W;
-	ctrl->render_mode = 0;
+	ctrl->render_mode = 1;
 }
 
 
@@ -71,17 +71,13 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 	res.anchor.im = 0.;
 	res.is_static = fractal == julia ? 0 : 1;
 	res.iter_cpoly = get_cpoly_from_filepath(fpath);
-	ctrl->dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
-	ctrl->dwell_func = fractal == burningship ? &burningship_dwell : ctrl->dwell_func;
+	res.dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
+	res.dwell_func = fractal == burningship ? &burningship_dwell : res.dwell_func;
 	if (fractal == newton)
 	{
-//printf("%s\n", cpoly_to_str(&(res.iter_cpoly)));
-//t_cpoly tmp = derive_cpoly(res.iter_cpoly);
-//printf("%s\n", cpoly_to_str(&tmp));
 		res.iter_cpolyfrac = set_cpolyfrac(res.iter_cpoly, derive_cpoly(res.iter_cpoly));
-//printf("%s\n", cpolyfrac_to_str(&(res.iter_cpolyfrac)));
 		res.param = (t_complex){1.0, 0.};
-		ctrl->dwell_func = &newton_dwell;
+		res.dwell_func = &newton_dwell;
 	}
 /*	else if (fractal == newtonroot)
 	{

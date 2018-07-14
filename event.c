@@ -20,7 +20,7 @@ static int		handle_key(int key, void *param)
 	int					clr_change;
 
 	ctrl = (t_control *)param;
-	printf("key: %#x\n", key);
+//	printf("key: %#x\n", key);
 	clr_change = handle_key_palette(key, ctrl);
 	if (key == KEY_ESC)
 		exit_error("Software closing.", 0);
@@ -54,10 +54,11 @@ static int		handle_mouse_press(int button, int x, int y, void *param)
 	t_control		*ctrl;
 	static int		no_render = 1;
 
-printf("mouse pressed : x %d, y %d, button %d\n", x, y, button);
+//printf("mouse pressed : x %d, y %d, button %d\n", x, y, button);
 	ctrl = (t_control *)param;
 	if (button == SCROLL_UP || button == SCROLL_DOWN)
 	{
+		ctrl->fractol.anchor = get_complex_from_point(&(ctrl->fractol), x, y);
 		ctrl->fractol.zoom *= (button == SCROLL_UP) ? 0.9 : 1.1;
 		if (no_render >= 3)
 		{
@@ -74,7 +75,7 @@ static int		handle_mouse_release(int button, int x, int y, void *param)
 {
 	t_control		*ctrl;
 
-printf("mouse released : x %d, y %d, button %d\n", x, y, button);
+//printf("mouse released : x %d, y %d, button %d\n", x, y, button);
 	ctrl = (t_control *)param;
 	if (button == L_CLICK)
 	{
@@ -86,33 +87,23 @@ printf("mouse released : x %d, y %d, button %d\n", x, y, button);
 
 static int		handle_mouse_move(int x, int y, void *param)
 {
-//	static int	prev_x = 0;
-//	static int	prev_y = 0;
-//	t_float		d_x;
-//	t_float		d_y;
 	t_control		*ctrl;
 	static t_u32	no_render = 1;
 	t_u32			mouse_speed;
+	t_cpoly			*a_cp;
 
 	ctrl = (t_control *)param;
-//	d_x = 1. * (x - prev_x);
-//	d_y = 1. * (y - prev_y);
+	a_cp = &(ctrl->fractol.iter_cpoly);
 	if (!(ctrl->fractol.is_static))
 	{
 		if (ctrl->fractol.type == julia)
-		{
-			ctrl->fractol.iter_cpoly.coefs[0] =
-				get_complex_from_point(&(ctrl->fractol), x, y);
-		}
+			a_cp->coefs[0] = get_complex_from_point(&(ctrl->fractol), x, y);
 		else if (ctrl->fractol.type == mandelbrot)
-		{
-			ctrl->fractol.iter_cpoly.coefs[1] =
-				get_complex_from_point(&(ctrl->fractol), x, y);
-		}
+			a_cp->coefs[1] = get_complex_from_point(&(ctrl->fractol), x, y);
 		else if (ctrl->fractol.type == newton)
-		{
 			ctrl->fractol.param = get_complex_from_point(&(ctrl->fractol), x, y);
-		}
+		else
+			a_cp->coefs[a_cp->deg] = get_complex_from_point(&(ctrl->fractol), x, y);
 		mouse_speed = (ctrl->mouse_x - x) * (ctrl->mouse_x - x) + 
 					(ctrl->mouse_y - y) * (ctrl->mouse_y - y); 
 //printf("mouse_speed %d\n", mouse_speed);
@@ -126,8 +117,6 @@ static int		handle_mouse_move(int x, int y, void *param)
 	}
 	ctrl->mouse_x = x;
 	ctrl->mouse_y = y;
-//	prev_x = x;
-//	prev_y = y;
 	return (OK);
 }
 

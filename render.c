@@ -12,6 +12,31 @@
 
 #include "fractol.h"
 
+void			show_debug_info(t_control *ctrl)
+{
+	char	*str;
+
+	str = NULL;
+	ft_asprintf(&str, "render: %s", ctrl->render_mode ? "m-s" : "p-b-p");
+	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 20, GREEN, str);
+	free(str);
+	ft_asprintf(&str, "is_static: %s", ctrl->fractol.is_static ? "T" : "F");
+	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 40, GREEN, str);
+	free(str);
+	ft_asprintf(&str, "anchor: (%g, %g); zoom: %g", ctrl->fractol.anchor.re,
+		ctrl->fractol.anchor.im, ctrl->fractol.zoom);
+	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 60, GREEN, str);
+	free(str);
+	str = cpoly_to_str(&(ctrl->fractol.iter_cpoly));
+	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 40, 80, GREEN, str);
+	free(str);
+	if (ctrl->fractol.type != newton)
+		return ;
+	ft_asprintf(&str, "param: (%f, %f)", ctrl->fractol.param.re, ctrl->fractol.param.im);
+	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 40, 100, GREEN, str);
+	free(str);
+}
+
 static int		render_seq(t_control *ctrl)
 {
 	t_point		tmp;
@@ -38,12 +63,6 @@ static int		render_seq(t_control *ctrl)
 	mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr, 0, 0);
 	return (0);
 }
-
-//point to bounds
-//fill figure
-//keep tracer function signatures coherent, start with a basic rectangle trace.
-//should have an anchor for the figure, and a be a protocol for finding point.
-//octave cat
 
 /* 
 ** To implement mariani silver, one must trace the boundaries of a figure to
@@ -100,27 +119,14 @@ static int		render_m_s(t_control *ctrl)
 int				render(void *param)
 {
 	t_control	*ctrl;
+	int			status;
 
 	ctrl = (t_control *)param;
-
-if (ctrl->fractol.type == newton) {
-char *str = cpolyfrac_to_str(&(ctrl->fractol.iter_cpolyfrac));
-printf("cpolyfrac: \n%s\n", str);
-printf("param: (%f, %f)\n", ctrl->fractol.param.re, ctrl->fractol.param.im);
-free(str);
-} else {
-char *str = cpoly_to_str(&(ctrl->fractol.iter_cpoly));
-printf("cpoly: %s\n", str);
-free(str);
-}
 	if (ctrl->render_mode == 0)
-	{
-printf("pixel by pixel render\n");
-		return (render_seq(ctrl));
-	}
+		status = render_seq(ctrl);
 	else
-	{
-printf("mariani_silver render\n");
-		return (render_m_s(ctrl));
-	}
+		status = render_m_s(ctrl);
+	if (ctrl->debug)
+		show_debug_info(ctrl);
+	return (status);
 }

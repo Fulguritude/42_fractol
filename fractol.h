@@ -79,6 +79,7 @@ typedef struct	s_figure
 typedef struct	s_fractol
 {
 	t_fractal	type; //dwell mode
+	t_u8		(*dwell_func)(struct s_fractol *f, t_complex z);
 	t_float		zoom;
 	t_complex	anchor;
 	t_float		radius; //convergence norm
@@ -88,7 +89,7 @@ typedef struct	s_fractol
 	t_complex	param;
 	t_cpoly		iter_cpoly;
 	t_cpolyfrac	iter_cpolyfrac;
-	t_cpoly		negroots_cpolymul;
+//	t_cpoly		negroots_cpolymul;
 }				t_fractol;
 
 typedef struct	s_control
@@ -102,7 +103,6 @@ typedef struct	s_control
 	int				endian;
 	char			*img_data;
 	t_fractol		fractol;
-	t_u8			(*dwell_func)(t_fractol *f, t_complex z);
 	int				render_mode;
 	int				debug;
 	int				mouse_x; //necessary ? if not remove
@@ -182,8 +182,6 @@ void			rect_subdivider(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W],
 ** accurate up to "least_precise(input str prec, machine prec)".
 */
 t_f64			ft_atolf(char const *float_str);
-
-
 
 /*
 ** polynom_rdr.c
