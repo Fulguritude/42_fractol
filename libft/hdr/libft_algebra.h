@@ -17,11 +17,9 @@
 # include <unistd.h>
 # include "libft_math.h"
 
-# define HALF_PI		0x1.921fb54442d18p+0
-# define PI				0x1.921fb54442d18p+1
-# define TAU 			0x1.921fb54442d18p+2
-
-typedef t_f32			t_float;
+/*
+** Sizes based on f32 !!
+*/
 
 # define T_VEC3_SIZE		12
 # define T_VEC4_SIZE		16
