@@ -12,11 +12,6 @@
 
 #include "fractol.h"
 
-void			toggle_debug(t_control *ctrl)
-{
-	ctrl->debug = !(ctrl->debug);
-}
-
 void			exit_error(char *e_msg, int e_no)
 {
 	int		i;
@@ -57,7 +52,6 @@ static void		init_mlx(t_control *ctrl)
 	ctrl->render_mode = 1;
 }
 
-
 static void		init_fractol(t_control *ctrl, t_fractal fractal,
 								char const *fpath)
 {
@@ -65,25 +59,49 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 
 	res.type = fractal;
 	res.zoom = 5.;
-	res.radius = fractal == newton ? 1. : 2.; //TODO verif
-	res.radius_sqrd = fractal == newton ? 1. : 4.;
+	res.radius = 2.;//fractal == newton ? 1. : 2.;
+	res.radius_sqrd = 4.;//fractal == newton ? 1. : 4.;
 	res.anchor.re = 0.;
 	res.anchor.im = 0.;
 	res.is_static = fractal == julia ? 0 : 1;
 	res.iter_cpoly = get_cpoly_from_filepath(fpath);
 	res.dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
-	res.dwell_func = fractal == burningship ? &burningship_dwell : res.dwell_func;
+	res.dwell_func = fractal == burningship ? &burningship_dwell :
+														res.dwell_func;
 	if (fractal == newton)
 	{
-		res.iter_cpolyfrac = set_cpolyfrac(res.iter_cpoly, derive_cpoly(res.iter_cpoly));
+		res.iter_cpolyfrac = set_cpolyfrac(res.iter_cpoly,
+											derive_cpoly(res.iter_cpoly));
 		res.param = (t_complex){1.0, 0.};
 		res.dwell_func = &newton_dwell;
 	}
-/*	else if (fractal == newtonroot)
-	{
-		ctrl->fractol.iter_cpoly = 
-	}*/
+	ctrl->cur_deg = fractal == julia ? 0 : 1;
 	ctrl->fractol = res;
+}
+
+/*
+** Scroll zoom for all fractals.
+**
+** MASK_POINTERMOTION returns true when the mouse moves, when no button is
+**		clicked;
+*/
+
+static void		init_events(t_control *ctrl)
+{
+	int		event;
+	int		mask;
+
+	mlx_key_hook(ctrl->win_ptr, &handle_key, ctrl);
+	mask = MASK_POINTERMOTION | MASK_BUTTON1MOTION |
+				MASK_BUTTON2MOTION | MASK_BUTTON3MOTION;
+	event = EVENT_MOTIONNOTIFY;
+	mlx_hook(ctrl->win_ptr, event, mask, handle_mouse_move, ctrl);
+	mask = MASK_BUTTONPRESS;
+	event = EVENT_BUTTONPRESS;
+	mlx_hook(ctrl->win_ptr, event, mask, handle_mouse_press, ctrl);
+	mask = MASK_BUTTONRELEASE;
+	event = EVENT_BUTTONRELEASE;
+	mlx_hook(ctrl->win_ptr, event, mask, handle_mouse_release, ctrl);
 }
 
 /*

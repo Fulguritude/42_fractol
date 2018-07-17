@@ -14,16 +14,13 @@
 
 t_u64	ft_ipowi(t_u32 nb, t_u8 power)
 {
-	int		i;
-	t_u64	result;
+	t_u32		tmp;
 
-	result = 1;
-	i = 0;
-	while (++i <= power)
-	{
-		if (ULONG_MAX / nb < result)
-			return (0);
-		result *= nb;
-	}
-	return (result);
+	if (power == 0)
+		return (1);
+	tmp = ft_ipowi(nb, power / 2);
+	if (power % 2 == 0)
+		return (tmp * tmp);
+	else
+		return (nb * tmp * tmp);
 }

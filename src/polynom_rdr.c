@@ -15,7 +15,7 @@
 /*
 ** t_poly		get_poly_from_filepath(char const *fpath)
 ** {
-**	
+**
 ** }
 */
 

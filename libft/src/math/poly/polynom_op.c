@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft_polynomial.h"
+#include "libft_polynomial.h"
 
 t_float		eval_poly(t_poly const poly, t_float const x)
 {
@@ -40,7 +40,7 @@ t_float		eval_poly_fast(t_poly *ro_poly, t_float const x)
 	{
 		result = result * x + coefs[i];
 		--i;
-	}	
+	}
 	return (result);
 }
 

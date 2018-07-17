@@ -68,7 +68,7 @@ t_cpoly		str_to_cpoly(char const *str)
 		{
 			tmp.im = 0.;
 			result.coefs[i / 2] = tmp;
-			break;
+			break ;
 		}
 		result.coefs[i / 2] = tmp;
 		i += 2;

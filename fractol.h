@@ -50,16 +50,16 @@
 # define G_OFFSET			11
 # define B_OFFSET			3
 
-//# define NEWTONROOT_LIM		0.00001 //0.000001
-
+/*
+**	# define NEWTONROOT_LIM		0.00001 //0.000001
+** 	newtonroot,
+*/
 typedef enum	e_fractal
 {
 	julia,
 	mandelbrot,
 	newton,
 	burningship,
-//	newtonroot,
-//	hofstadter,
 	none
 }				t_fractal;
 
@@ -69,12 +69,35 @@ typedef struct	s_point
 	t_u16		y;
 }				t_point;
 
+/*
+** Figure struct for mariani silver: just a list of coordinates on a grid
+** which draws a figure.
+**
+** TODO: implement another tesselation than square/quadtree
+*/
 typedef struct	s_figure
 {
 	int			pt_lst_len;
 	t_point		*pt_lst;
 }				t_figure;
 
+/*
+** type:			type of dwell function
+** dwell_func:		escape-time fractal generating function
+** zoom:			zoom on fractal (adjusts window rendering around anchor)
+** anchor:			point of the complex plane around which the window is
+**						centered
+** radius:			radius of circle of convergence
+** radius_sqrd:		quadratic radius of circle of convergence
+** is_static:		if false, mouse hover alters iter_cpoly
+** palette:			value that keeps track of which palette to use
+** param:			param for newton dwell
+** iter_cpoly:		polynomial that is called by dwell_func
+** iter_cpolyfrac:	polynomial fraction to be used by dwell that uses a
+**						cpolyfrac
+**
+** TODO 	t_cpoly		negroots_cpolymul;
+*/
 typedef struct	s_fractol
 {
 	t_fractal	type; //dwell mode
@@ -88,8 +111,23 @@ typedef struct	s_fractol
 	t_complex	param;
 	t_cpoly		iter_cpoly;
 	t_cpolyfrac	iter_cpolyfrac;
-//	t_cpoly		negroots_cpolymul;
 }				t_fractol;
+
+/*
+** mlx_ptr:			pointer to the mlx graphics server struct
+** win_ptr:			pointer to the mlx window struct
+** img_ptr:			pointer to the mlx image struct
+** img_bpp:			number of bytes per pixel
+** img_bpl:			number of bytes per line of pixels
+** img_bytelen:		number of bytes in image (4 * REN_H * REN_W)
+** endian:			endianness of platform
+** img_data:		pointer to the image buffer
+** fractol:			pointer to our fractol struct
+** render_mode:		0 is pixel-by-pixel, 1 is mariani-silver
+** debug:			true if str display of debug info on window
+** mouse:			last mouse pos
+** cur_deg:			index of current coef being edited by mouse movement
+*/
 
 typedef struct	s_control
 {
@@ -105,6 +143,7 @@ typedef struct	s_control
 	int				render_mode;
 	int				debug;
 	t_point			mouse;
+	t_u8			cur_deg;
 }				t_control;
 
 /*
@@ -112,8 +151,9 @@ typedef struct	s_control
 **
 ** static void			init_mlx(t_control *ctrl);
 ** static void			init_fractol(t_control *ctrl, t_fractal fractal);
+** static void			init_events(t_control *ctrl);
+** int					main(int argc, char **argv);
 */
-void			toggle_debug(t_control *ctrl);
 void			exit_error(char *e_msg, int e_no);
 
 /*
@@ -127,29 +167,34 @@ t_complex		get_complex_from_point(t_fractol *frac, t_s32 x, t_s32 y);
 
 /*
 ** fractals.c
+**
+** TODO t_u8			newtonroot_dwell(t_fractol *frac, t_complex pt);
 */
 t_u8			get_dwell_from_point(t_control *ctrl, t_point pt);
 t_u8			julia_dwell(t_fractol *frac, t_complex pt);
 t_u8			mandel_dwell(t_fractol *frac, t_complex pt);
 t_u8			newton_dwell(t_fractol *frac, t_complex pt);
-t_u8			newtonroot_dwell(t_fractol *frac, t_complex pt);
 t_u8			burningship_dwell(t_fractol *frac, t_complex c_pt);
 
 /*
-** events.c
-**
-** int				handle_key(int key, void *param);
-** static int		handle_mouse_press(int button, int x, int y, void *param);
-** static int		handle_mouse_release(int button, int x, int y, void *param);
-** static int		handle_mouse_move(int x, int y, void *param);
+** event_mouse.c
 */
-void			init_events(t_control *ctrl);
+int				handle_mouse_press(int button, int x, int y, void *param);
+int				handle_mouse_release(int button, int x, int y, void *param);
+int				handle_mouse_move(int x, int y, void *param);
+
+/*
+** event_key.c
+**
+** static int				handle_key_palette(int key, t_control *ctrl);
+** static int				handle_key_window(int key, t_control *ctrl);
+*/
+int				handle_key(int key, void *param);
 
 /*
 ** color.c
 */
 t_u32			get_color_from_dwell(t_control *ctrl, t_u8 dwell);
-int				handle_key_palette(int key, t_control *ctrl);
 
 /*
 ** render.c

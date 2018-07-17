@@ -51,11 +51,6 @@ inline int		point_in_bounds(t_s32 x, t_s32 y)
 {
 	return (0 <= x && x < REN_W && 0 <= y && y < REN_H);
 }
-/*
-int				get_color_from_imgpt(t_control *ctrl, t_s32 x, t_s32 y)
-{
-	return (((t_u32 *)ctrl->img_data)[y * ctrl->img_bpl / 4 + x]);
-}*/
 
 t_complex		get_complex_from_point(t_fractol *frac, t_s32 x, t_s32 y)
 {

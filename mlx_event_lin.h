@@ -10,26 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MLX_EVENT_LIN
-# define MLX_EVENT_LIN
+#ifndef MLX_EVENT_LIN_H
+# define MLX_EVENT_LIN_H
 
 /*
 ** for keypad int codes /usr/include/X11/keysymdef.h
 */
 
-/*
-**# define XK_KP_Space					0x0020
-**# define XK_KP_Tab						0xff89 //?
-**# define XK_KP_Enter					0xff8d
-**# define XK_KP_Left						0xff51
-**# define XK_KP_Up						0xff52
-**# define XK_KP_Right					0xff53
-**# define XK_KP_Down						0xff54
-**# define XK_KP_PageUp					0xff55
-**# define XK_KP_PageDown					0xff56
-**# define XK_KP_Esc						0xff1b
-**# define XK_KP_LCtrl					0xffe3
-*/
 # define L_CLICK		0x1
 # define M_CLICK		0x2
 # define R_CLICK		0x3
@@ -119,7 +106,7 @@
 
 /*
 ** NoEventMask				"No events" wanted (activate when no other
-**								events happened) 
+**								events happened)
 ** KeyPressMask				Keyboard down events wanted
 ** KeyReleaseMask			Keyboard up events wanted
 ** ButtonPressMask			Pointer button down events wanted

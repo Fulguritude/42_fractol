@@ -96,7 +96,7 @@ static t_f64	hexfp_str_to_lf(char const *s_mant, char const *s_exp, int sign)
 	return (result);
 }
 
-static int	check_if_valid(char const *float_str, char **a_str)
+static int		check_if_valid(char const *float_str, char **a_str)
 {
 	char	*str;
 
@@ -116,7 +116,7 @@ static int	check_if_valid(char const *float_str, char **a_str)
 	return (0);
 }
 
-t_f64		ft_atolf(char const *float_str)
+t_f64			ft_atolf(char const *float_str)
 {
 	char	*str;
 	t_f64	result;

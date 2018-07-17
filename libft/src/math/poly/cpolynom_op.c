@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft_polynomial.h"
+#include "libft_polynomial.h"
 
 t_complex		eval_cpoly(t_cpoly const cpoly, t_complex const z)
 {
@@ -42,7 +42,7 @@ t_complex		eval_cpoly_fast(t_cpoly *ro_cpoly, t_complex const z)
 	{
 		result = c_add(c_mul(result, z), coefs[i]);
 		--i;
-	}	
+	}
 	return (result);
 }
 

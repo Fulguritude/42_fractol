@@ -43,7 +43,8 @@ SRCDIR	:=	./src/
 HDRS	:=	$(NAME).h
 SRCS	:=	fractals.c			\
 			image_utils.c		\
-			event.c				\
+			event_key.c			\
+			event_mouse.c		\
 			polynom_rdr.c		\
 			render.c			\
 			m_s_rect.c			\

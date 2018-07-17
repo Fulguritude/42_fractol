@@ -32,7 +32,8 @@ void			show_debug_info(t_control *ctrl)
 	free(str);
 	if (ctrl->fractol.type != newton)
 		return ;
-	ft_asprintf(&str, "param: (%f, %f)", ctrl->fractol.param.re, ctrl->fractol.param.im);
+	ft_asprintf(&str, "param: (%f, %f)", ctrl->fractol.param.re,
+										ctrl->fractol.param.im);
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 40, 100, GREEN, str);
 	free(str);
 }
@@ -45,7 +46,6 @@ static int		render_seq(t_control *ctrl)
 	t_s32		y;
 	t_u8		dwell;
 
-//printf("REN_H = %d, REN_W = %d\n", REN_H, REN_W);
 	y = -1;
 	while (++y < REN_H)
 	{
@@ -64,12 +64,21 @@ static int		render_seq(t_control *ctrl)
 	return (0);
 }
 
-/* 
+/*
 ** To implement mariani silver, one must trace the boundaries of a figure to
 ** analyze if there are different dwells and then regular subtiles where the
 ** same algorithm is ran but some sides are already calculated. If all sides of
 ** the figure have the same dwell, the figure's inside is assumed to be
 ** detail-less and colored with that dwell.
+*/
+
+/*
+** ugly trick putting the ++y in the if at the end... should be:
+**		if (++x == REN_W && ++y)
+**		{
+**			++y;
+**			x = 0;
+**		}
 */
 
 static void		dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
@@ -95,11 +104,8 @@ static void		dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 	{
 		((t_u32 *)ctrl->img_data)[i] = palette[dwell_arr[y][x]];
 		++i;
-		if (++x == REN_W)
-		{
-			++y;
+		if (++x == REN_W && ++y)
 			x = 0;
-		}
 	}
 }
 

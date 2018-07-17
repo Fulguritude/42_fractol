@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MLX_EVENT_MAC
-# define MLX_EVENT_MAC
+#ifndef MLX_EVENT_MAC_H
+# define MLX_EVENT_MAC_H
 
 # define L_CLICK		0x1
 # define R_CLICK		0x2
@@ -21,7 +21,7 @@
 # define KEY_ESC		0x35
 # define KEY_SPACE		0x31
 # define KEY_LCTRL		0x100
-//# define KEY_RCTRL		0x3C
+# define KEY_RCTRL		0x10D
 
 # define KEY_LEFT		0x7B
 # define KEY_RIGHT		0x7C
@@ -103,7 +103,7 @@
 
 /*
 ** NoEventMask				"No events" wanted (activate when no other
-**								events happened) 
+**								events happened)
 ** KeyPressMask				Keyboard down events wanted
 ** KeyReleaseMask			Keyboard up events wanted
 ** ButtonPressMask			Pointer button down events wanted
