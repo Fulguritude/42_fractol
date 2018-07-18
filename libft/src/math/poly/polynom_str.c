@@ -13,7 +13,7 @@
 #include "libft_polynomial.h"
 #include "libft_io.h"
 
-t_poly		str_to_poly(char const *str)
+t_poly		polyobj_to_poly(char const *str)
 {
 	t_poly	result;
 	char	**strls;
@@ -48,70 +48,4 @@ char		*poly_to_str(t_poly *ro_poly)
 	}
 	res[ft_strlen(res) - 7] = '\0';
 	return (res);
-}
-
-t_cpoly		str_to_cpoly(char const *str)
-{
-	t_cpoly		result;
-	char		**strls;
-	int			i;
-	t_complex	tmp;
-
-	strls = ft_split(str, "\t ");
-	i = 0;
-	while (strls[i])
-	{
-		tmp.re = ft_atolf(strls[i]);
-		if (strls[i + 1])
-			tmp.im = ft_atolf(strls[i + 1]);
-		else
-		{
-			tmp.im = 0.;
-			result.coefs[i / 2] = tmp;
-			break ;
-		}
-		result.coefs[i / 2] = tmp;
-		i += 2;
-	}
-	result.deg = (i % 2) ? i / 2 : i / 2 - 1;
-	ft_strlsdel(&strls);
-	return (result);
-}
-
-char		*cpoly_to_str(t_cpoly *ro_cpoly)
-{
-	char		*res;
-	char		*tmp;
-	t_complex	*coefs;
-	int			i;
-
-	tmp = NULL;
-	res = NULL;
-	i = ro_cpoly->deg;
-	coefs = ro_cpoly->coefs;
-	while (i >= 0)
-	{
-		ft_asprintf(&tmp, "(%.3e + i*%.3e) z^%d + ",
-						coefs[i].re, coefs[i].im, i);
-		ft_strappend(&res, tmp);
-		free(tmp);
-		--i;
-	}
-	res[ft_strlen(res) - 7] = '\0';
-	return (res);
-}
-
-char		*cpolyfrac_to_str(t_cpolyfrac *ro_cpf)
-{
-	char	*str;
-	char	*den;
-	char	*num;
-
-	str = NULL;
-	num = cpoly_to_str(&(ro_cpf->num));
-	den = cpoly_to_str(&(ro_cpf->den));
-	ft_asprintf(&str, "num: %s /\nden: %s", num, den);
-	free(num);
-	free(den);
-	return (str);
 }

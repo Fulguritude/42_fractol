@@ -333,7 +333,8 @@ SRC_MATH_ALG := vec3.c					\
 SRC_MATH_CPX :=	complex_op.c
 
 SRC_MATH_PLY :=	cpolynom_op.c	\
-				polynom_calc.c	\
+				cpolynom_str.c	\
+				cpolynom_calc.c	\
 				polynom_op.c	\
 				polynom_str.c
 

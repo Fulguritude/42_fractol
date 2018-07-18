@@ -12,28 +12,30 @@
 
 #include "fractol.h"
 
-void			show_debug_info(t_control *ctrl)
+static void		show_debug_info(t_control *ctrl)
 {
 	char	*str;
 
-	str = NULL;
-	ft_asprintf(&str, "render: %s", ctrl->render_mode ? "m-s" : "p-b-p");
+	str = ctrl->render_mode ? "m-s" : "p-b-p";
+	str = ctrl->render_mode == 2 ? "none" : str;
+	ft_asprintf(&str, "render: %s", str);
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 20, GREEN, str);
 	free(str);
-	ft_asprintf(&str, "is_static: %s", ctrl->fractol.is_static ? "T" : "F");
+	ft_asprintf(&str, "| is_static: %s", ctrl->fractol.is_static ? "T" : "F");
+	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 100, 20, GREEN, str);
+	free(str);
+	ft_asprintf(&str, "anchor: (%g, %g) | zoom: %g | cur_coef: %u",
+			ctrl->fractol.anchor.re, ctrl->fractol.anchor.im,
+			ctrl->fractol.zoom, ctrl->fractol.cur_coef);
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 40, GREEN, str);
 	free(str);
-	ft_asprintf(&str, "anchor: (%g, %g); zoom: %g", ctrl->fractol.anchor.re,
-		ctrl->fractol.anchor.im, ctrl->fractol.zoom);
-	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 60, GREEN, str);
-	free(str);
 	str = cpoly_to_str(&(ctrl->fractol.iter_cpoly));
-	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 40, 80, GREEN, str);
+	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 60, GREEN, str);
 	free(str);
 	if (ctrl->fractol.type != newton)
 		return ;
-	ft_asprintf(&str, "param: (%f, %f)", ctrl->fractol.param.re,
-										ctrl->fractol.param.im);
+	ft_asprintf(&str, "param: (%g, %g)", ctrl->fractol.param.re,
+			ctrl->fractol.param.im);
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 40, 100, GREEN, str);
 	free(str);
 }
@@ -130,8 +132,13 @@ int				render(void *param)
 	ctrl = (t_control *)param;
 	if (ctrl->render_mode == 0)
 		status = render_seq(ctrl);
-	else
+	else if (ctrl->render_mode == 1)
 		status = render_m_s(ctrl);
+	else
+	{
+		mlximg_valset(ctrl, RED);
+		status = 1;
+	}
 	if (ctrl->debug)
 		show_debug_info(ctrl);
 	return (status);

@@ -31,7 +31,7 @@ t_cpoly		get_cpoly_from_filepath(char const *fpath)
 	get_next_line(fd, &str);
 	if (!str || !ft_str_containsonly(str, "0123456789.+-abcdefpxABCDEFPX \t"))
 		exit_error("str in file is invalid float format", 0);
-	res = str_to_cpoly(str);
+	res = polyobj_to_cpoly(str);
 	free(str);
 	if (!(get_next_line(fd, &str) == EOF_RD))
 		exit_error("cpoly file format invalid", 0);

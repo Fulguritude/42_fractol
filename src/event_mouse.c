@@ -79,7 +79,7 @@ int		handle_mouse_move(int x, int y, void *param)
 			ctrl->fractol.param =
 					get_complex_from_point(&(ctrl->fractol), x, y);
 		else
-			ctrl->fractol.iter_cpoly.coefs[ctrl->cur_deg] =
+			ctrl->fractol.iter_cpoly.coefs[ctrl->fractol.cur_coef] =
 					get_complex_from_point(&(ctrl->fractol), x, y);
 		mouse_speed = (ctrl->mouse.x - x) * (ctrl->mouse.x - x)
 					+ (ctrl->mouse.y - y) * (ctrl->mouse.y - y);

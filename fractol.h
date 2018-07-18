@@ -27,8 +27,8 @@
 
 # define CPOLY_DIR		"./cpolys/"
 
-# define WIN_W			640
-# define WIN_H			640
+# define WIN_W			480//640
+# define WIN_H			320//640
 # define REN_W			WIN_W
 # define REN_H			WIN_H
 
@@ -92,6 +92,7 @@ typedef struct	s_figure
 ** is_static:		if false, mouse hover alters iter_cpoly
 ** palette:			value that keeps track of which palette to use
 ** param:			param for newton dwell
+** cur_coef:		index of current coef being edited by mouse movement
 ** iter_cpoly:		polynomial that is called by dwell_func
 ** iter_cpolyfrac:	polynomial fraction to be used by dwell that uses a
 **						cpolyfrac
@@ -100,15 +101,16 @@ typedef struct	s_figure
 */
 typedef struct	s_fractol
 {
-	t_fractal	type; //dwell mode
+	t_fractal	type;
 	t_u8		(*dwell_func)(struct s_fractol *f, t_complex z);
 	t_float		zoom;
 	t_complex	anchor;
-	t_float		radius; //convergence norm
-	t_float		radius_sqrd; //convergence quadratic norm
+	t_float		radius;
+	t_float		radius_sqrd;
 	int			is_static;
 	int			palette;
 	t_complex	param;
+	t_u8		cur_coef;
 	t_cpoly		iter_cpoly;
 	t_cpolyfrac	iter_cpolyfrac;
 }				t_fractol;
@@ -123,10 +125,9 @@ typedef struct	s_fractol
 ** endian:			endianness of platform
 ** img_data:		pointer to the image buffer
 ** fractol:			pointer to our fractol struct
-** render_mode:		0 is pixel-by-pixel, 1 is mariani-silver
+** render_mode:		0 is pixel-by-pixel, 1 is mariani-silver, 2 is blackscreen
 ** debug:			true if str display of debug info on window
 ** mouse:			last mouse pos
-** cur_deg:			index of current coef being edited by mouse movement
 */
 
 typedef struct	s_control
@@ -143,7 +144,6 @@ typedef struct	s_control
 	int				render_mode;
 	int				debug;
 	t_point			mouse;
-	t_u8			cur_deg;
 }				t_control;
 
 /*

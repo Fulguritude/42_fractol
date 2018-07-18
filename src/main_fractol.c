@@ -61,8 +61,7 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 	res.zoom = 5.;
 	res.radius = 2.;//fractal == newton ? 1. : 2.;
 	res.radius_sqrd = 4.;//fractal == newton ? 1. : 4.;
-	res.anchor.re = 0.;
-	res.anchor.im = 0.;
+	res.anchor = (t_complex){0., 0.};
 	res.is_static = fractal == julia ? 0 : 1;
 	res.iter_cpoly = get_cpoly_from_filepath(fpath);
 	res.dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
@@ -75,7 +74,7 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 		res.param = (t_complex){1.0, 0.};
 		res.dwell_func = &newton_dwell;
 	}
-	ctrl->cur_deg = fractal == julia ? 0 : 1;
+	res.cur_coef = fractal == julia ? 0 : 1;
 	ctrl->fractol = res;
 }
 

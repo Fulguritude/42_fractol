@@ -62,9 +62,38 @@ static int	handle_key_window(int key, t_control *ctrl)
 	else if (key == KEY_LCTRL)
 		ctrl->debug = !(ctrl->debug);
 	else if (key == KEY_RCTRL)
-		ctrl->render_mode = !(ctrl->render_mode);
+		ctrl->render_mode = (ctrl->render_mode + 1) == 3 ?
+									0 : ctrl->render_mode + 1;
 	else
 		status = 0;
+	return (status);
+}
+
+static int	handle_key_cpoly(int key, t_control *ctrl)
+{
+	int		status;
+	char	*str;
+
+	status = 1;
+	if (key == KEY_NUMPAD_ADD && ctrl->fractol.cur_coef < MAX_DEGREE
+				&& ctrl->fractol.type != newton)
+		++(ctrl->fractol.cur_coef);
+	else if (key == KEY_NUMPAD_SUB && ctrl->fractol.cur_coef > 0
+				&& ctrl->fractol.type != newton)
+		--(ctrl->fractol.cur_coef);
+	else if (key == KEY_NUMPAD_ENTER && ctrl->fractol.type != newton)
+		ctrl->fractol.iter_cpoly.deg = ctrl->fractol.cur_coef;
+	else
+		status = 0;
+	if (ctrl->fractol.cur_coef > ctrl->fractol.iter_cpoly.deg)
+		ctrl->fractol.iter_cpoly.deg = ctrl->fractol.cur_coef;
+	if (key == KEY_END)
+	{
+		ft_putendl(str = cpoly_to_str(&(ctrl->fractol.iter_cpoly)));
+		free(str);
+		ft_putendl(str = cpoly_to_polyobj(&(ctrl->fractol.iter_cpoly)));
+		free(str);
+	}
 	return (status);
 }
 
@@ -75,23 +104,14 @@ int			handle_key(int key, void *param)
 
 	ctrl = (t_control *)param;
 	has_changed = handle_key_palette(key, ctrl);
-	has_changed |= handle_key_window(key, ctrl);
+	has_changed = has_changed || handle_key_window(key, ctrl);
+	has_changed = has_changed || handle_key_cpoly(key, ctrl);
 	if (key == KEY_ESC)
 		exit_error("Software closing.", 0);
-	else if (key == KEY_NUMPAD_ADD && ctrl->cur_deg < MAX_DEGREE
-				&& ctrl->fractol.type != newton)
-		++(ctrl->cur_deg);
-	else if (key == KEY_NUMPAD_SUB && ctrl->cur_deg > 0
-				&& ctrl->fractol.type != newton)
-		--(ctrl->cur_deg);
-	else if (key == KEY_NUMPAD_ENTER && ctrl->fractol.type != newton)
-		ctrl->fractol.iter_cpoly.deg = ctrl->cur_deg;
 	else if (key == KEY_SPACE)
 		ctrl->fractol.is_static = !(ctrl->fractol.is_static);
 	else if (!has_changed)
 		return (1);
-	if (ctrl->cur_deg > ctrl->fractol.iter_cpoly.deg)
-		ctrl->fractol.iter_cpoly.deg = ctrl->cur_deg;
 	render(ctrl);
 	return (0);
 }

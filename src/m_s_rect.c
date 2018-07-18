@@ -140,31 +140,32 @@ static void			fill_dwell_rect(t_u8 dwell_arr[REN_H][REN_W], t_u8 dwell,
 
 static void			rect_fill_or_divide(t_control *ctrl,
 										t_u8 dwell_arr[REN_H][REN_W],
-										t_point anchor, t_point rect_w_h)
+										t_point anchr, t_point rect_w_h)
 {
 	t_u8		tmp;
 	int			i;
 
+//printf("anchor: %d %d ; rect_w_h: %d %d\n", anchr.x, anchr.y, rect_w_h.x, rect_w_h.y);
 	if (rect_w_h.x == 1 || rect_w_h.y == 1)
 	{
 		if (rect_w_h.x == 1 && rect_w_h.y == 1)
-			dwell_arr[anchor.y][anchor.x] = get_dwell_from_point(ctrl, anchor);
+			dwell_arr[anchr.y][anchr.x] = get_dwell_from_point(ctrl, anchr);
 		else
 		{
 			tmp = (rect_w_h.x == 1);
 			i = -1;
 			while (++i < (tmp ? rect_w_h.y : rect_w_h.x))
 			{
-				tmp ? ++(anchor.y) : ++(anchor.x);
-				dwell_arr[anchor.y][anchor.x] = get_dwell_from_point(ctrl, anchor);
+				tmp ? ++(anchr.y) : ++(anchr.x);
+				dwell_arr[anchr.y][anchr.x] = get_dwell_from_point(ctrl, anchr);
 			}
 		}
 		return ;
 	}
-	if ((tmp = trace_dwell_rect(ctrl, dwell_arr, anchor, rect_w_h)))
-		fill_dwell_rect(dwell_arr, tmp, anchor, rect_w_h);
+	if ((tmp = trace_dwell_rect(ctrl, dwell_arr, anchr, rect_w_h)))
+		fill_dwell_rect(dwell_arr, tmp, anchr, rect_w_h);
 	else
-		rect_subdivider(ctrl, dwell_arr, anchor, rect_w_h);
+		rect_subdivider(ctrl, dwell_arr, anchr, rect_w_h);
 }
 
 void				rect_subdivider(t_control *ctrl,
@@ -182,15 +183,12 @@ void				rect_subdivider(t_control *ctrl,
 	sub_anc = anchor;
 	rect_fill_or_divide(ctrl, dwell_arr, sub_anc, sub_w_h);
 	sub_anc.x += sub_w_h.x;
-	if (rect_w_h.x % 2 && rect_w_h.x != 1)
-		++(sub_w_h.x);
+	sub_w_h.x += (rect_w_h.x % 2 && rect_w_h.x != 1);
 	rect_fill_or_divide(ctrl, dwell_arr, sub_anc, sub_w_h);
 	sub_anc.y += sub_w_h.y;
-	if (rect_w_h.y % 2)// && rect_w_h.y != 1)
-		++(sub_w_h.y);
+	sub_w_h.y += (rect_w_h.y % 2 && rect_w_h.y != 1);
 	rect_fill_or_divide(ctrl, dwell_arr, sub_anc, sub_w_h);
-	if (rect_w_h.x % 2 && rect_w_h.x != 1)
-		--(sub_w_h.x);
+	sub_w_h.x -= (rect_w_h.x % 2 && rect_w_h.x != 1);
 	sub_anc.x -= sub_w_h.x;
 	rect_fill_or_divide(ctrl, dwell_arr, sub_anc, sub_w_h);
 }

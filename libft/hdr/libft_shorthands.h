@@ -13,6 +13,8 @@
 #ifndef LIBFT_SHORTHANDS_H
 # define LIBFT_SHORTHANDS_H
 
+# define _FLOAT_64_
+
 /*
 ** Shorthands for primitive types as bitsizes
 */
@@ -26,7 +28,7 @@ typedef int				t_s32;
 typedef	long			t_s64;
 typedef float			t_f32;
 typedef double			t_f64;
-typedef t_f32			t_float;
+typedef t_f64			t_float;
 
 /*
 ** Unions used for difficult casting conditions.
