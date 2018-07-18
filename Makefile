@@ -81,7 +81,7 @@ clean:
 	@rm -f $(OBJS) $(OBJ_MAIN)
 
 fclean:clean
-	@rm -f $(LFTDIR)$(LFT)
+	$(MAKE) -C $(LFTDIR) fclean
 	@rm -f $(NAME)
 
 re:fclean all

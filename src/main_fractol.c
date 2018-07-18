@@ -67,6 +67,7 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 	res.dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
 	res.dwell_func = fractal == burningship ? &burningship_dwell :
 														res.dwell_func;
+	res.palette = 7;
 	if (fractal == newton)
 	{
 		res.iter_cpolyfrac = set_cpolyfrac(res.iter_cpoly,
