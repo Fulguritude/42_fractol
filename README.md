@@ -32,10 +32,19 @@ Scroll-down zooms out.
 Numpad 0 to 9 correspond to 10 default palettes chosen, the default being
 bichromatic (numpad 0).
 
+Numpad_+ and Numpad_- change the monomial the coefficient of which is being
+updated by mouse_hover. Numpad_Enter sets the degree of the polynomial so that
+same monomial becomes the term of highest degree.
+
+# Saving
+Numpad_End sends a human-readable string for the polynomial and a machine
+precision format (copy into a file) to the terminal.
+
 # Code macros
 MAX_DWELL and WIN_H and WIN_W are macros if you want to edit them. MAX_DWELL
 should be a power of 2 and COLOR_OFFSETs should be changed accordingly for the
 palettes to keep working.
+You can edit the definition of t_float in libft_shorthands.h for a speedup.
 
 # Other comments
 I tried to make the call to render dependent on the speed of mouse movement and
