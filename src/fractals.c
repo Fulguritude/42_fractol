@@ -12,13 +12,6 @@
 
 #include "fractol.h"
 
-inline t_u8		get_dwell_from_point(t_control *ctrl, t_point pt)
-{
-	return (ctrl->fractol.dwell_func(
-					&(ctrl->fractol),
-					get_complex_from_point(&(ctrl->fractol), pt.x, pt.y)));
-}
-
 /*
 ** TODO : add a previous quadnorm argument to check for descendingness ?
 */

@@ -6,7 +6,7 @@
 #    By: tduquesn <tduquesn@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/17 21:33:56 by tduquesn          #+#    #+#              #
-#    Updated: 2018/04/26 15:35:27 by tduquesn         ###   ########.fr        #
+#    Updated: 2018/08/02 02:37:17 by fulguritu        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ SRCS	:=	fractals.c			\
 			polynom_rdr.c		\
 			render.c			\
 			m_s_rect.c			\
-			color.c
+			dwell_utils.c
 
 OBJS	:=	$(SRCS:.c=.o)
 
@@ -63,16 +63,17 @@ RESET	:=	"\033[0m"
 RED		:=	"\033[0;31m"
 GREEN	:=	"\033[0;32m"
 
-$(NAME): $(LFTDIR)$(LFT) $(OBJS) $(OBJ_MAIN)
-	@printf "Compiling fdf: "$@" -> "$(RED)
+$(NAME): $(LFTDIR)$(LFT) $(OBJS) $(OBJ_MAIN) $(HDRS)
+	@printf "Compiling fractol: "$@" -> "$(RED)
 	@$(CC) $(CFLAGS) $(DBFLAGS) $(OBJS) $(OBJ_MAIN) $(LIBS) -o $@
 	@printf $(GREEN)"OK!"$(RESET)"\n"
 
-%.o: $(SRCDIR)%.c
+%.o: $(SRCDIR)%.c $(HDRS)
 	@$(CC) $(CFLAGS) -c $< -I$(HDRDIR)
 
 #dependencies are taken care of in libft's makefile.
 $(LFTDIR)$(LFT):
+	@rm -f $@
 	$(MAKE) -C $(LFTDIR) $(LFT)
 
 all: $(NAME)
@@ -86,7 +87,7 @@ fclean:clean
 
 re:fclean all
 
-test:$(LFTDIR)$(LFT) $(OBJS)
+test:$(LFTDIR)$(LFT) $(OBJS) $(HDRS)
 	@$(CC) $(CFLAGS) $(DBFLAGS) $(OBJS) $(TST_MAIN) $(LIBS) -o $(TST_EXEC)
 	./$(TST_EXEC)
 	@rm -f $(TST_MAIN:.c=.o) $(TST_EXEC)

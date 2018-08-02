@@ -8,18 +8,23 @@ polynomial. The leftmost two floats correspond to the coef of degree zero.
 
 # Dwell types
 Four are available: julia, mandelbrot, newton (not exactly the newton fractal,
-a simpler inspiration from it), and burningship. Each dwell type can work with
-every polynomial you could come up with, up to degree 255 (not necessarily fast
-though, especially if the display is dynamic). Not all polynomials give
-interesting result though.
+a simpler version that took some inspiration from the standard newton 'root'
+method of generating an escape-time fractal), and burningship. Each dwell type
+can work with every polynomial you could come up with, up to degree 255 (not
+necessarily fast though, especially if the display is dynamic). Not all
+polynomials give interesting results though.
 
 # Settings inside software
 Escape closes the software.
 
 LCtrl toggles debug.
-RCtrl toggles render mode (mariani-silver by default, or pixel-by-pixel).
+RCtrl toggles render mode (mariani-silver by default, or pixel-by-pixel, or
+'none' which allows you to edit the value of your polynomial without the lag of
+the real time render).
 Space toggles staticity of display (when dynamic, mouse hover updates a
 parameter of the fractal and calls the render function).
+NumpadHome offers a slower, step-by-step rendering of Mariani-Silver (this gives
+an idea of the algorithm's process and is useful for debugging).
 
 Left-click recenters the fractol's anchor on the click's position.
 Arrows recenter the anchor in an inversed fashion.
@@ -30,15 +35,16 @@ Scroll-up zooms in.
 Scroll-down zooms out.
 
 Numpad 0 to 9 correspond to 10 default palettes chosen, the default being
-bichromatic (numpad 0).
+Numpad_8.
 
 Numpad_+ and Numpad_- change the monomial the coefficient of which is being
 updated by mouse_hover. Numpad_Enter sets the degree of the polynomial so that
-same monomial becomes the term of highest degree.
+the current monomial being edited becomes the term of highest degree.
 
 # Saving
-Numpad_End sends a human-readable string for the polynomial and a machine
-precision format (copy into a file) to the terminal.
+NumpadEnd prints the current polynomial to terminal: first line is human-
+readable format, second line is machine readable format (you can copy that line
+in a file and save a polynomial you liked in 'cpolys' for later use).
 
 # Code macros
 MAX_DWELL and WIN_H and WIN_W are macros if you want to edit them. MAX_DWELL

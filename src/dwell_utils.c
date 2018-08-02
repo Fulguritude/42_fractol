@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
+/*   dwell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/02 01:38:35 by fulguritu         #+#    #+#             */
-/*   Updated: 2018/07/02 01:38:37 by fulguritu        ###   ########.fr       */
+/*   Created: 2018/08/02 00:56:30 by fulguritu         #+#    #+#             */
+/*   Updated: 2018/08/02 00:56:49 by fulguritu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+inline t_u8		get_dwell_from_point(t_control *ctrl, t_point pt)
+{
+	return (ctrl->fractol.dwell_func(
+					&(ctrl->fractol),
+					get_complex_from_point(&(ctrl->fractol), pt.x, pt.y)));
+}
 
 /*
 **	return (dwl << R_OFFSET | dwl << G_OFFSET | dwl << B_OFFSET);
@@ -40,4 +47,43 @@ t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwl)
 	else if (ctrl->fractol.palette == 9)
 		return (dwl << (R_OFFSET + 1) | dwl << G_OFFSET | dwl << B_OFFSET);
 	return (RED);
+}
+
+/*
+** ugly trick putting the ++y in the if at the end... should be:
+**		if (++x == REN_W)
+**		{
+**			++y;
+**			x = 0;
+**		}
+**
+** ugly trick is
+**		if (++x == REN_W && ++y)
+**			x = 0;
+*/
+
+void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
+{
+	int		palette[MAX_DWELL + 1];
+	int		i;
+	int		x;
+	int		y;
+
+	i = -1;
+	while (++i < MAX_DWELL)
+		palette[i] = get_color_from_dwell(ctrl, i);
+	palette[MAX_DWELL] = ctrl->show_m_s ? WHITE : BLACK;
+	i = 0;
+	y = 0;
+	x = 0;
+	while (i < ctrl->img_pixel_nb)
+	{
+		((t_u32 *)ctrl->img_data)[i] = palette[dwell_arr[y][x]];
+		++i;
+		if (++x == REN_W)
+		{
+			++y;
+			x = 0;
+		}
+	}
 }

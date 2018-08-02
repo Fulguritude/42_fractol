@@ -48,8 +48,10 @@ static void		init_mlx(t_control *ctrl)
 										&(ctrl->img_bpl), &(ctrl->endian))))
 		exit_error("could not retrieve img data ptr and other info", 0);
 	ctrl->img_bpp = ctrl->img_bpp / 8;
-	ctrl->img_bytelen = ctrl->img_bpp * REN_H * REN_W;
+	ctrl->img_pixel_nb = REN_W * REN_H;
+	ctrl->img_bytelen = ctrl->img_bpp * ctrl->img_pixel_nb;
 	ctrl->render_mode = 1;
+	ctrl->show_m_s = 0;
 }
 
 static void		init_fractol(t_control *ctrl, t_fractal fractal,
@@ -59,8 +61,8 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 
 	res.type = fractal;
 	res.zoom = 5.;
-	res.radius = 2.;//fractal == newton ? 1. : 2.;
-	res.radius_sqrd = 4.;//fractal == newton ? 1. : 4.;
+	res.radius = 2.;
+	res.radius_sqrd = 4.;
 	res.anchor = (t_complex){0., 0.};
 	res.is_static = fractal == julia ? 0 : 1;
 	res.iter_cpoly = get_cpoly_from_filepath(fpath);

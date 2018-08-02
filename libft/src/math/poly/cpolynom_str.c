@@ -59,7 +59,7 @@ char		*cpoly_to_polyobj(t_cpoly *ro_cpoly)
 		free(tmp);
 		++i;
 	}
-	res[ft_strlen(res) - 7] = '\0';
+	res[ft_strlen(res) - 2] = '\0';
 	return (res);
 }
 

@@ -110,6 +110,8 @@ int			handle_key(int key, void *param)
 		exit_error("Software closing.", 0);
 	else if (key == KEY_SPACE)
 		ctrl->fractol.is_static = !(ctrl->fractol.is_static);
+	else if (key == KEY_HOME)
+		ctrl->show_m_s = !(ctrl->show_m_s);
 	else if (!has_changed)
 		return (1);
 	render(ctrl);

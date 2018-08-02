@@ -81,16 +81,14 @@ static int 			trace_dwell_rect(t_control *ctrl,
 	t_point		tmp;
 
 //printf("rect_trace\n");
-	if ((first_dwell = dwell_arr[anchor.y][anchor.x]) == 0)
-	{
-		first_dwell = get_dwell_from_point(ctrl, anchor);
-		dwell_arr[anchor.y][anchor.x] = first_dwell;
-	}
+	if (dwell_arr[anchor.y][anchor.x] == 0)
+		dwell_arr[anchor.y][anchor.x] = get_dwell_from_point(ctrl, anchor);
+	first_dwell = dwell_arr[anchor.y][anchor.x];
 	unique_color = first_dwell;
 	if (rect_w_h.x <= 1 && rect_w_h.y <= 1)
 		return (unique_color);
-	fig.pt_lst_len = -1;
-	fig.pt_lst = NULL;
+//	fig.pt_lst_len = -1;
+//	fig.pt_lst = NULL;
 	get_rect_points(&fig, anchor, rect_w_h);
 //printf("fig.len = %d| fig.lst = %p\n", fig.pt_lst_len, fig.pt_lst);
 	i = -1;
@@ -143,10 +141,10 @@ static void			rect_fill_or_divide(t_control *ctrl,
 										t_point anchr, t_point rect_w_h)
 {
 	t_u8		tmp;
-	int			i;
+//	int			i;
 
 //printf("anchor: %d %d ; rect_w_h: %d %d\n", anchr.x, anchr.y, rect_w_h.x, rect_w_h.y);
-	if (rect_w_h.x == 1 || rect_w_h.y == 1)
+/*	if (rect_w_h.x == 1 || rect_w_h.y == 1)
 	{
 		if (rect_w_h.x == 1 && rect_w_h.y == 1)
 			dwell_arr[anchr.y][anchr.x] = get_dwell_from_point(ctrl, anchr);
@@ -161,11 +159,27 @@ static void			rect_fill_or_divide(t_control *ctrl,
 			}
 		}
 		return ;
-	}
+	}*/
 	if ((tmp = trace_dwell_rect(ctrl, dwell_arr, anchr, rect_w_h)))
+	{
 		fill_dwell_rect(dwell_arr, tmp, anchr, rect_w_h);
+		if (ctrl->show_m_s)
+		{
+			dwell_arr_to_img(ctrl, dwell_arr);
+			mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr,
+								0, 0);
+//			usleep(200);
+		}
+	}
 	else
 		rect_subdivider(ctrl, dwell_arr, anchr, rect_w_h);
+/*if (ctrl->show_m_s)
+{
+dwell_arr_to_img(ctrl, dwell_arr);
+mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr,
+						0, 0);
+//		usleep(200);
+}*/
 }
 
 void				rect_subdivider(t_control *ctrl,

@@ -138,11 +138,13 @@ typedef struct	s_control
 	int				img_bpp;
 	int				img_bpl;
 	int				img_bytelen;
+	int				img_pixel_nb;
 	int				endian;
 	char			*img_data;
 	t_fractol		fractol;
 	int				render_mode;
 	int				debug;
+	int				show_m_s;
 	t_point			mouse;
 }				t_control;
 
@@ -170,7 +172,6 @@ t_complex		get_complex_from_point(t_fractol *frac, t_s32 x, t_s32 y);
 **
 ** TODO t_u8			newtonroot_dwell(t_fractol *frac, t_complex pt);
 */
-t_u8			get_dwell_from_point(t_control *ctrl, t_point pt);
 t_u8			julia_dwell(t_fractol *frac, t_complex pt);
 t_u8			mandel_dwell(t_fractol *frac, t_complex pt);
 t_u8			newton_dwell(t_fractol *frac, t_complex pt);
@@ -192,9 +193,11 @@ int				handle_mouse_move(int x, int y, void *param);
 int				handle_key(int key, void *param);
 
 /*
-** color.c
+** dwell_utils.c
 */
+t_u8			get_dwell_from_point(t_control *ctrl, t_point pt);
 t_u32			get_color_from_dwell(t_control *ctrl, t_u8 dwell);
+void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W]);
 
 /*
 ** render.c

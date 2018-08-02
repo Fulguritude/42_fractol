@@ -74,42 +74,7 @@ static int		render_seq(t_control *ctrl)
 ** detail-less and colored with that dwell.
 */
 
-/*
-** ugly trick putting the ++y in the if at the end... should be:
-**		if (++x == REN_W && ++y)
-**		{
-**			++y;
-**			x = 0;
-**		}
-*/
 
-static void		dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
-{
-	int		palette[MAX_DWELL + 1];
-	t_u32	i;
-	t_u32	pix_len;
-	int		x;
-	int		y;
-
-	i = 0;
-	while (i < MAX_DWELL)
-	{
-		palette[i] = get_color_from_dwell(ctrl, i);
-		++i;
-	}
-	palette[MAX_DWELL] = BLACK;
-	i = 0;
-	pix_len = REN_W * REN_H;
-	y = 0;
-	x = 0;
-	while (i < pix_len)
-	{
-		((t_u32 *)ctrl->img_data)[i] = palette[dwell_arr[y][x]];
-		++i;
-		if (++x == REN_W && ++y)
-			x = 0;
-	}
-}
 
 static int		render_m_s(t_control *ctrl)
 {
@@ -117,7 +82,7 @@ static int		render_m_s(t_control *ctrl)
 	static t_point		init_anchor = {0, 0};
 	static t_point		init_rect_size = {REN_W, REN_H};
 
-	ft_bzero(dwell_arr, sizeof(t_u8) * REN_H * REN_W);
+	ft_bzero(dwell_arr, sizeof(t_u8) * ctrl->img_pixel_nb);
 	rect_subdivider(ctrl, dwell_arr, init_anchor, init_rect_size);
 	dwell_arr_to_img(ctrl, dwell_arr);
 	mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr, 0, 0);
@@ -136,7 +101,9 @@ int				render(void *param)
 		status = render_m_s(ctrl);
 	else
 	{
-		mlximg_valset(ctrl, RED);
+		mlximg_valset(ctrl, 0x00770099);
+		mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr,
+								0, 0);
 		status = 1;
 	}
 	if (ctrl->debug)
