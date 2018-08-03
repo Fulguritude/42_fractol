@@ -72,9 +72,10 @@ static int		render_seq(t_control *ctrl)
 ** same algorithm is ran but some sides are already calculated. If all sides of
 ** the figure have the same dwell, the figure's inside is assumed to be
 ** detail-less and colored with that dwell.
+**
+** This is the function that should call the tesselation algorithms for each
+** version of Mariani-Silver implemented.
 */
-
-
 
 static int		render_m_s(t_control *ctrl)
 {
@@ -101,7 +102,7 @@ int				render(void *param)
 		status = render_m_s(ctrl);
 	else
 	{
-		mlximg_valset(ctrl, 0x00770099);
+		mlximg_valset(ctrl, 0x005500BB);
 		mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr,
 								0, 0);
 		status = 1;

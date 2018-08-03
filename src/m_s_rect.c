@@ -13,59 +13,6 @@
 #include "fractol.h"
 
 /*
-** rect_w_h is the number of rows and columns in the rectangle's pixels
-**
-** stores two horizontal lines then two vertical lines without the pixels
-** already accounted for
-*/
-
-static void			get_rect_points(t_figure *res,
-									t_point anchor, t_point rect_w_h)
-{
-	int			i;
-	int			extra;
-
-//printf("rect_points: anchor [%d, %d], rect_w_h [%d, %d]\n", anchor.x, anchor.y, rect_w_h.x, rect_w_h.y);
-	if ((i = anchor.x + rect_w_h.x - REN_W) > 0)
-		rect_w_h.x -= i;
-	if ((i = anchor.y + rect_w_h.y - REN_H) > 0)
-		rect_w_h.y -= i;
-//printf("rect_points: anchor [%d, %d], rect_w_h [%d, %d]\n", anchor.x, anchor.y, rect_w_h.x, rect_w_h.y);
-	res->pt_lst_len = 2 * rect_w_h.y + 2 * rect_w_h.x - 4;
-	if (!(res->pt_lst = (t_point *)malloc(sizeof(t_point) * res->pt_lst_len)))
-		exit_error("malloc failure in get_rect_points", 0);
-//printf("mid1 rect_points, res->pt_lst = %p\n", res->pt_lst);
-	i = -1;
-	while (++i < rect_w_h.x)
-	{
-		res->pt_lst[i].x = anchor.x + i;
-		res->pt_lst[i].y = anchor.y;
-		res->pt_lst[i + rect_w_h.x].x = anchor.x + i;
-		res->pt_lst[i + rect_w_h.x].y = anchor.y + rect_w_h.y - 1;
-	}
-//printf("mid2 rect_points\n");
-	extra = 2 * rect_w_h.x;
-	i = 0;
-	while (i + extra < res->pt_lst_len) //fix this loop to imitate the previous for a line ?
-	{
-		res->pt_lst[extra + i].x = anchor.x;
-		res->pt_lst[extra + i].y = anchor.y + 1 + (i / 2);
-		res->pt_lst[extra + i + 1].x = anchor.x + rect_w_h.x - 1;
-		res->pt_lst[extra + i + 1].y = anchor.y + 1 + (i / 2);
-		i += 2;
-	}
-/*
-printf("pt_lst_len: %d\n", res->pt_lst_len);
-for (int i = 0; i < res->pt_lst_len + 10; ++i)
-{
-printf("res->pt_lst : [%3d, %3d] ; i = %d\n", res->pt_lst[i].x, res->pt_lst[i].y, i);
-}
-printf("endloop\n");
-*/
-//	return (res);
-}
-
-/*
 ** Returns 1 if no subrectangles and fill is required, returns 1 if
 ** subrectangles need to be made.
 */
@@ -89,7 +36,7 @@ static int 			trace_dwell_rect(t_control *ctrl,
 		return (unique_color);
 //	fig.pt_lst_len = -1;
 //	fig.pt_lst = NULL;
-	get_rect_points(&fig, anchor, rect_w_h);
+	fig = get_rect_points(anchor, rect_w_h);
 //printf("fig.len = %d| fig.lst = %p\n", fig.pt_lst_len, fig.pt_lst);
 	i = -1;
 	while (++i < fig.pt_lst_len)
@@ -141,10 +88,10 @@ static void			rect_fill_or_divide(t_control *ctrl,
 										t_point anchr, t_point rect_w_h)
 {
 	t_u8		tmp;
-//	int			i;
+	int			i;
 
 //printf("anchor: %d %d ; rect_w_h: %d %d\n", anchr.x, anchr.y, rect_w_h.x, rect_w_h.y);
-/*	if (rect_w_h.x == 1 || rect_w_h.y == 1)
+	if (rect_w_h.x == 1 || rect_w_h.y == 1)
 	{
 		if (rect_w_h.x == 1 && rect_w_h.y == 1)
 			dwell_arr[anchr.y][anchr.x] = get_dwell_from_point(ctrl, anchr);
@@ -159,7 +106,7 @@ static void			rect_fill_or_divide(t_control *ctrl,
 			}
 		}
 		return ;
-	}*/
+	}
 	if ((tmp = trace_dwell_rect(ctrl, dwell_arr, anchr, rect_w_h)))
 	{
 		fill_dwell_rect(dwell_arr, tmp, anchr, rect_w_h);

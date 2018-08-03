@@ -48,7 +48,9 @@ SRCS	:=	fractals.c			\
 			polynom_rdr.c		\
 			render.c			\
 			m_s_rect.c			\
-			dwell_utils.c
+			dwell_utils.c		\
+			figures.c			\
+			bresenham.c
 
 OBJS	:=	$(SRCS:.c=.o)
 

@@ -211,7 +211,6 @@ int				render(void *param);
 /*
 ** m_s_rect.c		//rectangle tesselation for mariani-silver
 **
-** static t_figure		get_rect_points(t_point anchor, t_point rect_w_h);
 ** static int 			trace_dwell_rect(t_control *ctrl, t_u8 *dwell_arr,
 **									t_point anchor, t_point rect_w_h);
 ** static void			fill_dwell_rect(t_u8 *dwell_arr, t_u8, dwell,
@@ -221,6 +220,23 @@ int				render(void *param);
 */
 void			rect_subdivider(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W],
 									t_point anchor, t_point rect_w_h);
+
+/*
+** bresenham.c
+**
+** static int		draw_vert(t_point *res_lst, t_point start, int endy);
+** static int		draw_horz(t_point *res_lst, t_point start, int endx);
+** static int		draw_vertoct(t_point *res_lst, t_point start, 
+**							 t_point end, t_point d);
+** static int		draw_horzoct(t_point *res_lst, t_point start,
+**							 t_point end, t_point d);
+*/
+t_figure		get_line_points(t_point start, t_point end);
+
+/*
+** figures.c
+*/
+t_figure		get_rect_points(t_point anchor, t_point rect_w_h);
 
 /*
 ** polynom_rdr.c
