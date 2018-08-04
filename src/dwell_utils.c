@@ -6,7 +6,7 @@
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 00:56:30 by fulguritu         #+#    #+#             */
-/*   Updated: 2018/08/02 00:56:49 by fulguritu        ###   ########.fr       */
+/*   Updated: 2018/08/04 16:26:31 by fulguritu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwl)
 
 void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 {
-	int		palette[MAX_DWELL + 1];
-	int		i;
-	int		x;
-	int		y;
+	static int	squares = SHOW_MS_SQUARES;
+	int			palette[MAX_DWELL + 1];
+	int			i;
+	int			x;
+	int			y;
 
 	i = -1;
 	while (++i < MAX_DWELL)
@@ -78,6 +79,8 @@ void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 	x = 0;
 	while (i < ctrl->img_pixel_nb)
 	{
+		if (dwell_arr[y][x] > MAX_DWELL)
+			dwell_arr[y][x] = squares ? MAX_DWELL : dwell_arr[y][x] - MAX_DWELL;
 		((t_u32 *)ctrl->img_data)[i] = palette[dwell_arr[y][x]];
 		++i;
 		if (++x == REN_W)

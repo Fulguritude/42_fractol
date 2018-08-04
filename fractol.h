@@ -6,7 +6,7 @@
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 02:21:37 by fulguritu         #+#    #+#             */
-/*   Updated: 2018/08/04 14:48:31 by fulguritu        ###   ########.fr       */
+/*   Updated: 2018/08/04 16:28:18 by fulguritu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define GREEN			0x00FF00
 # define BLUE			0x0000FF
 # define WHITE			0xFFFFFF
+
+# define SHOW_MS_SQUARES	1
 
 /*
 ** MAX_DWELL should not be strictly above 255: one needs to keep max_iter
