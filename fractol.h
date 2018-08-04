@@ -171,6 +171,7 @@ t_complex		get_complex_from_point(t_fractol *frac, t_s32 x, t_s32 y);
 ** fractals.c
 **
 ** TODO t_u8			newtonroot_dwell(t_fractol *frac, t_complex pt);
+**		t_u8			fatou_dwell(t_fractol *frac, t_complex pt);
 */
 t_u8			julia_dwell(t_fractol *frac, t_complex pt);
 t_u8			mandel_dwell(t_fractol *frac, t_complex pt);

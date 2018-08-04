@@ -60,9 +60,9 @@ static void			fill_dwell_rect(t_u8 dwell_arr[REN_H][REN_W], t_u8 dwell,
 	t_point		end;
 
 //printf("rect_fill\n");
-	if ((end.x = anchor.x + rect_w_h.x) - REN_W >= 0)
+	if ((end.x = anchor.x + rect_w_h.x) - REN_W > 0)
 		rect_w_h.x -= end.x - REN_W;
-	if ((end.y = anchor.y + rect_w_h.y) - REN_H >= 0)
+	if ((end.y = anchor.y + rect_w_h.y) - REN_H > 0)
 		rect_w_h.y -= end.y - REN_H;
 	start.x = anchor.x;
 	start.y = anchor.y;
@@ -88,25 +88,8 @@ static void			rect_fill_or_divide(t_control *ctrl,
 										t_point anchr, t_point rect_w_h)
 {
 	t_u8		tmp;
-	int			i;
 
 //printf("anchor: %d %d ; rect_w_h: %d %d\n", anchr.x, anchr.y, rect_w_h.x, rect_w_h.y);
-	if (rect_w_h.x == 1 || rect_w_h.y == 1)
-	{
-		if (rect_w_h.x == 1 && rect_w_h.y == 1)
-			dwell_arr[anchr.y][anchr.x] = get_dwell_from_point(ctrl, anchr);
-		else
-		{
-			tmp = (rect_w_h.x == 1);
-			i = -1;
-			while (++i < (tmp ? rect_w_h.y : rect_w_h.x))
-			{
-				tmp ? ++(anchr.y) : ++(anchr.x);
-				dwell_arr[anchr.y][anchr.x] = get_dwell_from_point(ctrl, anchr);
-			}
-		}
-		return ;
-	}
 	if ((tmp = trace_dwell_rect(ctrl, dwell_arr, anchr, rect_w_h)))
 	{
 		fill_dwell_rect(dwell_arr, tmp, anchr, rect_w_h);
