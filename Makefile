@@ -6,7 +6,7 @@
 #    By: tduquesn <tduquesn@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/17 21:33:56 by tduquesn          #+#    #+#              #
-#    Updated: 2018/08/02 02:37:17 by fulguritu        ###   ########.fr        #
+#    Updated: 2018/08/04 14:53:12 by fulguritu        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	:=	fractol
 LFT		:=	libft.a
 
 
-PLATFORM:=	LINUX
+PLATFORM:=	MACOS
 CC		:=	gcc
 CFLAGS	:=	-Wall -Werror -Wextra -O3
 
@@ -30,8 +30,8 @@ DBFLAGS =
 LIBASAN =
 LOC_LX	=	/usr/X11/lib
 LIB_SUFF=
-LOC_LMLX=
-LIBS	=	-lmlx -framework OpenGL -framework AppKit -L$(LFTDIR) -lft
+LOC_LMLX=	../../other_src/ #remove at 42
+LIBS	=	-L$(LOC_LMLX) -lmlx -framework OpenGL -framework AppKit -L$(LFTDIR) -lft
 endif
 
 
@@ -66,9 +66,9 @@ RED		:=	"\033[0;31m"
 GREEN	:=	"\033[0;32m"
 
 $(NAME): $(LFTDIR)$(LFT) $(OBJS) $(OBJ_MAIN) $(HDRS)
-	@printf "Compiling fractol: "$@" -> "$(RED)
+	@echo "Compiling fractol: "$@" -> \c"$(RED)
 	@$(CC) $(CFLAGS) $(DBFLAGS) $(OBJS) $(OBJ_MAIN) $(LIBS) -o $@
-	@printf $(GREEN)"OK!"$(RESET)"\n"
+	@echo $(GREEN)"OK!"$(RESET)
 
 %.o: $(SRCDIR)%.c $(HDRS)
 	@$(CC) $(CFLAGS) -c $< -I$(HDRDIR)

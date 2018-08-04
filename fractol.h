@@ -6,7 +6,7 @@
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 02:21:37 by fulguritu         #+#    #+#             */
-/*   Updated: 2018/06/15 02:22:35 by fulguritu        ###   ########.fr       */
+/*   Updated: 2018/08/04 14:48:31 by fulguritu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "libft/hdr/libft_io.h"
 # include "libft/hdr/ft_printf.h"
 # include "libft/hdr/libft_polynomial.h"
-# include "mlx_event_lin.h"
+# include "mlx_event_mac.h"
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>

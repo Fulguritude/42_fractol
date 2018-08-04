@@ -6,7 +6,7 @@
 #    By: tduquesn <tduquesn@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/17 21:33:56 by tduquesn          #+#    #+#              #
-#    Updated: 2018/04/26 16:19:45 by tduquesn         ###   ########.fr        #
+#    Updated: 2018/08/04 14:49:40 by fulguritu        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -375,13 +375,13 @@ GREEN	:=	"\033[0;32m"
 #$< is a call to the string of the first dependency in case of multiple deps
 
 $(NAME):$(OBJDIRS) $(addprefix $(OBJDIR)$,$(OBJS)) $(addprefix $(HDRDIR),$(HDRS))
-	@echo -n "Compiling library: "$@" -> "$(RED)
+	@echo "Compiling library: "$@" -> \c"$(RED)
 	@ar -rc $@ $(addprefix $(OBJDIR)$,$(OBJS))
 	@ranlib $@
 	@echo $(GREEN)"OK!"$(RESET)
 
 $(OBJDIR)%.o:$(SRCDIR)%.c $(addprefix $(HDRDIR),$(HDRS))
-	@echo -n "Compiling file: "$@" -> "$(RED)
+	@echo  "Compiling file: "$@" -> \c"$(RED)
 	@$(CC) $(CFLAGS) -c $< -I$(HDRDIR) -o $@
 	@echo $(GREEN)"OK!"$(RESET)
 
