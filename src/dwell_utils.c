@@ -64,7 +64,6 @@ t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwl)
 
 void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 {
-//	static int	squares = SHOW_MS_SQUARES;
 	int			palette[MAX_DWELL + 1];
 	int			i;
 	int			x;
@@ -79,8 +78,9 @@ void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 	x = 0;
 	while (i < ctrl->img_pixel_nb)
 	{
-//		if (dwell_arr[y][x] > MAX_DWELL)
-//			dwell_arr[y][x] = squares ? MAX_DWELL : dwell_arr[y][x] - MAX_DWELL;
+		if (dwell_arr[y][x] > MAX_DWELL)
+			dwell_arr[y][x] = SHOW_MS_SQUARES ?
+								MAX_DWELL : dwell_arr[y][x] - MAX_DWELL;
 		((t_u32 *)ctrl->img_data)[i] = palette[dwell_arr[y][x]];
 		++i;
 		if (++x == REN_W)
