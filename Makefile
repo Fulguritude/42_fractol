@@ -14,7 +14,7 @@ NAME	:=	fractol
 LFT		:=	libft.a
 
 
-PLATFORM:=	MACOS
+PLATFORM:=	LINUX
 CC		:=	gcc
 CFLAGS	:=	-Wall -Werror -Wextra -O3
 

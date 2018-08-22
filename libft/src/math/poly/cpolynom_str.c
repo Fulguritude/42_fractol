@@ -20,6 +20,7 @@ t_cpoly		polyobj_to_cpoly(char const *str)
 	int			i;
 	t_complex	tmp;
 
+	ft_bzero(result.coefs, sizeof(t_complex) * (MAX_DEGREE + 1));
 	strls = ft_split(str, "\t ");
 	i = 0;
 	while (strls[i])

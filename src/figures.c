@@ -33,8 +33,6 @@ t_figure			empty_figure(void)
 	return (res);
 }
 
-//void				fig_to_img(char *img_data, t_figure fig)
-
 t_figure			merge_figures(t_figure dest, t_figure src)
 {
 	t_figure	res;
@@ -81,12 +79,12 @@ t_figure			get_rect_points(t_point anchor, t_point rect_w_h)
 	else
 		res = get_line_points(
 					anchor,
-					add_points(anchor, (t_point){rect_w_h.x - 1, 0}));
+					add_points(anchor, (t_point){rect_w_h.x, 0}));
 	if (rect_w_h.y >= 2)
 		res = merge_figures(res,
 				get_line_points(
 					add_points(anchor, (t_point){0, rect_w_h.y - 1}),
-					add_points(anchor, (t_point){rect_w_h.x - 1, rect_w_h.y - 1})));
+					add_points(anchor, (t_point){rect_w_h.x, rect_w_h.y - 1})));
 	if (rect_w_h.y >= 3)
 	{
 		res = merge_figures(res,

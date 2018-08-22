@@ -91,7 +91,6 @@ int		handle_mouse_move(int x, int y, void *param)
 		else
 			++no_render;
 	}
-	ctrl->mouse.x = x;
-	ctrl->mouse.y = y;
+	ctrl->mouse = (t_point){x, y};
 	return (OK);
 }

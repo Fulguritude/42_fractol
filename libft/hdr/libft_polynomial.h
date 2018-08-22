@@ -27,7 +27,7 @@
 typedef struct	s_poly
 {
 	t_u8			deg;
-	t_float			coefs[MAX_DEGREE];
+	t_float			coefs[MAX_DEGREE + 1];
 }				t_poly;
 
 typedef struct	s_polyfrac
@@ -39,7 +39,7 @@ typedef struct	s_polyfrac
 typedef struct	s_cpoly
 {
 	t_u8			deg;
-	t_complex		coefs[MAX_DEGREE];
+	t_complex		coefs[MAX_DEGREE + 1];
 }				t_cpoly;
 
 typedef struct	s_cpolyfrac

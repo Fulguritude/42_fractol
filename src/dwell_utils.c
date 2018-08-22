@@ -27,7 +27,7 @@ inline t_u8		get_dwell_from_point(t_control *ctrl, t_point pt)
 t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwl)
 {
 	if (ctrl->fractol.palette == 0)
-		return (dwl == MAX_DWELL ? BLACK : WHITE);
+		return (dwl > MAX_DWELL ? BLACK : WHITE);
 	else if (ctrl->fractol.palette == 1)
 		return (dwl << R_OFFSET);
 	else if (ctrl->fractol.palette == 2)
@@ -64,7 +64,7 @@ t_u32		get_color_from_dwell(t_control *ctrl, t_u8 dwl)
 
 void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 {
-	static int	squares = SHOW_MS_SQUARES;
+//	static int	squares = SHOW_MS_SQUARES;
 	int			palette[MAX_DWELL + 1];
 	int			i;
 	int			x;
@@ -79,8 +79,8 @@ void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W])
 	x = 0;
 	while (i < ctrl->img_pixel_nb)
 	{
-		if (dwell_arr[y][x] > MAX_DWELL)
-			dwell_arr[y][x] = squares ? MAX_DWELL : dwell_arr[y][x] - MAX_DWELL;
+//		if (dwell_arr[y][x] > MAX_DWELL)
+//			dwell_arr[y][x] = squares ? MAX_DWELL : dwell_arr[y][x] - MAX_DWELL;
 		((t_u32 *)ctrl->img_data)[i] = palette[dwell_arr[y][x]];
 		++i;
 		if (++x == REN_W)

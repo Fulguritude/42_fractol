@@ -23,15 +23,15 @@ static int		draw_vert(t_point *res_lst, t_point start, int endy)
 	int		y;
 
 	inc = start.y < endy ? 1 : -1;
-	y = start.y + inc;
+	y = start.y;
 	if (inc == 1)
-		while (y <= endy && point_in_bounds(start.x, y))
+		while (y < endy && point_in_bounds(start.x, y))
 		{
 			res_lst[ft_abs(y - start.y)] = (t_point){start.x, y};
 			y += inc;
 		}
 	else
-		while (y >= endy && point_in_bounds(start.x, y))
+		while (y > endy && point_in_bounds(start.x, y))
 		{
 			res_lst[ft_abs(y - start.y)] = (t_point){start.x, y};
 			y += inc;
@@ -45,15 +45,15 @@ static int		draw_horz(t_point *res_lst, t_point start, int endx)
 	int		x;
 
 	inc = start.x < endx ? 1 : -1;
-	x = start.x + inc;
+	x = start.x;
 	if (inc == 1)
-		while (x <= endx && point_in_bounds(x, start.y))
+		while (x < endx && point_in_bounds(x, start.y))
 		{
 			res_lst[ft_abs(x - start.x)] = (t_point){x, start.y};
 			x += inc;
 		}
 	else
-		while (x >= endx && point_in_bounds(x, start.y))
+		while (x > endx && point_in_bounds(x, start.y))
 		{
 			res_lst[ft_abs(x - start.x)] = (t_point){x, start.y};
 			x += inc;
@@ -145,13 +145,8 @@ t_figure		get_line_points(t_point start, t_point end)
 	res_lst[0] = (t_point){start.x, start.y};
 	d.x = ft_abs((end.x - start.x) * 2);
 	d.y = ft_abs((end.y - start.y) * 2);
-	fig.pt_lst = NULL;
-	fig.pt_lst_len = -1;
-	if (d.x == 0 && d.y == 0)
-	{
+	if (d.x == 0 && d.y == 0 && (res_lst_len = 1))
 		res_lst[0] = start;
-		res_lst_len = 1;
-	}
 	else if (d.x == 0)
 		res_lst_len = draw_vert(res_lst, start, end.y);
 	else if (d.y == 0)
@@ -165,6 +160,5 @@ t_figure		get_line_points(t_point start, t_point end)
 		exit_error("bresenham: malloc failure: ", errno);
 	while (--res_lst_len >= 0)
 		fig.pt_lst[res_lst_len] = res_lst[res_lst_len];
-//printf("allocated = %p\n", fig.pt_lst); 
 	return (fig);
 }

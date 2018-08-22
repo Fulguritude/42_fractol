@@ -102,7 +102,7 @@ int				render(void *param)
 		status = render_m_s(ctrl);
 	else
 	{
-		mlximg_valset(ctrl, 0x005500BB);
+		mlximg_valset(ctrl, DBG_COLOR);
 		mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr,
 								0, 0);
 		status = 1;
