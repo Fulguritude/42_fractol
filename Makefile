@@ -6,7 +6,7 @@
 #    By: tduquesn <tduquesn@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/17 21:33:56 by tduquesn          #+#    #+#              #
-#    Updated: 2018/08/04 14:53:12 by fulguritu        ###   ########.fr        #
+#    Updated: 2018/08/31 22:19:30 by fulguritu        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	:=	fractol
 LFT		:=	libft.a
 
 
-PLATFORM:=	LINUX
+PLATFORM:=	MACOS
 CC		:=	gcc
 CFLAGS	:=	-Wall -Werror -Wextra -O3
 

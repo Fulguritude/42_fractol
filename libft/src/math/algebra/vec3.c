@@ -6,7 +6,7 @@
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 02:13:00 by fulguritu         #+#    #+#             */
-/*   Updated: 2018/06/14 02:13:07 by fulguritu        ###   ########.fr       */
+/*   Updated: 2018/07/17 00:07:35 by tduquesn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		vec3_normalize(t_vec_3d result, t_vec_3d const v)
 {
 	t_f32		inv_norm;
 
-	inv_norm = ft_fast_inv_sqrt32(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+	inv_norm = 1. / sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 	result[0] = inv_norm * v[0];
 	result[1] = inv_norm * v[1];
 	result[2] = inv_norm * v[2];

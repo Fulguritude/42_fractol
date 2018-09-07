@@ -6,7 +6,7 @@
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 02:12:41 by fulguritu         #+#    #+#             */
-/*   Updated: 2018/06/14 02:12:46 by fulguritu        ###   ########.fr       */
+/*   Updated: 2018/06/28 17:59:12 by tduquesn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void			mat44_transpose(t_mat_4b4 result, t_mat_4b4 const m)
 	result[7] = tmp[4];
 	result[11] = tmp[5];
 }
+
+/*
+** topmost vector for i == 0, leftmost vector for j == 0
+*/
 
 void			mat44_subbloc33_ij(t_mat_3b3 result, t_mat_4b4 const m,
 									int i, int j)
