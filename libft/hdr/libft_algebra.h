@@ -87,12 +87,18 @@ typedef t_quat	t_unit_quat;
 void			vec3_set(t_vec_3d result, t_float x, t_float y, t_float z);
 void			vec3_cpy(t_vec_3d dest, t_vec_3d const src);
 void			vec3_swap(t_vec_3d v1, t_vec_3d v2);
+
 void			vec3_add(t_vec_3d result, t_vec_3d const v1, t_vec_3d const v2);
 void			vec3_sub(t_vec_3d result, t_vec_3d const v1, t_vec_3d const v2);
 void			vec3_scale(t_vec_3d result, t_float const s, t_vec_3d const v);
-void			vec3_normalize(t_vec_3d result, t_vec_3d const v);
 void			vec3_cross(t_vec_3d result,
 							t_vec_3d const v1, t_vec_3d const v2);
+
+t_float			vec3_eucl_norm(t_vec_3d const v);
+t_float			vec3_eucl_quadnorm(t_vec_3d const v);
+void			vec3_eucl_nrmlz(t_vec_3d result, t_vec_3d const v);
+t_float			vec3_eucl_dist(t_vec_3d const v1, t_vec_3d const v2);
+t_float			vec3_eucl_quaddist(t_vec_3d const v1, t_vec_3d const v2);
 
 /*
 ** 3*3

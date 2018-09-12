@@ -17,7 +17,7 @@
 # include "libft/hdr/libft_io.h"
 # include "libft/hdr/ft_printf.h"
 # include "libft/hdr/libft_polynomial.h"
-# include "mlx_event_mac.h"
+# include "mlx_event_lin.h"
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>

@@ -12,12 +12,12 @@
 
 #include "libft_math.h"
 
-static double	ln_taylor_series(double x)
+static t_f64	ln_taylor_series(t_f64 x)
 {
-	double	result;
-	double	prev_res;
-	double	powx;
-	double	i;
+	t_f64	result;
+	t_f64	prev_res;
+	t_f64	powx;
+	t_f64	i;
 
 	i = 2.;
 	powx = x;
@@ -39,9 +39,9 @@ static double	ln_taylor_series(double x)
 ** ln(y) = ln(x*2^n) = n*ln(2) + ln(x) with 1 <= x < 2 and n = exp_b2
 */
 
-double			ft_ln(double lf)
+t_f64			ft_ln(t_f64 lf)
 {
-	double	result;
+	t_f64	result;
 	t_u64	ex;
 	t_u64	norm;
 
@@ -55,9 +55,10 @@ double			ft_ln(double lf)
 		return (lf);
 	if (lf < 1. || 2. <= lf)
 	{
-		ex = *(t_u64 *)(&lf);
+		ft_memcpy(&ex, &lf, sizeof(t_u64));
 		norm = (ex & (_MSB_ | 0xFFFFFFFFFFFFF)) | 0x3FF0000000000000;
-		result = ft_ln(*(double *)(&norm));
+		ft_memcpy(&lf, &norm, sizeof(t_u64));
+		result = ft_ln(lf);
 		return (0x1.62E42FEFA39EFp-1 * (((ex << 1) >> 53) - 1023) + result);
 	}
 	if (1.9 <= lf && lf < 2.)

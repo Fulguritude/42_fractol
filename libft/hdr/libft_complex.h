@@ -13,6 +13,7 @@
 #ifndef LIBFT_COMPLEX_H
 # define LIBFT_COMPLEX_H
 
+# include <math.h>
 # include "libft_math.h"
 
 typedef struct	s_complex

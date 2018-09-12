@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec3.c                                             :+:      :+:    :+:   */
+/*   vec3_eucl.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,31 +12,38 @@
 
 #include "libft_algebra.h"
 
-void		vec3_set(t_vec_3d result, t_float x, t_float y, t_float z)
+inline t_float	vec3_eucl_norm(t_vec_3d const v)
 {
-	result[0] = x;
-	result[1] = y;
-	result[2] = z;
+	return (sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]));
 }
 
-void		vec3_cpy(t_vec_3d dest, t_vec_3d const src)
+inline t_float	vec3_eucl_quadnorm(t_vec_3d const v)
 {
-	dest[0] = src[0];
-	dest[1] = src[1];
-	dest[2] = src[2];
+	return (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 }
 
-void		vec3_swap(t_vec_3d v1, t_vec_3d v2)
+void			vec3_eucl_nrmlz(t_vec_3d result, t_vec_3d const v)
 {
-	t_vec_3d	tmp;
+	t_float		inv_norm;
 
-	tmp[0] = v2[0];
-	tmp[1] = v2[1];
-	tmp[2] = v2[2];
-	v2[0] = v1[0];
-	v2[1] = v1[1];
-	v2[2] = v1[2];
-	v1[0] = tmp[0];
-	v1[1] = tmp[1];
-	v1[2] = tmp[2];
+	inv_norm = 1. / sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+	result[0] = inv_norm * v[0];
+	result[1] = inv_norm * v[1];
+	result[2] = inv_norm * v[2];
+}
+
+t_float			vec3_eucl_dist(t_vec_3d const v1, t_vec_3d const v2)
+{
+	t_vec_3d		tmp;
+
+	vec3_sub(tmp, v1, v2);
+	return (vec3_eucl_norm(tmp));
+}
+
+t_float			vec3_eucl_quaddist(t_vec_3d const v1, t_vec_3d const v2)
+{
+	t_vec_3d		tmp;
+
+	vec3_sub(tmp, v1, v2);
+	return (vec3_eucl_quadnorm(tmp));
 }

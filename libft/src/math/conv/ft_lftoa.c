@@ -141,7 +141,7 @@ char			*ft_lftoa(double lf, char style)
 	t_u64	mantissa;
 	char	**bin_strs;
 
-	extract = *(t_u64*)(&lf);
+	ft_memcpy(&extract, &lf, sizeof(t_u64));
 	if (lf != lf)
 		return (ft_strdup(ft_msb(extract) ? "-nan" : "nan"));
 	mantissa = ((extract << 12) >> 12);

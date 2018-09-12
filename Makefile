@@ -14,7 +14,7 @@ NAME	:=	fractol
 LFT		:=	libft.a
 
 
-PLATFORM:=	MACOS
+PLATFORM:=	LINUX
 CC		:=	gcc
 CFLAGS	:=	-Wall -Werror -Wextra -O3
 
@@ -24,7 +24,7 @@ LIBASAN =	-lasan
 LOC_LX	=	/usr/lib/x86_64-linux-gnu/
 LIB_SUFF=	_Linux
 LOC_LMLX=	../
-LIBS	=	$(LIBASAN) -lm -L$(LOC_LMLX) -lmlx$(LIB_SUFF) -L$(LFTDIR) -lft -L$(LOC_LX) -lX11 -lXext
+LIBS	=	$(LIBASAN) -L$(LOC_LMLX) -lmlx$(LIB_SUFF) -L$(LFTDIR) -lft -lm -L$(LOC_LX) -lX11 -lXext
 else
 DBFLAGS =	
 LIBASAN =

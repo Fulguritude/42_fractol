@@ -16,7 +16,7 @@ NAME	:=	libft.a
 
 
 CC		:=	gcc
-CFLAGS	:=	-Wall -Werror -Wextra
+CFLAGS	:=	-Wall -Werror -Wextra -O3 -Wno-unused-result
 
 
 HDRDIR	:=	./hdr/
@@ -288,8 +288,7 @@ SRC_MATH_OP :=	ft_abs.c					\
 				ft_ilog2.c					\
 				ft_exp.c					\
 				ft_ln.c						\
-				ft_logn.c					\
-				ft_fast_inv_sqrt32.c
+				ft_logn.c
 
 SRC_MATH_APA :=	ft_vlqnew.c						\
 				ft_atovlq.c						\
@@ -328,7 +327,8 @@ SRC_MATH_ALG := vec3.c					\
 				mat44.c					\
 				vec3_op.c				\
 				mat33_op.c				\
-				mat44_op.c
+				mat44_op.c				\
+				vec3_eucl.c
 
 SRC_MATH_CPX :=	complex_op.c
 
@@ -349,6 +349,7 @@ SRC_MATH:=	$(addprefix $(SRCDIR_MATH), \
 
 SRC_TMP	:=	ft_str_base_to_base_expn.c		\
 			ft_str_base_expn_to_base.c
+			#ft_fast_inv_sqrt32.c
 
 SRCS	:=	$(SRC_MEM)		\
 			$(SRC_STR)		\
@@ -366,7 +367,7 @@ RESET	:=	"\033[0m"
 RED		:=	"\033[0;31m"
 GREEN	:=	"\033[0;32m"
 
-.PHONY: all re clean fclean printf_req
+.PHONY: all re clean fclean
 
 #https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #@ before a function makes it so that its call isn't echoed to stdout
