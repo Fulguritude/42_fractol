@@ -24,7 +24,7 @@ static void		show_debug_info(t_control *ctrl)
 	ft_asprintf(&str, "| is_static: %s", ctrl->fractol.is_static ? "T" : "F");
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 100, 20, GREEN, str);
 	free(str);
-	ft_asprintf(&str, "anchor: (%g, %g) | zoom: %g | cur_coef: %u",
+	ft_asprintf(&str, "anchor: (%g, %g) | zoom: %g | cur_coef: %d",
 			ctrl->fractol.anchor.re, ctrl->fractol.anchor.im,
 			ctrl->fractol.zoom, ctrl->fractol.cur_coef);
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 40, GREEN, str);

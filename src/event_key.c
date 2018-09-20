@@ -75,13 +75,12 @@ static int	handle_key_cpoly(int key, t_control *ctrl)
 	char	*str;
 
 	status = 1;
-	if (key == KEY_NUMPAD_ADD && ctrl->fractol.cur_coef < MAX_DEGREE
-				&& ctrl->fractol.type != newton)
+	if (key == KEY_NUMPAD_ADD && ctrl->fractol.cur_coef < MAX_DEGREE)
 		++(ctrl->fractol.cur_coef);
-	else if (key == KEY_NUMPAD_SUB && ctrl->fractol.cur_coef > 0
-				&& ctrl->fractol.type != newton)
+	else if (key == KEY_NUMPAD_SUB &&
+			ctrl->fractol.cur_coef > -(ctrl->fractol.type == newton))
 		--(ctrl->fractol.cur_coef);
-	else if (key == KEY_NUMPAD_ENTER && ctrl->fractol.type != newton)
+	else if (key == KEY_NUMPAD_ENTER)
 		ctrl->fractol.iter_cpoly.deg = ctrl->fractol.cur_coef;
 	else
 		status = 0;
@@ -93,6 +92,8 @@ static int	handle_key_cpoly(int key, t_control *ctrl)
 		free(str);
 		ft_putendl(str = cpoly_to_polyobj(&(ctrl->fractol.iter_cpoly)));
 		free(str);
+		ft_printf("param (only newton): (%a, %a)\n",
+				ctrl->fractol.param.re, ctrl->fractol.param.im);
 	}
 	return (status);
 }

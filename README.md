@@ -1,18 +1,27 @@
 # 42_fractol
 Keeping files on multiple machines for fractol
 
-# Usage
-First argument is the dwell type, if another argument is given, it should lead
-to a file with one single line of floats, which will be interpreted as a complex
-polynomial. The leftmost two floats correspond to the coef of degree zero.
+# Goals
+My objective was to create a general machine to explore C\[X], the space of
+complex polynomials, by being able to feed any element of C\[X] (of computable
+size) into an escape-time fractal (ETF) protocol like Julia's or Mandelbrot's
+ETF algorithms (for which the default polynomial is P(z) = z²).
 
-# Dwell types
-Four are available: julia, mandelbrot, newton (not exactly the newton fractal,
+# Usage
+First argument is the dwell type (ETF protocol of choice), if another argument
+is given, it should lead to a file with one single line of floats, which will
+be interpreted as a complex polynomial. The leftmost two floats correspond to
+the coef of degree zero.
+
+# Dwell types/ETF protocols
+Fives are available: julia, mandelbrot, newton (not exactly the newton fractal,
 a simpler version that took some inspiration from the standard newton 'root'
-method of generating an escape-time fractal), and burningship. Each dwell type
-can work with every polynomial you could come up with, up to degree 255 (not
-necessarily fast though, especially if the display is dynamic). Not all
-polynomials give interesting results though.
+method of generating an escape-time fractal), burningship, and duquesne (this
+last one is my own invention, just a POC to show my software can easily add
+new ETF protocols). Each dwell type can work with every polynomial you could
+come up with, up to degree 64 (not necessarily fast though, especially if the
+display is dynamic). Not all polynomials give interesting results though, and
+some might look more interesting for some dwell types than others.
 
 # Settings inside software
 Escape closes the software.
@@ -43,16 +52,18 @@ the current monomial being edited becomes the term of highest degree.
 
 # Saving
 NumpadEnd prints the current polynomial to terminal: first line is human-
-readable format, second line is machine readable format (you can copy that line
-in a file and save a polynomial you liked in 'cpolys' for later use).
+readable format, second line is machine readable format (you can copy that
+single line in a file and save a polynomial you liked in 'cpolys' for later
+use).
 
 # Code macros
 MAX_DWELL and WIN_H and WIN_W are macros if you want to edit them. MAX_DWELL
 should be a power of 2 and COLOR_OFFSETs should be changed accordingly for the
 palettes to keep working.
-You can edit the definition of t_float in libft_shorthands.h for a speedup.
+You can edit the definition of t_float in libft_shorthands.h for a speedup 
+(it should be t_f64, aka 'double', by default).
 
 # Other comments
 I tried to make the call to render dependent on the speed of mouse movement and
-got pretty good results. The same cannot be really said for the scrolling: it's
-more comfortable to use PageUp and PageDown.
+got pretty good results. Also, imo, rather than scrolling it's more comfortable
+to use PageUp and PageDown.

@@ -75,12 +75,14 @@ int		handle_mouse_move(int x, int y, void *param)
 	ctrl = (t_control *)param;
 	if (!(ctrl->fractol.is_static))
 	{
-		if (ctrl->fractol.type == newton)
-			ctrl->fractol.param =
-					get_complex_from_point(&(ctrl->fractol), x, y);
-		else
+		if (ctrl->fractol.cur_coef >= 0)
 			ctrl->fractol.iter_cpoly.coefs[ctrl->fractol.cur_coef] =
 					get_complex_from_point(&(ctrl->fractol), x, y);
+		else
+			ctrl->fractol.param =
+					get_complex_from_point(&(ctrl->fractol), x, y);
+		ctrl->fractol.iter_cpolyfrac = set_cpolyfrac(
+			ctrl->fractol.iter_cpoly, derive_cpoly(ctrl->fractol.iter_cpoly));
 		mouse_speed = (ctrl->mouse.x - x) * (ctrl->mouse.x - x)
 					+ (ctrl->mouse.y - y) * (ctrl->mouse.y - y);
 		if (no_render >= 5 * mouse_speed || (mouse_speed < 4 && no_render >= 5))

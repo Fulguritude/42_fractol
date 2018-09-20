@@ -22,7 +22,7 @@
 ** in reference to the multiplicative form of the FToA
 */
 
-# define MAX_DEGREE		32
+# define MAX_DEGREE		64
 
 typedef struct	s_poly
 {

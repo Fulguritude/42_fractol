@@ -66,7 +66,7 @@ RED		:=	"\033[0;31m"
 GREEN	:=	"\033[0;32m"
 
 $(NAME): $(LFTDIR)$(LFT) $(OBJS) $(OBJ_MAIN) $(HDRS)
-	@echo "Compiling fractol: "$@" -> \c"$(RED)
+	@echo "Compiling software: "$@" -> \c"$(RED)
 	@$(CC) $(CFLAGS) $(DBFLAGS) $(OBJS) $(OBJ_MAIN) $(LIBS) -o $@
 	@echo $(GREEN)"OK!"$(RESET)
 

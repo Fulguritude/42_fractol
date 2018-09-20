@@ -63,6 +63,7 @@ typedef enum	e_fractal
 	mandelbrot,
 	newton,
 	burningship,
+	duquesne,
 	none
 }				t_fractal;
 
@@ -96,6 +97,7 @@ typedef struct	s_figure
 ** palette:			value that keeps track of which palette to use
 ** param:			param for newton dwell
 ** cur_coef:		index of current coef being edited by mouse movement
+**						NB: for newton_dwell, coef == -1 alters the param
 ** iter_cpoly:		polynomial that is called by dwell_func
 ** iter_cpolyfrac:	polynomial fraction to be used by dwell that uses a
 **						cpolyfrac
@@ -113,7 +115,7 @@ typedef struct	s_fractol
 	int			is_static;
 	int			palette;
 	t_complex	param;
-	t_u8		cur_coef;
+	t_s16		cur_coef;
 	t_cpoly		iter_cpoly;
 	t_cpolyfrac	iter_cpolyfrac;
 }				t_fractol;
@@ -180,6 +182,7 @@ t_u8			julia_dwell(t_fractol *frac, t_complex pt);
 t_u8			mandel_dwell(t_fractol *frac, t_complex pt);
 t_u8			newton_dwell(t_fractol *frac, t_complex pt);
 t_u8			burningship_dwell(t_fractol *frac, t_complex c_pt);
+t_u8			duquesne_dwell(t_fractol *frac, t_complex c_pt);
 
 /*
 ** event_mouse.c

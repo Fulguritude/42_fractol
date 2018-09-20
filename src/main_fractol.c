@@ -54,6 +54,9 @@ static void		init_mlx(t_control *ctrl)
 	ctrl->show_m_s = 0;
 }
 
+/*
+** other default for newton //{1.0, 0.};
+*/
 static void		init_fractol(t_control *ctrl, t_fractal fractal,
 								char const *fpath)
 {
@@ -64,20 +67,23 @@ static void		init_fractol(t_control *ctrl, t_fractal fractal,
 	res.radius = 2.;
 	res.radius_sqrd = 4.;
 	res.anchor = (t_complex){0., 0.};
-	res.is_static = fractal == julia ? 0 : 1;
+	res.param = (t_complex){0. / 0., 0. / 0.};
+	res.is_static = fractal == julia || fractal == duquesne ? 0 : 1;
 	res.iter_cpoly = get_cpoly_from_filepath(fpath);
 	res.dwell_func = fractal == julia ? &julia_dwell : &mandel_dwell;
 	res.dwell_func = fractal == burningship ? &burningship_dwell :
 														res.dwell_func;
-	res.palette = 7;
+	res.dwell_func = fractal == duquesne ? &duquesne_dwell : res.dwell_func;
+	res.palette = 8;
+	res.cur_coef = fractal == julia || fractal == duquesne ? 0 : 1;
 	if (fractal == newton)
 	{
 		res.iter_cpolyfrac = set_cpolyfrac(res.iter_cpoly,
 											derive_cpoly(res.iter_cpoly));
-		res.param = (t_complex){1.0, 0.};
+		res.param = (t_complex){0x1.d555555555555p-1, 0x1.1p-1};
+		res.cur_coef = -1;
 		res.dwell_func = &newton_dwell;
 	}
-	res.cur_coef = fractal == julia ? 0 : 1;
 	ctrl->fractol = res;
 }
 
@@ -118,23 +124,22 @@ int				main(int argc, char **argv)
 
 	if (argc != 2 && argc != 3)
 		exit_error("usage: \"./fractol [arg] {cpoly_filepath}\"\nValid "
-"arguments are \"julia\", \"mandelbrot\", \"burningship\" and \"newton\".", 0);
+			"arguments are \"julia\", \"mandelbrot\", \"burningship\", "
+			"\"newton\" and \"duquesne\".", 0);
 	init_mlx(&ctrl);
 	if (ft_strequ(argv[1], "julia"))
-		init_fractol(&ctrl, julia, argc > 2 ?
-								argv[2] : CPOLY_DIR"julia");
+		init_fractol(&ctrl, julia, argc > 2 ? argv[2] : CPOLY_DIR"julia");
 	else if (ft_strequ(argv[1], "mandelbrot"))
-		init_fractol(&ctrl, mandelbrot, argc > 2 ?
-								argv[2] : CPOLY_DIR"mandelbrot");
+		init_fractol(&ctrl, mandelbrot, argc > 2 ? argv[2] : CPOLY_DIR"mbrot");
 	else if (ft_strequ(argv[1], "newton"))
-		init_fractol(&ctrl, newton, argc > 2 ?
-								argv[2] : CPOLY_DIR"newton");
+		init_fractol(&ctrl, newton, argc > 2 ? argv[2] : CPOLY_DIR"newton");
 	else if (ft_strequ(argv[1], "burningship"))
-		init_fractol(&ctrl, burningship, argc > 2 ?
-								argv[2] : CPOLY_DIR"mandelbrot");
+		init_fractol(&ctrl, burningship, argc > 2 ? argv[2] : CPOLY_DIR"mbrot");
+	else if (ft_strequ(argv[1], "duquesne"))
+		init_fractol(&ctrl, duquesne, argc > 2 ? argv[2] : CPOLY_DIR"mbrot");
 	else
-		exit_error("Valid arguments are \"julia\","
-			"\"mandelbrot\", \"burningship\" and \"newton\".", 0);
+		exit_error("Valid arguments are \"julia\", \"mandelbrot\", "
+			"\"burningship\", \"newton\" and \"duquesne\".", 0);
 	init_events(&ctrl);
 	render(&ctrl);
 	mlx_loop(ctrl.mlx_ptr);

@@ -103,3 +103,28 @@ t_u8			burningship_dwell(t_fractol *frac, t_complex c_pt)
 	}
 	return (i);
 }
+
+t_u8			duquesne_dwell(t_fractol *frac, t_complex c_pt)
+{
+	t_cpoly			*a_cpoly;
+	t_float			lim;
+	t_complex		z1;
+	t_complex		z2;
+	uint_fast8_t	i;
+
+	a_cpoly = &(frac->iter_cpoly);
+	lim = frac->radius_sqrd;
+	i = 0;
+	while (i < MAX_DWELL)
+	{
+		z1 = eval_cpoly_fast(a_cpoly, c_pt);
+		z1.re = z1.re < 0. ? -z1.re : z1.re;
+		z1.im = -z1.im;
+		z2 = eval_cpoly_fast(a_cpoly, z1);
+		c_pt = c_scl(0.5, c_add(z1, z2));
+		if (c_quadnorm(c_pt) > lim)
+			return (i);
+		++i;
+	}
+	return (i);
+}
