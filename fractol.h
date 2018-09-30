@@ -214,6 +214,7 @@ void			dwell_arr_to_img(t_control *ctrl, t_u8 dwell_arr[REN_H][REN_W]);
 ** static int		render_m_s(t_control *ctrl);
 */
 int				render(void *param);
+int				handle_redraw(void *param);
 
 /*
 ** m_s_rect.c		//rectangle tesselation for mariani-silver

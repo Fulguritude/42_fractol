@@ -142,6 +142,7 @@ int				main(int argc, char **argv)
 			"\"burningship\", \"newton\" and \"duquesne\".", 0);
 	init_events(&ctrl);
 	render(&ctrl);
+	mlx_expose_hook(ctrl.win_ptr, handle_redraw, &ctrl);
 	mlx_loop(ctrl.mlx_ptr);
 	return (0);
 }

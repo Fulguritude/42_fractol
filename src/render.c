@@ -12,6 +12,15 @@
 
 #include "fractol.h"
 
+int				handle_redraw(void *param)
+{
+	t_control	*ctrl;
+
+	ctrl = (t_control *)param;
+	mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr, 0, 0);
+	return (0);
+}
+
 static void		show_debug_info(t_control *ctrl)
 {
 	char	*str;
