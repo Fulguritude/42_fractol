@@ -13,32 +13,55 @@
 NAME	:=	fractol
 LFT		:=	libft.a
 
-
-PLATFORM:=	LINUX
-CC		:=	gcc
-CFLAGS	:=	-Wall -Werror -Wextra -O3
-
-ifeq ($(PLATFORM),LINUX)
-DBFLAGS =	-fsanitize=address
-LIBASAN =	-lasan
-LOC_LX	=	/usr/lib/x86_64-linux-gnu/
-LIB_SUFF=	_Linux
-LOC_LMLX=	../
-LIBS	=	$(LIBASAN) -L$(LOC_LMLX) -lmlx$(LIB_SUFF) -L$(LFTDIR) -lft -lm -L$(LOC_LX) -lX11 -lXext
+ifeq ($(OS),Windows_NT)
+	PLATFORM := WINDOWS
 else
-DBFLAGS =	
-LIBASAN =
-LOC_LX	=	/usr/X11/lib
-LIB_SUFF=
-LOC_LMLX=	../../other_src/ #remove at 42
-LIBS	=	-L$(LOC_LMLX) -lmlx -framework OpenGL -framework AppKit -L$(LFTDIR) -lft
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		PLATFORM := LINUX
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		PLATFORM := MACOS
+	endif
 endif
 
+#PLATFORM:=	LINUX
+CC		:=	gcc
+CFLAGS	:=	-Wall -Werror -Wextra -O3
 
 HDRDIR	:=	./
 LFTDIR	:=	./libft/
 TSTDIR	:=	./tests/
 SRCDIR	:=	./src/
+
+
+ifeq ($(PLATFORM),LINUX)
+DBFLAGS :=	-fsanitize=address
+LIBASAN :=	-lasan
+LOC_LX	:=	/usr/lib/x86_64-linux-gnu/
+LIB_SUFF:=	_Linux
+LOC_LMLX:=	./mlx_reqs/
+LIBS	:=	$(LIBASAN) -L$(LOC_LMLX) -lmlx$(LIB_SUFF) -L$(LFTDIR) -lft -lm -L$(LOC_LX) -lX11 -lXext
+endif
+
+ifeq ($(PLATFORM),WINDOWS)
+DBFLAGS :=	
+LIBASAN :=	
+LOC_LX	:=	/usr/include/X11/
+LIB_SUFF:=	_x86_64
+LOC_LMLX:=	./mlx_reqs/
+LIBS	:=	-L$(LOC_LMLX) -I$(LOC_LX) -lmlx -L$(LFTDIR) -lft -lX11.dll -lXext.dll
+endif
+
+ifeq ($(PLATFORM),MACOS)
+DBFLAGS :=	
+LIBASAN :=
+LOC_LX	:=	/usr/X11/lib
+LIB_SUFF:=
+LOC_LMLX:=	./mlx_reqs/
+LIBS	:=	-L$(LOC_LMLX) -lmlx -framework OpenGL -framework AppKit -L$(LFTDIR) -lft
+endif
+
 
 HDRS	:=	$(NAME).h
 SRCS	:=	fractals.c			\

@@ -22,7 +22,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <stdio.h>
-# include <mlx.h>
+# include "mlx_reqs/mlx.h"
 # include <errno.h>
 
 # define CPOLY_DIR		"./cpolys/"
