@@ -1,5 +1,6 @@
 # 42_fractol
-Keeping files on multiple machines for fractol
+Keeping files on multiple machines for the 42 Fract'ol project (C fractal
+renderer) and showcasing my code, as I largely exceeded the normal requirements.
 
 # Goals
 My objective was to create a general machine to explore C\[X], the space of
@@ -14,7 +15,7 @@ be interpreted as a complex polynomial. The leftmost two floats correspond to
 the coef of degree zero.
 
 # Dwell types/ETF protocols
-Fives are available: julia, mandelbrot, newton (not exactly the newton fractal,
+Five are available: julia, mandelbrot, newton (not exactly the newton fractal,
 a simpler version that took some inspiration from the standard newton 'root'
 method of generating an escape-time fractal), burningship, and duquesne (this
 last one is my own invention, just a POC to show my software can easily add
@@ -63,7 +64,12 @@ palettes to keep working.
 You can edit the definition of t_float in libft_shorthands.h for a speedup 
 (it should be t_f64, aka 'double', by default).
 
+#Portability
+Not sure if Windows works, but the software works fine on both Linux (Ubuntu 
+18.04) and Mac OS (though you might get some long error messages by 'ld' when
+compiling with make; it'll still work).
+
 # Other comments
 I tried to make the call to render dependent on the speed of mouse movement and
 got pretty good results. Also, imo, rather than scrolling it's more comfortable
-to use PageUp and PageDown.
+to use PageUp and PageDown for zoom.

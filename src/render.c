@@ -12,15 +12,6 @@
 
 #include "fractol.h"
 
-int				handle_redraw(void *param)
-{
-	t_control	*ctrl;
-
-	ctrl = (t_control *)param;
-	mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr, 0, 0);
-	return (0);
-}
-
 static void		show_debug_info(t_control *ctrl)
 {
 	char	*str;
@@ -47,6 +38,17 @@ static void		show_debug_info(t_control *ctrl)
 			ctrl->fractol.param.im);
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 40, 100, GREEN, str);
 	free(str);
+}
+
+int				handle_redraw(void *param)
+{
+	t_control	*ctrl;
+
+	ctrl = (t_control *)param;
+	mlx_put_image_to_window(ctrl->mlx_ptr, ctrl->win_ptr, ctrl->img_ptr, 0, 0);
+	if (ctrl->debug)
+		show_debug_info(ctrl);
+	return (0);
 }
 
 static int		render_seq(t_control *ctrl)
