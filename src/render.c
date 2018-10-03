@@ -24,7 +24,7 @@ static void		show_debug_info(t_control *ctrl)
 	ft_asprintf(&str, "| is_static: %s", ctrl->fractol.is_static ? "T" : "F");
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 100, 20, GREEN, str);
 	free(str);
-	ft_asprintf(&str, "anchor: (%g, %g) | zoom: %g | cur_coef: %d",
+	ft_asprintf(&str, "anchor: (%f, %f) | zoom: %f | cur_coef: %d",
 			ctrl->fractol.anchor.re, ctrl->fractol.anchor.im,
 			ctrl->fractol.zoom, ctrl->fractol.cur_coef);
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 40, GREEN, str);
@@ -34,7 +34,7 @@ static void		show_debug_info(t_control *ctrl)
 	free(str);
 	if (ctrl->fractol.type != newton)
 		return ;
-	ft_asprintf(&str, "param: (%g, %g)", ctrl->fractol.param.re,
+	ft_asprintf(&str, "param: (%f, %f)", ctrl->fractol.param.re,
 			ctrl->fractol.param.im);
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 40, 100, GREEN, str);
 	free(str);

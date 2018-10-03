@@ -13,6 +13,10 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
+/*
+** More info available at: https://github.com/Fulguritude/42_fractol
+*/
+
 # include "libft/hdr/libft.h"
 # include "libft/hdr/libft_io.h"
 # include "libft/hdr/ft_printf.h"

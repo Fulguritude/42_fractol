@@ -40,7 +40,7 @@ DBFLAGS :=	-fsanitize=address
 LIBASAN :=	-lasan
 LOC_LX	:=	/usr/lib/x86_64-linux-gnu/
 LIB_SUFF:=	_Linux
-LOC_LMLX:=	./mlx_reqs/
+LOC_LMLX:=	../mlx_reqs/
 LIBS	:=	$(LIBASAN) -L$(LOC_LMLX) -lmlx$(LIB_SUFF) -L$(LFTDIR) -lft -lm -L$(LOC_LX) -lX11 -lXext
 endif
 

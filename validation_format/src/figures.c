@@ -70,7 +70,7 @@ static t_figure		get_rect_points_ysup3(t_figure tmp,
 			get_line_points(
 				add_points(anchor, (t_point){0, 1}),
 				add_points(anchor, (t_point){0, rect_w_h.y - 2})));
-	res = merge_figures(tmp,
+	res = merge_figures(res,
 			get_line_points(
 				add_points(anchor, (t_point){rect_w_h.x - 1, 1}),
 				add_points(anchor, (t_point){rect_w_h.x - 1, rect_w_h.y - 2})));
@@ -101,6 +101,6 @@ t_figure			get_rect_points(t_point anchor, t_point rect_w_h)
 					add_points(anchor, (t_point){0, rect_w_h.y - 1}),
 					add_points(anchor, (t_point){rect_w_h.x, rect_w_h.y - 1})));
 	if (rect_w_h.y >= 3)
-		get_rect_points_ysup3(res, anchor, rect_w_h);
+		res = get_rect_points_ysup3(res, anchor, rect_w_h);
 	return (res);
 }

@@ -13,11 +13,15 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
+/*
+** More info available at: https://github.com/Fulguritude/42_fractol
+*/
+
 # include "libft/hdr/libft.h"
 # include "libft/hdr/libft_io.h"
 # include "libft/hdr/ft_printf.h"
 # include "libft/hdr/libft_polynomial.h"
-# include "mlx_event_mac.h"
+# include "mlx_event_lin.h"
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>
@@ -27,8 +31,8 @@
 
 # define CPOLY_DIR		"./cpolys/"
 
-# define WIN_W			1024
-# define WIN_H			800
+# define WIN_W			480//1024
+# define WIN_H			320//800
 # define REN_W			WIN_W
 # define REN_H			WIN_H
 

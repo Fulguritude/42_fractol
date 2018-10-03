@@ -64,7 +64,7 @@ palettes to keep working.
 You can edit the definition of t_float in libft_shorthands.h for a speedup 
 (it should be t_f64, aka 'double', by default).
 
-#Portability
+# Portability
 Not sure if Windows works, but the software works fine on both Linux (Ubuntu 
 18.04) and Mac OS (though you might get some long error messages by 'ld' when
 compiling with make; it'll still work).

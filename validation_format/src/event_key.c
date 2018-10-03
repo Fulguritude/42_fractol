@@ -113,6 +113,10 @@ int			handle_key(int key, void *param)
 		ctrl->fractol.is_static = !(ctrl->fractol.is_static);
 	else if (key == KEY_HOME)
 		ctrl->show_m_s = !(ctrl->show_m_s);
+	else if	(key == KEY_NUMPAD_MUL)
+		ctrl->fractol.radius_sqrd *= 1.25;
+	else if	(key == KEY_NUMPAD_DIV)
+		ctrl->fractol.radius_sqrd *= 0.8;
 	else if (!has_changed)
 		return (1);
 	render(ctrl);

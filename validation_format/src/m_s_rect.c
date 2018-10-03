@@ -17,7 +17,7 @@
 ** subrectangles need to be made.
 */
 
-static int 			trace_dwell_rect(t_control *ctrl,
+static int			trace_dwell_rect(t_control *ctrl,
 									t_u8 dwell_arr[REN_H][REN_W],
 									t_point anchor, t_point rect_w_h)
 {
@@ -67,7 +67,7 @@ static void			fill_dwell_rect(t_u8 dwell_arr[REN_H][REN_W], t_u8 dwell,
 		while (anchor.x < end.x)
 		{
 			dwell_arr[anchor.y][anchor.x] = dwell;
-			if (squares && (anchor.y == start.y || anchor.y == end.y - 1 || 
+			if (squares && (anchor.y == start.y || anchor.y == end.y - 1 ||
 							anchor.x == start.x || anchor.x == end.x - 1))
 				dwell_arr[anchor.y][anchor.x] += MAX_DWELL;
 			++(anchor.x);

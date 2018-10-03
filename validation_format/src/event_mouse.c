@@ -16,7 +16,7 @@
 ** It is with the mlx_hook function that one creates custom hooks. funct can
 ** take any number/types of arguments.
 **
-** int	mlx_hook(t_win_list *win, int x_event, int x_mask, 
+** int	mlx_hook(t_win_list *win, int x_event, int x_mask,
 **		 int (*funct)(),void *param)
 ** {
 **  win->hooks[x_event].hook = funct;
@@ -25,7 +25,7 @@
 ** }
 */
 
-int		handle_mouse_press(int button, int x, int y, void *param)
+int				handle_mouse_press(int button, int x, int y, void *param)
 {
 	t_control		*ctrl;
 	static int		no_render = 1;
@@ -53,7 +53,7 @@ int		handle_mouse_press(int button, int x, int y, void *param)
 	return (0);
 }
 
-int		handle_mouse_release(int button, int x, int y, void *param)
+int				handle_mouse_release(int button, int x, int y, void *param)
 {
 	t_control		*ctrl;
 
@@ -66,7 +66,20 @@ int		handle_mouse_release(int button, int x, int y, void *param)
 	return (OK);
 }
 
-int		handle_mouse_move(int x, int y, void *param)
+static void		handle_frac_coef(t_fractol *frac, int x, int y)
+{
+	if (frac->cur_coef >= 0)
+		frac->iter_cpoly.coefs[frac->cur_coef] =
+				get_complex_from_point(frac, x, y);
+	else
+	{
+		frac->param = get_complex_from_point(frac, x, y);
+		frac->iter_cpolyfrac = set_cpolyfrac(
+			frac->iter_cpoly, derive_cpoly(frac->iter_cpoly));
+	}
+}
+
+int				handle_mouse_move(int x, int y, void *param)
 {
 	t_control		*ctrl;
 	static t_u32	no_render = 1;
@@ -75,14 +88,7 @@ int		handle_mouse_move(int x, int y, void *param)
 	ctrl = (t_control *)param;
 	if (!(ctrl->fractol.is_static))
 	{
-		if (ctrl->fractol.cur_coef >= 0)
-			ctrl->fractol.iter_cpoly.coefs[ctrl->fractol.cur_coef] =
-					get_complex_from_point(&(ctrl->fractol), x, y);
-		else
-			ctrl->fractol.param =
-					get_complex_from_point(&(ctrl->fractol), x, y);
-		ctrl->fractol.iter_cpolyfrac = set_cpolyfrac(
-			ctrl->fractol.iter_cpoly, derive_cpoly(ctrl->fractol.iter_cpoly));
+		handle_frac_coef(&(ctrl->fractol), x, y);
 		mouse_speed = (ctrl->mouse.x - x) * (ctrl->mouse.x - x)
 					+ (ctrl->mouse.y - y) * (ctrl->mouse.y - y);
 		if (no_render >= 5 * mouse_speed || (mouse_speed < 4 && no_render >= 5))
