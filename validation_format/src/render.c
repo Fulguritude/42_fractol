@@ -6,7 +6,7 @@
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/02 05:08:16 by fulguritu         #+#    #+#             */
-/*   Updated: 2018/07/02 05:08:24 by fulguritu        ###   ########.fr       */
+/*   Updated: 2018/10/05 19:54:22 by tduquesn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ static void		show_debug_info(t_control *ctrl)
 
 	str = ctrl->render_mode ? "m-s" : "p-b-p";
 	str = ctrl->render_mode == 2 ? "none" : str;
-	ft_asprintf(&str, "render: %s", str);
+	ft_asprintf(&str, "render: %s | is_static: %s", str,
+			ctrl->fractol.is_static ? "T" : "F");
 	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 20, 20, GREEN, str);
-	free(str);
-	ft_asprintf(&str, "| is_static: %s", ctrl->fractol.is_static ? "T" : "F");
-	mlx_string_put(ctrl->mlx_ptr, ctrl->win_ptr, 100, 20, GREEN, str);
 	free(str);
 	ft_asprintf(&str, "anchor: (%f, %f) | zoom: %f | cur_coef: %d",
 			ctrl->fractol.anchor.re, ctrl->fractol.anchor.im,

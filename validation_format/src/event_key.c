@@ -6,7 +6,7 @@
 /*   By: fulguritude <marvin@42.fr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 20:49:10 by fulguritu         #+#    #+#             */
-/*   Updated: 2018/07/14 20:49:13 by fulguritu        ###   ########.fr       */
+/*   Updated: 2018/10/05 19:38:36 by tduquesn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ int			handle_key(int key, void *param)
 		ctrl->fractol.is_static = !(ctrl->fractol.is_static);
 	else if (key == KEY_HOME)
 		ctrl->show_m_s = !(ctrl->show_m_s);
-	else if	(key == KEY_NUMPAD_MUL)
+	else if (key == KEY_NUMPAD_MUL)
 		ctrl->fractol.radius_sqrd *= 1.25;
-	else if	(key == KEY_NUMPAD_DIV)
+	else if (key == KEY_NUMPAD_DIV)
 		ctrl->fractol.radius_sqrd *= 0.8;
 	else if (!has_changed)
 		return (1);
